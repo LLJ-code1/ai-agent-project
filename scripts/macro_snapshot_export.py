@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
 """
-macro_snapshot_export.py  (v2.2 — 适配 macro_final_v11 (权重重构版))
+macro_snapshot_export.py  (v2.2 — 适配 macro_final_v11 / v11.2 权重重构版)
 Excel → JSON 快照导出脚本
 
 用法：
-  python3 macro_snapshot_export.py macro_final_v11.xlsx
-  python3 macro_snapshot_export.py macro_final_v11.xlsx --output-dir ./snapshots
-  python3 macro_snapshot_export.py macro_final_v11.xlsx --context "美伊停火谈判中，市场关注油价能否回落"
+  python3 macro_snapshot_export.py macro_final_v11.2.xlsx
+  python3 macro_snapshot_export.py macro_final_v11.2.xlsx --output-dir ./snapshots
+  python3 macro_snapshot_export.py macro_final_v11.2.xlsx --context "美伊停火谈判中，市场关注油价能否回落"
 
 输出：
   snapshot_YYYY-MM-DD.json（完整快照）

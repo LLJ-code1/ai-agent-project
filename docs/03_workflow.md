@@ -13,7 +13,7 @@
 
 ## 环节 ①:Wind 数据刷新(人工触发)
 
-**做什么**:投研员打开 `macro_final_v11.xlsx`,在 Wind 插件里点"刷新"。
+**做什么**:投研员打开 `macro_final_v11.2.xlsx`(或本地当天使用的最新版工作副本),在 Wind 插件里点"刷新"。
 
 **背后发生什么**:Wind 把 118 个指标的最新值写入"宏观数据"、"指数走势"、"A股成交额换手率测试1" 这 3 个 Sheet。
 
@@ -52,7 +52,7 @@
 
 ## 环节 ③:Python 导出 JSON(全自动)
 
-**做什么**:运行 `python macro_snapshot_export.py macro_final_v11.xlsx`。
+**做什么**:运行 `python macro_snapshot_export.py macro_final_v11.2.xlsx`。
 
 **背后发生什么**:
 

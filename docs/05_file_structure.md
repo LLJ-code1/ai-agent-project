@@ -8,6 +8,7 @@
 |------|------|------|
 | `README.md` | GitHub 首页展示,项目简介 | 人(打开仓库的人) |
 | `README_how_to_use.md` | 每日使用手册,给投研员/同事 | 使用者 |
+| `AGENTS.md` | Codex 入口,硬规则清单 | Codex / AI(接手项目的 Agent) |
 | `CLAUDE.md` | AI 入口,硬规则清单 | AI(接手项目的 Agent) |
 | `AGENT_PROTOCOL.md` | Agent 工作协议,三动作(读-改-记) | AI(改项目前必读) |
 | `macro_final_v11.2.xlsx` | 当前核心 Excel 样例,含真实 Sheet、公式、节点权重和链路信号 | 人 + AI |
@@ -157,7 +158,7 @@ project_handoff_prompt.md
 | `skills/` | **怎么改它**(操作手册) | 接到具体任务时 |
 | `changelog/` | **改过什么**(历史记录) | 排查问题 / 追溯决策时 |
 
-### 为什么 `CLAUDE.md` 和 `AGENT_PROTOCOL.md` 放根目录?
+### 为什么 `AGENTS.md` / `CLAUDE.md` 和 `AGENT_PROTOCOL.md` 放根目录?
 
 因为:
 - 它们是**所有 Agent 的入口**,放根目录最显眼

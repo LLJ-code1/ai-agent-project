@@ -20,7 +20,7 @@
   ↓
 ④ AI 生成分析报告(全自动)
   ↓
-⑤ HTML 展示页面(全自动)
+⑤ HTML 展示页面(半自动,当前由 AI 手工编排)
   ↓
 ⑥ 飞书推送(⬜ 未开发)
 ```
@@ -48,6 +48,7 @@
 .
 ├── README.md                 ← 你在看(项目介绍)
 ├── README_how_to_use.md      ← 每日使用手册(给投研员/同事)
+├── AGENTS.md                 ← Codex 入口文档(Agent 必读)
 ├── CLAUDE.md                 ← AI 入口文档(Agent 必读)
 ├── AGENT_PROTOCOL.md         ← Agent 工作协议(改项目前必读)
 ├── macro_final_v11.2.xlsx    ← 当前核心 Excel 样例(用于理解真实结构)
@@ -88,7 +89,7 @@
 
 ## 给 AI 接手者的话
 
-1. 先读 `CLAUDE.md`
+1. 用 Codex 接手时先读 `AGENTS.md`;用 Claude 接手时先读 `CLAUDE.md`
 2. 再读 `AGENT_PROTOCOL.md`
 3. 根据具体任务读对应的 `skills/*.md`
 4. 遇到决策点,问用户,不要自己拍

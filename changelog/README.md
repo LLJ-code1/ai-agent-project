@@ -79,6 +79,7 @@ YYYY-MM-DD_<主题>.md
 
 ## 变更索引(按时间倒序)
 
+- [2026-04-21_doc_consistency.md](./2026-04-21_doc_consistency.md) — 同步 v11.2 文档状态并入库 AGENTS
 - [2026-04-21_add_excel_html_samples.md](./2026-04-21_add_excel_html_samples.md) — 补入核心 Excel 样例和 HTML 展示样例
 - [2026-04-21_add_scripts_and_samples.md](./2026-04-21_add_scripts_and_samples.md) — 补入 scripts / prompts / samples + 使用手册
 - [2026-04-20_doc_restructure.md](./2026-04-20_doc_restructure.md) — 知识库 GitHub 化重构

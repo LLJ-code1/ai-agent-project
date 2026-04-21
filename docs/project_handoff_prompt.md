@@ -169,11 +169,14 @@ macro-dashboard/
     └── pending_issues.md
 ```
 
-不在仓库里但项目需要的:
+仓库内已有的核心样例:
 
-- `macro_final_v11.xlsx`(Excel 核心文件,用户本地)
+- `macro_final_v11.2.xlsx`(Excel 核心样例文件,已入库;每日工作副本由用户本地管理)
 - `macro_snapshot_export.py`(Python 导出脚本)
 - `analysis_prompt_v2.2.md`(Prompt)
+
+不在仓库里但项目每日会产出的:
+
 - 每轮产出的 JSON / HTML / markdown 分析
 
 用户会根据你的需要提供这些文件。

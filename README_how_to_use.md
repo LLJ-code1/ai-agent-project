@@ -12,7 +12,7 @@
 
 ### 步骤 1 · 刷新 Wind 数据(约 1 分钟)
 
-1. 打开 Excel 文件:`macro_final_v11.xlsx`
+1. 打开 Excel 文件:`macro_final_v11.2.xlsx`(或你本地当天使用的最新版工作副本)
 2. 确认已加载 Wind 插件
 3. 点 **Wind 刷新按钮**(或 `Wind > 刷新全部`)
 4. 等所有指标拉取完成
@@ -28,7 +28,7 @@
 cd /path/to/your/files
 
 # 运行脚本
-python3 /path/to/macro-dashboard/scripts/macro_snapshot_export.py macro_final_v11.xlsx
+python3 /path/to/macro-dashboard/scripts/macro_snapshot_export.py macro_final_v11.2.xlsx
 ```
 
 **输出**:
@@ -38,10 +38,10 @@ python3 /path/to/macro-dashboard/scripts/macro_snapshot_export.py macro_final_v1
 **可选参数**:
 ```bash
 # 指定输出目录
-python3 .../scripts/macro_snapshot_export.py macro_final_v11.xlsx --output-dir ./snapshots
+python3 .../scripts/macro_snapshot_export.py macro_final_v11.2.xlsx --output-dir ./snapshots
 
 # 补充当日市场背景(AI 会参考)
-python3 .../scripts/macro_snapshot_export.py macro_final_v11.xlsx \
+python3 .../scripts/macro_snapshot_export.py macro_final_v11.2.xlsx \
     --context "美伊停火谈判中,市场关注油价能否回落"
 ```
 
@@ -101,7 +101,7 @@ AI 会一次性产出 7 份 markdown。
 把 7 份 markdown + `snapshot_YYYY-MM-DD.json`(完整版,含 history)再投给 AI,让它生成 HTML:
 
 ```
-请参考 samples/ 目录里的样例(2026-04-19 版)的结构,产出本轮的 HTML 展示页。
+请参考 samples/html/项目展示_fixed.html 的结构,产出本轮的 HTML 展示页。
 包含:Hero + 流程图 + 方法论 + 仪表盘 + 7 链路分析 + 跨链路洞察 + 路线图
 
 每条链路嵌入 3-6 个 sparkline(用 history 字段的数据画)。
@@ -121,7 +121,7 @@ A 股默认展开,其他折叠。
 
 | 文件 | 每天都要动吗 | 放哪里 |
 |------|------------|--------|
-| `macro_final_v11.xlsx` | ✅ 刷新+保存 | 你本地 |
+| `macro_final_v11.2.xlsx` | ✅ 刷新+保存 | 你本地 |
 | `snapshot_YYYY-MM-DD.json` | ✅ 脚本生成 | 你本地/输出目录 |
 | `snapshot_YYYY-MM-DD_lite.json` | ✅ 脚本生成 | 你本地/输出目录 |
 | `分析_<资产>_YYYY-MM-DD.md` × 7 | ✅ AI 生成 | 你本地 |
@@ -163,7 +163,7 @@ A 股默认展开,其他折叠。
 
 在 Claude Code 启动后,发:
 
-> 请先读 `CLAUDE.md` → `AGENT_PROTOCOL.md`,然后等我下指令。
+> 如果用 Codex,请先读 `AGENTS.md` → `AGENT_PROTOCOL.md`;如果用 Claude,请先读 `CLAUDE.md` → `AGENT_PROTOCOL.md`,然后等我下指令。
 > 每次改完文档要按协议在 `changelog/` 加新文件、git commit + push。
 
 AI 就知道怎么工作了。
