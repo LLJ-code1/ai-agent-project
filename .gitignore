@@ -1,0 +1,68 @@
+# 宏观仪表盘项目 .gitignore
+
+# === 核心数据资产(用户本地每日刷新,不入仓库)===
+# Excel 文件(每天变,Git 管理体验差)
+*.xlsx
+*.xls
+*.xlsm
+
+# HTML 展示页(每天产出)
+*.html
+!samples/*.html
+
+# 每日 JSON 快照(但 samples/ 里的样例保留)
+snapshot_*.json
+!samples/snapshot_*.json
+
+# 每日分析 md(但 samples/ 里的样例保留)
+分析_*.md
+!samples/analyses/分析_*.md
+
+# === Python 脚本和 Prompt 入库管理 ===
+# scripts/ 和 prompts/ 目录不排除,直接版本化追踪
+
+# === 执行环境残留 ===
+/mnt/
+/tmp/
+
+# === Python ===
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.pytest_cache/
+.venv/
+venv/
+env/
+
+# === 操作系统 ===
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# === 编辑器 ===
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.project
+.settings/
+
+# === 临时文件 ===
+*.tmp
+*.temp
+*.bak
+*.log
+
+# === 敏感信息 ===
+.env
+.env.local
+*.key
+*.secret
+api_keys.txt
+
+# === 依赖缓存 ===
+node_modules/
+package-lock.json
+yarn.lock

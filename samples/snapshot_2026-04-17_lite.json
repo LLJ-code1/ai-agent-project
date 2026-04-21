@@ -1,0 +1,4382 @@
+{
+  "meta": {
+    "export_date": "2026-04-17",
+    "source_file": "v11_weighted_recalc.xlsx",
+    "excel_version": "v11",
+    "script_version": "v2.2",
+    "total_indicators": 118,
+    "manual_context": "议题1权重重构完成后首次导出,N列已清零,E列父子重复已处理"
+  },
+  "chains": [
+    {
+      "name": "A股",
+      "total_score": 0.308,
+      "signal_flow": "央行⛅️ 常规操作 → 银行间☀️☀️ 显著宽松 → 实体🌧️ 信用收缩 → 经济⛅️ 企稳观望 → 市场⛅️☀️ 温和活跃",
+      "diagnosis": "【A股传导诊断】央行⛅️ 常规操作 → 银行间☀️☀️ 显著宽松 → 实体🌧️ 信用收缩 → 经济⛅️ 企稳观望 → 市场⛅️☀️ 温和活跃\n⚠️ 断点：银行间→实体。",
+      "nodes": [
+        {
+          "node_id": "CN-cb",
+          "name": "央行态度",
+          "question": "央行想不想放水？",
+          "score": -0.055,
+          "signal": "⛅️ 常规操作",
+          "highlights": "",
+          "drags": "净回笼偏多、",
+          "view": "【央行态度】⛅️ 常规操作。逆回购1.40%(不变)，存准率9.0%(不变)。周度净投放-3,005亿。",
+          "indicator_count": 7,
+          "indicators": [
+            {
+              "name": "7天逆回购利率",
+              "frequency": "不定期",
+              "code": "M0041371",
+              "current": 1.4,
+              "current_date": "2026-04-17",
+              "previous": 1.4,
+              "previous_date": "2026-04-16",
+              "change": 0,
+              "forecast": null,
+              "weight": 0,
+              "score": 0,
+              "signal": "⛅️ 不变 | 1.40%",
+              "auto_view": "7天逆回购利率1.40%（前值1.40%），政策利率维持不变。",
+              "history": [
+                {
+                  "date": "2026-04-15",
+                  "value": 1.4
+                },
+                {
+                  "date": "2026-04-16",
+                  "value": 1.4
+                },
+                {
+                  "date": "2026-04-17",
+                  "value": 1.4
+                }
+              ]
+            },
+            {
+              "name": "法定存款准备金率-大型国有银行",
+              "frequency": "不定期",
+              "code": "M0061518",
+              "current": 9,
+              "current_date": "2026-03-31",
+              "previous": 9,
+              "previous_date": "2026-02-28",
+              "change": 0,
+              "forecast": null,
+              "weight": 0,
+              "score": 0,
+              "signal": "⛅️ 不变 | 9.0%",
+              "auto_view": "法定存款准备金率9.0%（前值9.0%），准备金率维持。",
+              "history": [
+                {
+                  "date": "2026-01-31",
+                  "value": 9
+                },
+                {
+                  "date": "2026-02-28",
+                  "value": 9
+                },
+                {
+                  "date": "2026-03-31",
+                  "value": 9
+                }
+              ]
+            },
+            {
+              "name": "公开市场操作:货币净投放",
+              "frequency": "周度",
+              "code": "M0061614",
+              "current": -3005,
+              "current_date": "2026-04-10",
+              "previous": -1702,
+              "previous_date": "2026-04-03",
+              "change": -1303,
+              "forecast": null,
+              "weight": 0,
+              "score": -1,
+              "signal": "🌧️ 净回笼 | -3,005亿",
+              "auto_view": "公开市场操作周度净投放-3,005亿元。",
+              "history": [
+                {
+                  "date": "2026-03-27",
+                  "value": 2319
+                },
+                {
+                  "date": "2026-04-03",
+                  "value": -1702
+                },
+                {
+                  "date": "2026-04-10",
+                  "value": -3005
+                }
+              ],
+              "month_start": -1702,
+              "mtd_change": -1303
+            },
+            {
+              "name": "中央银行贷款-常备借贷便利（SLF）净投放",
+              "frequency": "月度",
+              "code": "N7822723",
+              "current": 8,
+              "current_date": "2026-03-31",
+              "previous": 0,
+              "previous_date": "2026-02-28",
+              "change": 8,
+              "forecast": null,
+              "weight": 0,
+              "score": 1,
+              "signal": "☀️ 净投放 | 8亿",
+              "auto_view": "SLF净投放8亿元，中长期流动性投放。",
+              "history": [
+                {
+                  "date": "2026-01-31",
+                  "value": -79
+                },
+                {
+                  "date": "2026-02-28",
+                  "value": 0
+                },
+                {
+                  "date": "2026-03-31",
+                  "value": 8
+                }
+              ]
+            },
+            {
+              "name": "中央银行贷款-中期借贷便利（MLF）净投放",
+              "frequency": "月度",
+              "code": "Z0569230",
+              "current": 500,
+              "current_date": "2026-03-31",
+              "previous": 3000,
+              "previous_date": "2026-02-28",
+              "change": -2500,
+              "forecast": null,
+              "weight": 0,
+              "score": 1,
+              "signal": "☀️ 净投放 | 500亿",
+              "auto_view": "MLF净投放500亿元，中长期流动性投放。",
+              "history": [
+                {
+                  "date": "2026-01-31",
+                  "value": 7000
+                },
+                {
+                  "date": "2026-02-28",
+                  "value": 3000
+                },
+                {
+                  "date": "2026-03-31",
+                  "value": 500
+                }
+              ]
+            },
+            {
+              "name": "中央银行贷款-抵押补充贷款（PSL）净投放",
+              "frequency": "月度",
+              "code": "Z7194825",
+              "current": 0,
+              "current_date": "2026-03-31",
+              "previous": 0,
+              "previous_date": "2026-02-28",
+              "change": 0,
+              "forecast": null,
+              "weight": 0,
+              "score": 0,
+              "signal": "⛅️ 持平 | 0亿",
+              "auto_view": "PSL净投放0亿元，等量续作。",
+              "history": [
+                {
+                  "date": "2026-01-31",
+                  "value": 1744
+                },
+                {
+                  "date": "2026-02-28",
+                  "value": 0
+                },
+                {
+                  "date": "2026-03-31",
+                  "value": 0
+                }
+              ]
+            },
+            {
+              "name": "中央银行贷款-其他政策工具净投放",
+              "frequency": "月度",
+              "code": "P5747228",
+              "current": 1728,
+              "current_date": "2026-03-31",
+              "previous": -76,
+              "previous_date": "2026-02-28",
+              "change": 1804,
+              "forecast": null,
+              "weight": 0,
+              "score": 1,
+              "signal": "☀️ 净投放 | 1,728亿",
+              "auto_view": "其他工具净投放1,728亿元，中长期流动性投放。",
+              "history": [
+                {
+                  "date": "2026-01-31",
+                  "value": 641
+                },
+                {
+                  "date": "2026-02-28",
+                  "value": -76
+                },
+                {
+                  "date": "2026-03-31",
+                  "value": 1728
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "node_id": "CN-ib",
+          "name": "银行间传导",
+          "question": "水到银行间了吗？",
+          "score": 2,
+          "signal": "☀️☀️ 显著宽松",
+          "highlights": "DR007低于政策利率、R007分层正常、",
+          "drags": "",
+          "view": "【银行间】☀️☀️ 显著宽松。DR007为1.33%，与逆回购利差-7bp，传导通畅。R007-DR007利差7bp，分层正常。",
+          "indicator_count": 5,
+          "indicators": [
+            {
+              "name": "DR001",
+              "frequency": "日度",
+              "code": "M1006336",
+              "current": 1.2205,
+              "current_date": "2026-04-16",
+              "previous": 1.2228,
+              "previous_date": "2026-04-15",
+              "change": -0.00230000000000019,
+              "forecast": null,
+              "weight": 0,
+              "score": 2,
+              "signal": "☀️ 极宽松 | 利差-18bp",
+              "auto_view": "DR001为1.22%（前值1.22%），与逆回购利差-18bp，低于政策利率，资金极度宽松。",
+              "history": [
+                {
+                  "date": "2026-04-14",
+                  "value": 1.2258
+                },
+                {
+                  "date": "2026-04-15",
+                  "value": 1.2228
+                },
+                {
+                  "date": "2026-04-16",
+                  "value": 1.2205
+                }
+              ],
+              "month_start": 1.2693,
+              "mtd_change": -0.0488
+            },
+            {
+              "name": "DR007",
+              "frequency": "日度",
+              "code": "M1006337",
+              "current": 1.328,
+              "current_date": "2026-04-16",
+              "previous": 1.3664,
+              "previous_date": "2026-04-15",
+              "change": -0.0384,
+              "forecast": null,
+              "weight": 0,
+              "score": 2,
+              "signal": "☀️ 极宽松 | 利差-7bp",
+              "auto_view": "DR007为1.33%（前值1.37%），与逆回购利差-7bp，低于政策利率，资金极度宽松。",
+              "history": [
+                {
+                  "date": "2026-04-14",
+                  "value": 1.3648
+                },
+                {
+                  "date": "2026-04-15",
+                  "value": 1.3664
+                },
+                {
+                  "date": "2026-04-16",
+                  "value": 1.328
+                }
+              ],
+              "month_start": 1.4226,
+              "mtd_change": -0.0946
+            },
+            {
+              "name": "R001",
+              "frequency": "日度",
+              "code": "M1001794",
+              "current": 1.2879,
+              "current_date": "2026-04-16",
+              "previous": 1.2941,
+              "previous_date": "2026-04-15",
+              "change": -0.00619999999999998,
+              "forecast": null,
+              "weight": 0,
+              "score": 2,
+              "signal": "☀️ 极宽松 | 利差-11bp",
+              "auto_view": "R001为1.29%（前值1.29%），与逆回购利差-11bp，低于政策利率，资金极度宽松。",
+              "history": [
+                {
+                  "date": "2026-04-14",
+                  "value": 1.2985
+                },
+                {
+                  "date": "2026-04-15",
+                  "value": 1.2941
+                },
+                {
+                  "date": "2026-04-16",
+                  "value": 1.2879
+                }
+              ],
+              "month_start": 1.354,
+              "mtd_change": -0.0661
+            },
+            {
+              "name": "R007",
+              "frequency": "日度",
+              "code": "M1001795",
+              "current": 1.3995,
+              "current_date": "2026-04-16",
+              "previous": 1.4082,
+              "previous_date": "2026-04-15",
+              "change": -0.00869999999999993,
+              "forecast": null,
+              "weight": 0,
+              "score": 2,
+              "signal": "☀️ 极宽松 | 利差0bp",
+              "auto_view": "R007为1.40%（前值1.41%），与逆回购利差0bp，低于政策利率，资金极度宽松。",
+              "history": [
+                {
+                  "date": "2026-04-14",
+                  "value": 1.409
+                },
+                {
+                  "date": "2026-04-15",
+                  "value": 1.4082
+                },
+                {
+                  "date": "2026-04-16",
+                  "value": 1.3995
+                }
+              ],
+              "month_start": 1.4654,
+              "mtd_change": -0.0659
+            },
+            {
+              "name": "1Y同业存单到期收益率(AAA)",
+              "frequency": "日度",
+              "code": "M1004902",
+              "current": 1.48,
+              "current_date": "2026-04-16",
+              "previous": 1.483,
+              "previous_date": "2026-04-15",
+              "change": -0.00300000000000011,
+              "forecast": null,
+              "weight": 0,
+              "score": 2,
+              "signal": "☀️☀️ 极宽松",
+              "auto_view": "1Y同业存单利率1.48%，反映银行中长期负债成本。",
+              "history": [
+                {
+                  "date": "2026-04-14",
+                  "value": 1.4872
+                },
+                {
+                  "date": "2026-04-15",
+                  "value": 1.483
+                },
+                {
+                  "date": "2026-04-16",
+                  "value": 1.48
+                }
+              ],
+              "month_start": 1.5155,
+              "mtd_change": -0.0355
+            }
+          ]
+        },
+        {
+          "node_id": "CN-fin",
+          "name": "实体传导",
+          "question": "钱到实体了吗？",
+          "score": -1.05,
+          "signal": "🌧️ 信用收缩",
+          "highlights": "",
+          "drags": "M1萎缩、贷款少增、",
+          "view": "【实体传导】🌧️ 信用收缩。社融同比7.9%(预期8.0%)，M1同比5.1%，新增贷款6亿。M2-M1剪刀差3.4pct。",
+          "indicator_count": 4,
+          "indicators": [
+            {
+              "name": "社会融资规模存量",
+              "frequency": "月度",
+              "code": "M5525763",
+              "current": 7.9,
+              "current_date": "2026-03-31",
+              "previous": 8.2,
+              "previous_date": "2026-02-28",
+              "change": -0.299999999999999,
+              "forecast": 7.97,
+              "weight": 0,
+              "score": -0.5,
+              "signal": "⛅️ 符合 | 7.9%",
+              "auto_view": "社融存量同比7.9%（前值8.2%，预期8.0%），信用扩张偏慢。符合预期。",
+              "history": [
+                {
+                  "date": "2026-01-31",
+                  "value": 8.2
+                },
+                {
+                  "date": "2026-02-28",
+                  "value": 8.2
+                },
+                {
+                  "date": "2026-03-31",
+                  "value": 7.9
+                }
+              ]
+            },
+            {
+              "name": "新增人民币贷款",
+              "frequency": "月度",
+              "code": "M5525764",
+              "current": 5.8,
+              "current_date": "2026-03-31",
+              "previous": 6.1,
+              "previous_date": "2026-02-28",
+              "change": -0.3,
+              "forecast": null,
+              "weight": 0,
+              "score": -1,
+              "signal": "🌧️ 少增 | 6亿",
+              "auto_view": "新增人民币贷款6亿元（前值6亿元），环比少增。",
+              "history": [
+                {
+                  "date": "2026-01-31",
+                  "value": 6.1
+                },
+                {
+                  "date": "2026-02-28",
+                  "value": 6.1
+                },
+                {
+                  "date": "2026-03-31",
+                  "value": 5.8
+                }
+              ]
+            },
+            {
+              "name": "M1",
+              "frequency": "月度",
+              "code": "M0001383",
+              "current": 5.1,
+              "current_date": "2026-03-31",
+              "previous": 5.9,
+              "previous_date": "2026-02-28",
+              "change": -0.800000000000001,
+              "forecast": 5.23,
+              "weight": 0,
+              "score": -1.5,
+              "signal": "🌧️ 不及 | 5.1%",
+              "auto_view": "M1同比5.1%（前值5.9%，预期5.2%），资金活化改善。不及预期。",
+              "history": [
+                {
+                  "date": "2026-01-31",
+                  "value": 4.9
+                },
+                {
+                  "date": "2026-02-28",
+                  "value": 5.9
+                },
+                {
+                  "date": "2026-03-31",
+                  "value": 5.1
+                }
+              ]
+            },
+            {
+              "name": "M2",
+              "frequency": "月度",
+              "code": "M0001385",
+              "current": 8.5,
+              "current_date": "2026-03-31",
+              "previous": 9,
+              "previous_date": "2026-02-28",
+              "change": -0.5,
+              "forecast": 8.74,
+              "weight": 0,
+              "score": -1.5,
+              "signal": "🌧️ 不及 | 8.5%",
+              "auto_view": "M2同比8.5%（前值9.0%，预期8.7%），货币供给平稳。不及预期。",
+              "history": [
+                {
+                  "date": "2026-01-31",
+                  "value": 9
+                },
+                {
+                  "date": "2026-02-28",
+                  "value": 9
+                },
+                {
+                  "date": "2026-03-31",
+                  "value": 8.5
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "node_id": "CN-eco",
+          "name": "经济效果",
+          "question": "实体经济好不好？",
+          "score": -0.135,
+          "signal": "⛅️ 企稳观望",
+          "highlights": "PMI扩张、工业超预期、",
+          "drags": "民间投资弱(边际好转)、",
+          "view": "【经济效果】⛅️ 企稳观望。PMI50.4(前值49.0)，PPI0.5%，社零1.7%，出口2.5%。亮点：PMI扩张、工业超预期、拖累：民间投资弱(边际好转)、",
+          "indicator_count": 11,
+          "indicators": [
+            {
+              "name": "制造业PMI",
+              "frequency": "月度",
+              "code": "M0017126",
+              "current": 50.4,
+              "current_date": "2026-03-31",
+              "previous": 49,
+              "previous_date": "2026-02-28",
+              "change": 1.4,
+              "forecast": 49.88,
+              "weight": 0,
+              "score": 1.5,
+              "signal": "☀️ 温和扩张 | ↑改善",
+              "auto_view": "制造业PMI为50.4（前值49.0，预期49.9），处于扩张区间，环比改善1.4pct。超出市场预期。",
+              "history": [
+                {
+                  "date": "2026-01-31",
+                  "value": 49.3
+                },
+                {
+                  "date": "2026-02-28",
+                  "value": 49
+                },
+                {
+                  "date": "2026-03-31",
+                  "value": 50.4
+                }
+              ]
+            },
+            {
+              "name": "非制造业PMI",
+              "frequency": "月度",
+              "code": "M0048236",
+              "current": 50.1,
+              "current_date": "2026-03-31",
+              "previous": 49.5,
+              "previous_date": "2026-02-28",
+              "change": 0.600000000000001,
+              "forecast": 49.85,
+              "weight": 0,
+              "score": 0,
+              "signal": "⛅️ 动能偏弱 | →持平",
+              "auto_view": "非制造业PMI为50.1（前值49.5，预期49.9），动能偏弱，环比改善0.6pct。符合预期。",
+              "history": [
+                {
+                  "date": "2026-01-31",
+                  "value": 49.4
+                },
+                {
+                  "date": "2026-02-28",
+                  "value": 49.5
+                },
+                {
+                  "date": "2026-03-31",
+                  "value": 50.1
+                }
+              ]
+            },
+            {
+              "name": "社会消费品零售总额",
+              "frequency": "月度",
+              "code": "M0001428",
+              "current": 1.7,
+              "current_date": "2026-03-31",
+              "previous": 2.8,
+              "previous_date": "2026-02-28",
+              "change": -1.1,
+              "forecast": 2.45,
+              "weight": 0,
+              "score": -1.5,
+              "signal": "🌧️ 不及预期 | ↓恶化",
+              "auto_view": "社零同比1.7%（前值2.8%，预期2.5%），消费偏弱。不及预期。",
+              "history": [
+                {
+                  "date": "2025-12-31",
+                  "value": 0.9
+                },
+                {
+                  "date": "2026-02-28",
+                  "value": 2.8
+                },
+                {
+                  "date": "2026-03-31",
+                  "value": 1.7
+                }
+              ]
+            },
+            {
+              "name": "固定资产投资",
+              "frequency": "月度",
+              "code": "M0000273",
+              "current": 1.7,
+              "current_date": "2026-03-31",
+              "previous": 1.8,
+              "previous_date": "2026-02-28",
+              "change": -0.1,
+              "forecast": 1.65,
+              "weight": 0,
+              "score": 0,
+              "signal": "🌧️ 疲软 | →持平",
+              "auto_view": "固投累计同比为1.7%（前值1.8%，预期1.7%），投资疲软，环比恶化0.1pct。符合预期。",
+              "history": [
+                {
+                  "date": "2025-12-31",
+                  "value": -3.8
+                },
+                {
+                  "date": "2026-02-28",
+                  "value": 1.8
+                },
+                {
+                  "date": "2026-03-31",
+                  "value": 1.7
+                }
+              ]
+            },
+            {
+              "name": "商品房销售面积:累计同比",
+              "frequency": "月度",
+              "code": "S0073300",
+              "current": -10.4,
+              "current_date": "2026-03-31",
+              "previous": -13.5,
+              "previous_date": "2026-02-28",
+              "change": 3.1,
+              "forecast": null,
+              "weight": 0,
+              "score": -1,
+              "signal": "🌧️ 深度调整",
+              "auto_view": "商品房销售累计同比-10.4%。",
+              "history": [
+                {
+                  "date": "2025-12-31",
+                  "value": -8.7
+                },
+                {
+                  "date": "2026-02-28",
+                  "value": -13.5
+                },
+                {
+                  "date": "2026-03-31",
+                  "value": -10.4
+                }
+              ]
+            },
+            {
+              "name": "民间固定投资",
+              "frequency": "月度",
+              "code": "M5438208",
+              "current": -2.2,
+              "current_date": "2026-03-31",
+              "previous": -2.6,
+              "previous_date": "2026-02-28",
+              "change": 0.4,
+              "forecast": null,
+              "weight": 0,
+              "score": -1,
+              "signal": "🌪️ 信心不足 | →持平",
+              "auto_view": "民间固投累计同比为-2.2%（前值-2.6%），信心不足，环比改善0.4pct。",
+              "history": [
+                {
+                  "date": "2025-12-31",
+                  "value": -6.4
+                },
+                {
+                  "date": "2026-02-28",
+                  "value": -2.6
+                },
+                {
+                  "date": "2026-03-31",
+                  "value": -2.2
+                }
+              ]
+            },
+            {
+              "name": "工业增加值",
+              "frequency": "月度",
+              "code": "M0000545",
+              "current": 5.7,
+              "current_date": "2026-03-31",
+              "previous": 6.3,
+              "previous_date": "2026-02-28",
+              "change": -0.6,
+              "forecast": null,
+              "weight": 0,
+              "score": 1,
+              "signal": "⛅️ 平稳 | →持平",
+              "auto_view": "工业增加值同比为5.7%（前值6.3%），生产平稳，环比恶化0.6pct。",
+              "history": [
+                {
+                  "date": "2026-01-31",
+                  "value": 6.3
+                },
+                {
+                  "date": "2026-02-28",
+                  "value": 6.3
+                },
+                {
+                  "date": "2026-03-31",
+                  "value": 5.7
+                }
+              ]
+            },
+            {
+              "name": "出口：美元计价",
+              "frequency": "月度",
+              "code": "M0000607",
+              "current": 2.5,
+              "current_date": "2026-03-31",
+              "previous": 39.6,
+              "previous_date": "2026-02-28",
+              "change": -37.1,
+              "forecast": 3.96,
+              "weight": 0,
+              "score": -1.5,
+              "signal": "🌧️ 不及 | ↓放缓",
+              "auto_view": "出口同比为2.5%（前值39.6%，预期4.0%），温和增长，环比恶化37.1pct。不及预期。",
+              "history": [
+                {
+                  "date": "2026-01-31",
+                  "value": 10
+                },
+                {
+                  "date": "2026-02-28",
+                  "value": 39.6
+                },
+                {
+                  "date": "2026-03-31",
+                  "value": 2.5
+                }
+              ]
+            },
+            {
+              "name": "PPI",
+              "frequency": "月度",
+              "code": "M0001227",
+              "current": 0.5,
+              "current_date": "2026-03-31",
+              "previous": -0.9,
+              "previous_date": "2026-02-28",
+              "change": 1.4,
+              "forecast": 0.45,
+              "weight": 0,
+              "score": 0.5,
+              "signal": "⛅️ 符合 | ↑改善",
+              "auto_view": "PPI同比0.5%（前值-0.9%，预期0.5%），工业品价格转正。符合预期。",
+              "history": [
+                {
+                  "date": "2026-01-31",
+                  "value": -1.4
+                },
+                {
+                  "date": "2026-02-28",
+                  "value": -0.9
+                },
+                {
+                  "date": "2026-03-31",
+                  "value": 0.5
+                }
+              ]
+            },
+            {
+              "name": "CPI",
+              "frequency": "月度",
+              "code": "M0000612",
+              "current": 1,
+              "current_date": "2026-03-31",
+              "previous": 1.3,
+              "previous_date": "2026-02-28",
+              "change": -0.3,
+              "forecast": 1.27,
+              "weight": 0,
+              "score": -1,
+              "signal": "🌧️ 不及 | →持平",
+              "auto_view": "CPI同比1.0%（前值1.3%，预期1.3%），温和通胀区间。不及预期。",
+              "history": [
+                {
+                  "date": "2026-01-31",
+                  "value": 0.2
+                },
+                {
+                  "date": "2026-02-28",
+                  "value": 1.3
+                },
+                {
+                  "date": "2026-03-31",
+                  "value": 1
+                }
+              ]
+            },
+            {
+              "name": "ICE布伦特原油",
+              "frequency": "日度",
+              "code": "S0031525",
+              "current": 99.39,
+              "current_date": "2026-04-16",
+              "previous": 94.93,
+              "previous_date": "2026-04-15",
+              "change": 4.45999999999999,
+              "forecast": null,
+              "weight": 0,
+              "score": -0.5,
+              "signal": "⛅️🌧️ 偏高",
+              "auto_view": "布伦特原油99.4美元/桶。油价处于正常区间。",
+              "history": [
+                {
+                  "date": "2026-04-14",
+                  "value": 94.79
+                },
+                {
+                  "date": "2026-04-15",
+                  "value": 94.93
+                },
+                {
+                  "date": "2026-04-16",
+                  "value": 99.39
+                }
+              ],
+              "month_start": 101.16,
+              "mtd_change": -1.77
+            }
+          ]
+        },
+        {
+          "node_id": "CN-stk",
+          "name": "市场反映",
+          "question": "资金进场了吗？",
+          "score": 0.78,
+          "signal": "⛅️☀️ 温和活跃",
+          "highlights": "成交额放量、两融增加、北向净流入、换手率活跃、新开户增加、",
+          "drags": "",
+          "view": "【市场反映】⛅️☀️ 温和活跃。日均成交2.5万亿，两融2.67万亿(增)，北向2,925亿，换手率3.7%。",
+          "indicator_count": 8,
+          "indicators": [
+            {
+              "name": "A股日度成交额",
+              "frequency": "日度",
+              "code": null,
+              "current": 24528.93221587,
+              "current_date": null,
+              "previous": 23549.62986554,
+              "previous_date": "2026-04-16",
+              "change": 979.302350330003,
+              "forecast": null,
+              "weight": 0,
+              "score": 1,
+              "signal": "☀️ 温和活跃 | 2.5万亿",
+              "auto_view": "A股日成交额24,529亿元（2.5万亿），交投温和活跃。",
+              "history": []
+            },
+            {
+              "name": "北向资金成交额",
+              "frequency": "日度",
+              "code": null,
+              "current": 2925.0049,
+              "current_date": null,
+              "previous": 2976.637,
+              "previous_date": "2026-04-15",
+              "change": -51.6320999999998,
+              "forecast": null,
+              "weight": 0,
+              "score": 1,
+              "signal": "☀️ 净流入 | 2,925亿",
+              "auto_view": "北向资金成交额2,925亿元。",
+              "history": []
+            },
+            {
+              "name": "新开户数（个人）",
+              "frequency": "月度",
+              "code": "F5536637",
+              "current": 458.9372,
+              "current_date": "2026-03-31",
+              "previous": 251.6435,
+              "previous_date": "2026-02-28",
+              "change": 207.2937,
+              "forecast": null,
+              "weight": 0,
+              "score": 2,
+              "signal": "☀️ 乐观 | 459万户",
+              "auto_view": "新开户数459万户（前值252万户），投资者入市积极。",
+              "history": [
+                {
+                  "date": "2026-01-31",
+                  "value": 490.5788
+                },
+                {
+                  "date": "2026-02-28",
+                  "value": 251.6435
+                },
+                {
+                  "date": "2026-03-31",
+                  "value": 458.9372
+                }
+              ]
+            },
+            {
+              "name": "融资融券余额",
+              "frequency": "日度",
+              "code": null,
+              "current": 2.668730933522,
+              "current_date": null,
+              "previous": 2.657670695938,
+              "previous_date": "2026-04-15",
+              "change": 0.0110602375840001,
+              "forecast": null,
+              "weight": 0,
+              "score": 1,
+              "signal": "☀️ 杠杆增加 | 2.67万亿",
+              "auto_view": "融资融券余额2.67万亿（前值2.66万亿），杠杆资金流入。",
+              "history": []
+            },
+            {
+              "name": "市场换手率",
+              "frequency": "日度",
+              "code": null,
+              "current": 3.70579368178413,
+              "current_date": null,
+              "previous": 3.50964673188579,
+              "previous_date": "2026-04-16",
+              "change": 0.19614694989834,
+              "forecast": null,
+              "weight": 0,
+              "score": 1,
+              "signal": "⛅️ 正常 | 3.7%",
+              "auto_view": "市场换手率3.7%，换手率正常。",
+              "history": []
+            },
+            {
+              "name": "沪深300一致预测净利润同比",
+              "frequency": "日度",
+              "code": "HS300:west_netprofit_YOY",
+              "current": 4.0266,
+              "current_date": "2026-04-16",
+              "previous": 3.9085,
+              "previous_date": "2026-04-15",
+              "change": 0.1181,
+              "forecast": null,
+              "weight": 0,
+              "score": 0,
+              "signal": "⛅️ 平稳",
+              "auto_view": "沪深300一致预测净利润增速4.0%。",
+              "history": []
+            },
+            {
+              "name": "沪深300预测PE",
+              "frequency": "日度",
+              "code": "HS300:pe_est",
+              "current": 14.3527,
+              "current_date": "2026-04-16",
+              "previous": 14.2762,
+              "previous_date": "2026-04-15",
+              "change": 0.0765000000000011,
+              "forecast": null,
+              "weight": 0,
+              "score": 0,
+              "signal": "⛅️ 中性",
+              "auto_view": "沪深300预测PE 14.4倍。",
+              "history": []
+            },
+            {
+              "name": "创业板指一致预测净利润同比",
+              "frequency": "日度",
+              "code": "GEM:west_netprofit_YOY",
+              "current": 32.5719,
+              "current_date": "2026-04-16",
+              "previous": 29.18,
+              "previous_date": "2026-04-15",
+              "change": 3.3919,
+              "forecast": null,
+              "weight": 0,
+              "score": 1,
+              "signal": "☀️ 增长",
+              "auto_view": "创业板指一致预测净利润增速32.6%，成长股盈利预期。",
+              "history": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "港股",
+      "total_score": 0.796,
+      "signal_flow": "中国经济⛅️ 企稳观望 → 海外环境⛅️ 中性 → 资金面☀️☀️ 大幅流入 → 情绪面☀️☀️ 显著乐观",
+      "diagnosis": "【港股传导诊断】中国经济⛅️ 企稳观望 → 海外环境⛅️ 中性 → 资金面☀️☀️ 大幅流入 → 情绪面☀️☀️ 显著乐观\n",
+      "nodes": [
+        {
+          "node_id": "HK-eco",
+          "name": "中国经济",
+          "question": "中国经济对港股有支撑吗？",
+          "score": -0.135,
+          "signal": "⛅️ 企稳观望",
+          "highlights": "PMI扩张、工业超预期、",
+          "drags": "民间投资弱(边际好转)、",
+          "view": "【中国经济】⛅️ 企稳观望。亮点：PMI扩张、工业超预期、拖累：民间投资弱(边际好转)、",
+          "indicator_count": 11,
+          "indicators": [
+            {
+              "name": "制造业PMI",
+              "frequency": "月度",
+              "code": "M0017126",
+              "current": 50.4,
+              "current_date": "2026-03-31",
+              "previous": 49,
+              "previous_date": "2026-02-28",
+              "change": 1.4,
+              "forecast": 49.88,
+              "weight": 0,
+              "score": 1.5,
+              "signal": "☀️ 温和扩张 | ↑改善",
+              "auto_view": "制造业PMI为50.4（前值49.0，预期49.9），处于扩张区间，环比改善1.4pct。超出市场预期。",
+              "history": [
+                {
+                  "date": "2026-01-31",
+                  "value": 49.3
+                },
+                {
+                  "date": "2026-02-28",
+                  "value": 49
+                },
+                {
+                  "date": "2026-03-31",
+                  "value": 50.4
+                }
+              ]
+            },
+            {
+              "name": "非制造业PMI",
+              "frequency": "月度",
+              "code": "M0048236",
+              "current": 50.1,
+              "current_date": "2026-03-31",
+              "previous": 49.5,
+              "previous_date": "2026-02-28",
+              "change": 0.600000000000001,
+              "forecast": 49.85,
+              "weight": 0,
+              "score": 0,
+              "signal": "⛅️ 动能偏弱 | →持平",
+              "auto_view": "非制造业PMI为50.1（前值49.5，预期49.9），动能偏弱，环比改善0.6pct。符合预期。",
+              "history": [
+                {
+                  "date": "2026-01-31",
+                  "value": 49.4
+                },
+                {
+                  "date": "2026-02-28",
+                  "value": 49.5
+                },
+                {
+                  "date": "2026-03-31",
+                  "value": 50.1
+                }
+              ]
+            },
+            {
+              "name": "社会消费品零售总额",
+              "frequency": "月度",
+              "code": "M0001428",
+              "current": 1.7,
+              "current_date": "2026-03-31",
+              "previous": 2.8,
+              "previous_date": "2026-02-28",
+              "change": -1.1,
+              "forecast": 2.45,
+              "weight": 0,
+              "score": -1.5,
+              "signal": "🌧️ 不及预期 | ↓恶化",
+              "auto_view": "社零同比1.7%（前值2.8%，预期2.5%），消费偏弱。不及预期。",
+              "history": [
+                {
+                  "date": "2025-12-31",
+                  "value": 0.9
+                },
+                {
+                  "date": "2026-02-28",
+                  "value": 2.8
+                },
+                {
+                  "date": "2026-03-31",
+                  "value": 1.7
+                }
+              ]
+            },
+            {
+              "name": "固定资产投资",
+              "frequency": "月度",
+              "code": "M0000273",
+              "current": 1.7,
+              "current_date": "2026-03-31",
+              "previous": 1.8,
+              "previous_date": "2026-02-28",
+              "change": -0.1,
+              "forecast": 1.65,
+              "weight": 0,
+              "score": 0,
+              "signal": "🌧️ 疲软 | →持平",
+              "auto_view": "固投累计同比为1.7%（前值1.8%，预期1.7%），投资疲软，环比恶化0.1pct。符合预期。",
+              "history": [
+                {
+                  "date": "2025-12-31",
+                  "value": -3.8
+                },
+                {
+                  "date": "2026-02-28",
+                  "value": 1.8
+                },
+                {
+                  "date": "2026-03-31",
+                  "value": 1.7
+                }
+              ]
+            },
+            {
+              "name": "商品房销售面积:累计同比",
+              "frequency": "月度",
+              "code": "S0073300",
+              "current": -10.4,
+              "current_date": "2026-03-31",
+              "previous": -13.5,
+              "previous_date": "2026-02-28",
+              "change": 3.1,
+              "forecast": null,
+              "weight": 0,
+              "score": -1,
+              "signal": "🌧️ 深度调整",
+              "auto_view": "商品房销售累计同比-10.4%。",
+              "history": [
+                {
+                  "date": "2025-12-31",
+                  "value": -8.7
+                },
+                {
+                  "date": "2026-02-28",
+                  "value": -13.5
+                },
+                {
+                  "date": "2026-03-31",
+                  "value": -10.4
+                }
+              ]
+            },
+            {
+              "name": "民间固定投资",
+              "frequency": "月度",
+              "code": "M5438208",
+              "current": -2.2,
+              "current_date": "2026-03-31",
+              "previous": -2.6,
+              "previous_date": "2026-02-28",
+              "change": 0.4,
+              "forecast": null,
+              "weight": 0,
+              "score": -1,
+              "signal": "🌪️ 信心不足 | →持平",
+              "auto_view": "民间固投累计同比为-2.2%（前值-2.6%），信心不足，环比改善0.4pct。",
+              "history": [
+                {
+                  "date": "2025-12-31",
+                  "value": -6.4
+                },
+                {
+                  "date": "2026-02-28",
+                  "value": -2.6
+                },
+                {
+                  "date": "2026-03-31",
+                  "value": -2.2
+                }
+              ]
+            },
+            {
+              "name": "工业增加值",
+              "frequency": "月度",
+              "code": "M0000545",
+              "current": 5.7,
+              "current_date": "2026-03-31",
+              "previous": 6.3,
+              "previous_date": "2026-02-28",
+              "change": -0.6,
+              "forecast": null,
+              "weight": 0,
+              "score": 1,
+              "signal": "⛅️ 平稳 | →持平",
+              "auto_view": "工业增加值同比为5.7%（前值6.3%），生产平稳，环比恶化0.6pct。",
+              "history": [
+                {
+                  "date": "2026-01-31",
+                  "value": 6.3
+                },
+                {
+                  "date": "2026-02-28",
+                  "value": 6.3
+                },
+                {
+                  "date": "2026-03-31",
+                  "value": 5.7
+                }
+              ]
+            },
+            {
+              "name": "出口：美元计价",
+              "frequency": "月度",
+              "code": "M0000607",
+              "current": 2.5,
+              "current_date": "2026-03-31",
+              "previous": 39.6,
+              "previous_date": "2026-02-28",
+              "change": -37.1,
+              "forecast": 3.96,
+              "weight": 0,
+              "score": -1.5,
+              "signal": "🌧️ 不及 | ↓放缓",
+              "auto_view": "出口同比为2.5%（前值39.6%，预期4.0%），温和增长，环比恶化37.1pct。不及预期。",
+              "history": [
+                {
+                  "date": "2026-01-31",
+                  "value": 10
+                },
+                {
+                  "date": "2026-02-28",
+                  "value": 39.6
+                },
+                {
+                  "date": "2026-03-31",
+                  "value": 2.5
+                }
+              ]
+            },
+            {
+              "name": "PPI",
+              "frequency": "月度",
+              "code": "M0001227",
+              "current": 0.5,
+              "current_date": "2026-03-31",
+              "previous": -0.9,
+              "previous_date": "2026-02-28",
+              "change": 1.4,
+              "forecast": 0.45,
+              "weight": 0,
+              "score": 0.5,
+              "signal": "⛅️ 符合 | ↑改善",
+              "auto_view": "PPI同比0.5%（前值-0.9%，预期0.5%），工业品价格转正。符合预期。",
+              "history": [
+                {
+                  "date": "2026-01-31",
+                  "value": -1.4
+                },
+                {
+                  "date": "2026-02-28",
+                  "value": -0.9
+                },
+                {
+                  "date": "2026-03-31",
+                  "value": 0.5
+                }
+              ]
+            },
+            {
+              "name": "CPI",
+              "frequency": "月度",
+              "code": "M0000612",
+              "current": 1,
+              "current_date": "2026-03-31",
+              "previous": 1.3,
+              "previous_date": "2026-02-28",
+              "change": -0.3,
+              "forecast": 1.27,
+              "weight": 0,
+              "score": -1,
+              "signal": "🌧️ 不及 | →持平",
+              "auto_view": "CPI同比1.0%（前值1.3%，预期1.3%），温和通胀区间。不及预期。",
+              "history": [
+                {
+                  "date": "2026-01-31",
+                  "value": 0.2
+                },
+                {
+                  "date": "2026-02-28",
+                  "value": 1.3
+                },
+                {
+                  "date": "2026-03-31",
+                  "value": 1
+                }
+              ]
+            },
+            {
+              "name": "ICE布伦特原油",
+              "frequency": "日度",
+              "code": "S0031525",
+              "current": 99.39,
+              "current_date": "2026-04-16",
+              "previous": 94.93,
+              "previous_date": "2026-04-15",
+              "change": 4.45999999999999,
+              "forecast": null,
+              "weight": 0,
+              "score": -0.5,
+              "signal": "⛅️🌧️ 偏高",
+              "auto_view": "布伦特原油99.4美元/桶。油价处于正常区间。",
+              "history": [
+                {
+                  "date": "2026-04-14",
+                  "value": 94.79
+                },
+                {
+                  "date": "2026-04-15",
+                  "value": 94.93
+                },
+                {
+                  "date": "2026-04-16",
+                  "value": 99.39
+                }
+              ],
+              "month_start": 101.16,
+              "mtd_change": -1.77
+            }
+          ]
+        },
+        {
+          "node_id": "HK-ext",
+          "name": "海外环境",
+          "question": "海外环境对港股友好吗？",
+          "score": 0.12,
+          "signal": "⛅️ 中性",
+          "highlights": "美元走弱、风险偏好回暖、",
+          "drags": "",
+          "view": "【海外环境】⛅️ 中性。美元指数98.2，10Y美债4.32%，VIX17.9。亮点：美元走弱、风险偏好回暖、",
+          "indicator_count": 6,
+          "indicators": [
+            {
+              "name": "CFETS人民币汇率指数",
+              "frequency": "日度",
+              "code": "M0325601",
+              "current": 100.25,
+              "current_date": "2026-04-10",
+              "previous": 100.84,
+              "previous_date": "2026-04-03",
+              "change": -0.590000000000003,
+              "forecast": null,
+              "weight": 0,
+              "score": 0,
+              "signal": "⛅️ 稳定",
+              "auto_view": "CFETS人民币汇率指数100.3，人民币对一篮子货币走势。",
+              "history": [
+                {
+                  "date": "2026-03-31",
+                  "value": 100.87
+                },
+                {
+                  "date": "2026-04-03",
+                  "value": 100.84
+                },
+                {
+                  "date": "2026-04-10",
+                  "value": 100.25
+                }
+              ],
+              "month_start": 100.84,
+              "mtd_change": -0.59
+            },
+            {
+              "name": "ICE布伦特原油",
+              "frequency": "日度",
+              "code": "S0031525",
+              "current": 99.39,
+              "current_date": "2026-04-16",
+              "previous": 94.93,
+              "previous_date": "2026-04-15",
+              "change": 4.45999999999999,
+              "forecast": null,
+              "weight": 0,
+              "score": -0.5,
+              "signal": "⛅️🌧️ 偏高",
+              "auto_view": "布伦特原油99.4美元/桶。油价处于正常区间。",
+              "history": [
+                {
+                  "date": "2026-04-14",
+                  "value": 94.79
+                },
+                {
+                  "date": "2026-04-15",
+                  "value": 94.93
+                },
+                {
+                  "date": "2026-04-16",
+                  "value": 99.39
+                }
+              ],
+              "month_start": 101.16,
+              "mtd_change": -1.77
+            },
+            {
+              "name": "2 年期美债利率",
+              "frequency": "日度",
+              "code": "G0000887",
+              "current": 3.78,
+              "current_date": "2026-04-16",
+              "previous": 3.76,
+              "previous_date": "2026-04-15",
+              "change": 0.02,
+              "forecast": null,
+              "weight": 0,
+              "score": 0,
+              "signal": "⛅️ 震荡 | 3.78%",
+              "auto_view": "2Y美债利率3.78%（前值3.76%），上行2bp，压制黄金。",
+              "history": [
+                {
+                  "date": "2026-04-14",
+                  "value": 3.76
+                },
+                {
+                  "date": "2026-04-15",
+                  "value": 3.76
+                },
+                {
+                  "date": "2026-04-16",
+                  "value": 3.78
+                }
+              ],
+              "month_start": 3.81,
+              "mtd_change": -0.03
+            },
+            {
+              "name": "10 年期美债利率",
+              "frequency": "日度",
+              "code": "G0000891",
+              "current": 4.32,
+              "current_date": "2026-04-16",
+              "previous": 4.29,
+              "previous_date": "2026-04-15",
+              "change": 0.0300000000000003,
+              "forecast": null,
+              "weight": 0,
+              "score": -1,
+              "signal": "🌧️ 利率上行压制黄金 | 4.32%",
+              "auto_view": "10Y美债利率4.32%（前值4.29%），上行3bp，压制黄金。",
+              "history": [
+                {
+                  "date": "2026-04-14",
+                  "value": 4.26
+                },
+                {
+                  "date": "2026-04-15",
+                  "value": 4.29
+                },
+                {
+                  "date": "2026-04-16",
+                  "value": 4.32
+                }
+              ],
+              "month_start": 4.33,
+              "mtd_change": -0.01
+            },
+            {
+              "name": "美元指数",
+              "frequency": "日度",
+              "code": "M0000271",
+              "current": 98.2035,
+              "current_date": "2026-04-16",
+              "previous": 98.0792,
+              "previous_date": "2026-04-15",
+              "change": 0.124300000000005,
+              "forecast": null,
+              "weight": 0,
+              "score": 1,
+              "signal": "⛅️ 中性 | 98.2",
+              "auto_view": "美元指数98.2（前值98.1），美元中性。",
+              "history": [
+                {
+                  "date": "2026-04-14",
+                  "value": 98.0995
+                },
+                {
+                  "date": "2026-04-15",
+                  "value": 98.0792
+                },
+                {
+                  "date": "2026-04-16",
+                  "value": 98.2035
+                }
+              ],
+              "month_start": 99.5539,
+              "mtd_change": -1.3504
+            },
+            {
+              "name": "VIX指数",
+              "frequency": "月度",
+              "code": "G0003892",
+              "current": 17.94,
+              "current_date": "2026-04-16",
+              "previous": 18.17,
+              "previous_date": "2026-04-15",
+              "change": -0.23,
+              "forecast": null,
+              "weight": 0,
+              "score": 1,
+              "signal": "⛅️ 正常 | 17.9",
+              "auto_view": "VIX指数17.9（前值18.2），波动正常。",
+              "history": [
+                {
+                  "date": "2026-04-14",
+                  "value": 18.36
+                },
+                {
+                  "date": "2026-04-15",
+                  "value": 18.17
+                },
+                {
+                  "date": "2026-04-16",
+                  "value": 17.94
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "node_id": "HK-flow",
+          "name": "港股资金面",
+          "question": "南向资金在买还是卖？",
+          "score": 1.7,
+          "signal": "☀️☀️ 大幅流入",
+          "highlights": "南向净流入、",
+          "drags": "",
+          "view": "【港股资金面】☀️☀️ 大幅流入。南向资金净流入37亿港元。",
+          "indicator_count": 2,
+          "indicators": [
+            {
+              "name": "南向资金净流入",
+              "frequency": "日度",
+              "code": null,
+              "current": 37.3949,
+              "current_date": null,
+              "previous": 36.7217,
+              "previous_date": "2026-04-15",
+              "change": 0.673200000000009,
+              "forecast": null,
+              "weight": 0,
+              "score": 1,
+              "signal": "☀️ 净流入 | 37亿",
+              "auto_view": "南向资金净流入37亿元。温和流入。",
+              "history": []
+            },
+            {
+              "name": "南向资金年初至今累计净流入",
+              "frequency": "日度",
+              "code": "计算:SUM港股通净买入",
+              "current": 2003.5372,
+              "current_date": null,
+              "previous": null,
+              "previous_date": null,
+              "change": null,
+              "forecast": null,
+              "weight": 0,
+              "score": 2,
+              "signal": "☀️☀️ 大幅流入",
+              "auto_view": "南向资金年初至今累计净流入2,004亿港元。",
+              "history": []
+            }
+          ]
+        },
+        {
+          "node_id": "HK-sent",
+          "name": "港股情绪面",
+          "question": "港股定价如何？",
+          "score": 1.5,
+          "signal": "☀️☀️ 显著乐观",
+          "highlights": "恒指上涨、恒生科技上涨、",
+          "drags": "",
+          "view": "【港股情绪面】☀️☀️ 显著乐观。恒指1.7%，恒生科技3.7%。",
+          "indicator_count": 2,
+          "indicators": [
+            {
+              "name": "恒生指数",
+              "frequency": "日度",
+              "code": "HSI.HI",
+              "current": 26394.26,
+              "current_date": "2026-04-16",
+              "previous": 25947.32,
+              "previous_date": "2026-04-15",
+              "change": 446.939999999999,
+              "forecast": null,
+              "weight": 0,
+              "score": 1,
+              "signal": "☀️ 上涨 | 1.7%",
+              "auto_view": "恒生指数26,394点，上涨1.7%。",
+              "history": [
+                {
+                  "date": "2026-04-14",
+                  "value": 25872.32
+                },
+                {
+                  "date": "2026-04-15",
+                  "value": 25947.32
+                },
+                {
+                  "date": "2026-04-16",
+                  "value": 26394.26
+                }
+              ],
+              "month_start": 25294.03,
+              "mtd_change": 1100.23
+            },
+            {
+              "name": "恒生科技指数",
+              "frequency": "日度",
+              "code": "HSTECH.HI",
+              "current": 5092.08,
+              "current_date": "2026-04-16",
+              "previous": 4911.79,
+              "previous_date": "2026-04-15",
+              "change": 180.29,
+              "forecast": null,
+              "weight": 0,
+              "score": 2,
+              "signal": "☀️ 上涨 | 3.7%",
+              "auto_view": "恒生科技5,092点，上涨3.7%。",
+              "history": [
+                {
+                  "date": "2026-04-14",
+                  "value": 4851.96
+                },
+                {
+                  "date": "2026-04-15",
+                  "value": 4911.79
+                },
+                {
+                  "date": "2026-04-16",
+                  "value": 5092.08
+                }
+              ],
+              "month_start": 4756.45,
+              "mtd_change": 335.63
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "短债",
+      "total_score": 0.486,
+      "signal_flow": "央行⛅️ 常规操作 → 银行间☀️☀️ 显著宽松 → 短端收益率⛅️ 窄幅震荡 → 短端估值⛅️ 中性",
+      "diagnosis": "【短债传导诊断】央行⛅️ 常规操作 → 银行间☀️☀️ 显著宽松 → 短端收益率⛅️ 窄幅震荡 → 短端估值⛅️ 中性\n✅ 传导链路顺畅，无明显断点。",
+      "nodes": [
+        {
+          "node_id": "SB-cb",
+          "name": "央行态度",
+          "question": "央行有降息信号吗？",
+          "score": -0.055,
+          "signal": "⛅️ 常规操作",
+          "highlights": "",
+          "drags": "净回笼偏多、",
+          "view": "【央行态度】⛅️ 常规操作。逆回购1.40%(不变)，存准率9.0%(不变)。周度净投放-3,005亿。",
+          "indicator_count": 7,
+          "indicators": [
+            {
+              "name": "7天逆回购利率",
+              "frequency": "不定期",
+              "code": "M0041371",
+              "current": 1.4,
+              "current_date": "2026-04-17",
+              "previous": 1.4,
+              "previous_date": "2026-04-16",
+              "change": 0,
+              "forecast": null,
+              "weight": 0,
+              "score": 0,
+              "signal": "⛅️ 不变 | 1.40%",
+              "auto_view": "7天逆回购利率1.40%（前值1.40%），政策利率维持不变。",
+              "history": [
+                {
+                  "date": "2026-04-15",
+                  "value": 1.4
+                },
+                {
+                  "date": "2026-04-16",
+                  "value": 1.4
+                },
+                {
+                  "date": "2026-04-17",
+                  "value": 1.4
+                }
+              ]
+            },
+            {
+              "name": "法定存款准备金率-大型国有银行",
+              "frequency": "不定期",
+              "code": "M0061518",
+              "current": 9,
+              "current_date": "2026-03-31",
+              "previous": 9,
+              "previous_date": "2026-02-28",
+              "change": 0,
+              "forecast": null,
+              "weight": 0,
+              "score": 0,
+              "signal": "⛅️ 不变 | 9.0%",
+              "auto_view": "法定存款准备金率9.0%（前值9.0%），准备金率维持。",
+              "history": [
+                {
+                  "date": "2026-01-31",
+                  "value": 9
+                },
+                {
+                  "date": "2026-02-28",
+                  "value": 9
+                },
+                {
+                  "date": "2026-03-31",
+                  "value": 9
+                }
+              ]
+            },
+            {
+              "name": "公开市场操作:货币净投放",
+              "frequency": "周度",
+              "code": "M0061614",
+              "current": -3005,
+              "current_date": "2026-04-10",
+              "previous": -1702,
+              "previous_date": "2026-04-03",
+              "change": -1303,
+              "forecast": null,
+              "weight": 0,
+              "score": -1,
+              "signal": "🌧️ 净回笼 | -3,005亿",
+              "auto_view": "公开市场操作周度净投放-3,005亿元。",
+              "history": [
+                {
+                  "date": "2026-03-27",
+                  "value": 2319
+                },
+                {
+                  "date": "2026-04-03",
+                  "value": -1702
+                },
+                {
+                  "date": "2026-04-10",
+                  "value": -3005
+                }
+              ],
+              "month_start": -1702,
+              "mtd_change": -1303
+            },
+            {
+              "name": "中央银行贷款-常备借贷便利（SLF）净投放",
+              "frequency": "月度",
+              "code": "N7822723",
+              "current": 8,
+              "current_date": "2026-03-31",
+              "previous": 0,
+              "previous_date": "2026-02-28",
+              "change": 8,
+              "forecast": null,
+              "weight": 0,
+              "score": 1,
+              "signal": "☀️ 净投放 | 8亿",
+              "auto_view": "SLF净投放8亿元，中长期流动性投放。",
+              "history": [
+                {
+                  "date": "2026-01-31",
+                  "value": -79
+                },
+                {
+                  "date": "2026-02-28",
+                  "value": 0
+                },
+                {
+                  "date": "2026-03-31",
+                  "value": 8
+                }
+              ]
+            },
+            {
+              "name": "中央银行贷款-中期借贷便利（MLF）净投放",
+              "frequency": "月度",
+              "code": "Z0569230",
+              "current": 500,
+              "current_date": "2026-03-31",
+              "previous": 3000,
+              "previous_date": "2026-02-28",
+              "change": -2500,
+              "forecast": null,
+              "weight": 0,
+              "score": 1,
+              "signal": "☀️ 净投放 | 500亿",
+              "auto_view": "MLF净投放500亿元，中长期流动性投放。",
+              "history": [
+                {
+                  "date": "2026-01-31",
+                  "value": 7000
+                },
+                {
+                  "date": "2026-02-28",
+                  "value": 3000
+                },
+                {
+                  "date": "2026-03-31",
+                  "value": 500
+                }
+              ]
+            },
+            {
+              "name": "中央银行贷款-抵押补充贷款（PSL）净投放",
+              "frequency": "月度",
+              "code": "Z7194825",
+              "current": 0,
+              "current_date": "2026-03-31",
+              "previous": 0,
+              "previous_date": "2026-02-28",
+              "change": 0,
+              "forecast": null,
+              "weight": 0,
+              "score": 0,
+              "signal": "⛅️ 持平 | 0亿",
+              "auto_view": "PSL净投放0亿元，等量续作。",
+              "history": [
+                {
+                  "date": "2026-01-31",
+                  "value": 1744
+                },
+                {
+                  "date": "2026-02-28",
+                  "value": 0
+                },
+                {
+                  "date": "2026-03-31",
+                  "value": 0
+                }
+              ]
+            },
+            {
+              "name": "中央银行贷款-其他政策工具净投放",
+              "frequency": "月度",
+              "code": "P5747228",
+              "current": 1728,
+              "current_date": "2026-03-31",
+              "previous": -76,
+              "previous_date": "2026-02-28",
+              "change": 1804,
+              "forecast": null,
+              "weight": 0,
+              "score": 1,
+              "signal": "☀️ 净投放 | 1,728亿",
+              "auto_view": "其他工具净投放1,728亿元，中长期流动性投放。",
+              "history": [
+                {
+                  "date": "2026-01-31",
+                  "value": 641
+                },
+                {
+                  "date": "2026-02-28",
+                  "value": -76
+                },
+                {
+                  "date": "2026-03-31",
+                  "value": 1728
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "node_id": "SB-ib",
+          "name": "银行间流动性",
+          "question": "资金面对短端有压降效果吗？",
+          "score": 2,
+          "signal": "☀️☀️ 显著宽松",
+          "highlights": "DR007低于政策利率、R007分层正常、",
+          "drags": "",
+          "view": "【银行间】☀️☀️ 显著宽松。DR007为1.33%，与逆回购利差-7bp，传导通畅。R007-DR007利差7bp，分层正常。",
+          "indicator_count": 5,
+          "indicators": [
+            {
+              "name": "DR001",
+              "frequency": "日度",
+              "code": "M1006336",
+              "current": 1.2205,
+              "current_date": "2026-04-16",
+              "previous": 1.2228,
+              "previous_date": "2026-04-15",
+              "change": -0.00230000000000019,
+              "forecast": null,
+              "weight": 0,
+              "score": 2,
+              "signal": "☀️ 极宽松 | 利差-18bp",
+              "auto_view": "DR001为1.22%（前值1.22%），与逆回购利差-18bp，低于政策利率，资金极度宽松。",
+              "history": [
+                {
+                  "date": "2026-04-14",
+                  "value": 1.2258
+                },
+                {
+                  "date": "2026-04-15",
+                  "value": 1.2228
+                },
+                {
+                  "date": "2026-04-16",
+                  "value": 1.2205
+                }
+              ],
+              "month_start": 1.2693,
+              "mtd_change": -0.0488
+            },
+            {
+              "name": "DR007",
+              "frequency": "日度",
+              "code": "M1006337",
+              "current": 1.328,
+              "current_date": "2026-04-16",
+              "previous": 1.3664,
+              "previous_date": "2026-04-15",
+              "change": -0.0384,
+              "forecast": null,
+              "weight": 0,
+              "score": 2,
+              "signal": "☀️ 极宽松 | 利差-7bp",
+              "auto_view": "DR007为1.33%（前值1.37%），与逆回购利差-7bp，低于政策利率，资金极度宽松。",
+              "history": [
+                {
+                  "date": "2026-04-14",
+                  "value": 1.3648
+                },
+                {
+                  "date": "2026-04-15",
+                  "value": 1.3664
+                },
+                {
+                  "date": "2026-04-16",
+                  "value": 1.328
+                }
+              ],
+              "month_start": 1.4226,
+              "mtd_change": -0.0946
+            },
+            {
+              "name": "R001",
+              "frequency": "日度",
+              "code": "M1001794",
+              "current": 1.2879,
+              "current_date": "2026-04-16",
+              "previous": 1.2941,
+              "previous_date": "2026-04-15",
+              "change": -0.00619999999999998,
+              "forecast": null,
+              "weight": 0,
+              "score": 2,
+              "signal": "☀️ 极宽松 | 利差-11bp",
+              "auto_view": "R001为1.29%（前值1.29%），与逆回购利差-11bp，低于政策利率，资金极度宽松。",
+              "history": [
+                {
+                  "date": "2026-04-14",
+                  "value": 1.2985
+                },
+                {
+                  "date": "2026-04-15",
+                  "value": 1.2941
+                },
+                {
+                  "date": "2026-04-16",
+                  "value": 1.2879
+                }
+              ],
+              "month_start": 1.354,
+              "mtd_change": -0.0661
+            },
+            {
+              "name": "R007",
+              "frequency": "日度",
+              "code": "M1001795",
+              "current": 1.3995,
+              "current_date": "2026-04-16",
+              "previous": 1.4082,
+              "previous_date": "2026-04-15",
+              "change": -0.00869999999999993,
+              "forecast": null,
+              "weight": 0,
+              "score": 2,
+              "signal": "☀️ 极宽松 | 利差0bp",
+              "auto_view": "R007为1.40%（前值1.41%），与逆回购利差0bp，低于政策利率，资金极度宽松。",
+              "history": [
+                {
+                  "date": "2026-04-14",
+                  "value": 1.409
+                },
+                {
+                  "date": "2026-04-15",
+                  "value": 1.4082
+                },
+                {
+                  "date": "2026-04-16",
+                  "value": 1.3995
+                }
+              ],
+              "month_start": 1.4654,
+              "mtd_change": -0.0659
+            },
+            {
+              "name": "1Y同业存单到期收益率(AAA)",
+              "frequency": "日度",
+              "code": "M1004902",
+              "current": 1.48,
+              "current_date": "2026-04-16",
+              "previous": 1.483,
+              "previous_date": "2026-04-15",
+              "change": -0.00300000000000011,
+              "forecast": null,
+              "weight": 0,
+              "score": 2,
+              "signal": "☀️☀️ 极宽松",
+              "auto_view": "1Y同业存单利率1.48%，反映银行中长期负债成本。",
+              "history": [
+                {
+                  "date": "2026-04-14",
+                  "value": 1.4872
+                },
+                {
+                  "date": "2026-04-15",
+                  "value": 1.483
+                },
+                {
+                  "date": "2026-04-16",
+                  "value": 1.48
+                }
+              ],
+              "month_start": 1.5155,
+              "mtd_change": -0.0355
+            }
+          ]
+        },
+        {
+          "node_id": "SB-yield",
+          "name": "短端收益率",
+          "question": "短端收益率方向？",
+          "score": 0,
+          "signal": "⛅️ 窄幅震荡",
+          "highlights": "",
+          "drags": "",
+          "view": "【短端收益率】⛅️ 窄幅震荡。1Y国债1.18%，变动1bp。",
+          "indicator_count": 3,
+          "indicators": [
+            {
+              "name": "1年国债收益率",
+              "frequency": "日度",
+              "code": "M0325686",
+              "current": 1.1814,
+              "current_date": "2026-04-17",
+              "previous": 1.1718,
+              "previous_date": "2026-04-16",
+              "change": 0.00960000000000005,
+              "forecast": null,
+              "weight": 0,
+              "score": 0,
+              "signal": "⛅️ 震荡 | 1.18%",
+              "auto_view": "1Y国债收益率1.18%（前值1.17%），上行1.0bp。",
+              "history": [
+                {
+                  "date": "2026-04-15",
+                  "value": 1.1858
+                },
+                {
+                  "date": "2026-04-16",
+                  "value": 1.1718
+                },
+                {
+                  "date": "2026-04-17",
+                  "value": 1.1814
+                }
+              ],
+              "month_start": 1.2285,
+              "mtd_change": -0.0471
+            },
+            {
+              "name": "2年国债收益率",
+              "frequency": "日度",
+              "code": "S0059745",
+              "current": 1.3084,
+              "current_date": "2026-04-16",
+              "previous": 1.3108,
+              "previous_date": "2026-04-15",
+              "change": -0.00239999999999996,
+              "forecast": null,
+              "weight": 0,
+              "score": 0,
+              "signal": "⛅️ 震荡 | 1.31%",
+              "auto_view": "2Y国债收益率1.31%（前值1.31%），下行0.2bp。",
+              "history": [
+                {
+                  "date": "2026-04-14",
+                  "value": 1.3204
+                },
+                {
+                  "date": "2026-04-15",
+                  "value": 1.3108
+                },
+                {
+                  "date": "2026-04-16",
+                  "value": 1.3084
+                }
+              ],
+              "month_start": 1.285,
+              "mtd_change": 0.0234
+            },
+            {
+              "name": "3年国债收益率",
+              "frequency": "日度",
+              "code": "S0059746",
+              "current": 1.3397,
+              "current_date": "2026-04-16",
+              "previous": 1.3427,
+              "previous_date": "2026-04-15",
+              "change": -0.00300000000000011,
+              "forecast": null,
+              "weight": 0,
+              "score": 0,
+              "signal": "⛅️ 震荡 | 1.34%",
+              "auto_view": "3Y国债收益率1.34%（前值1.34%），下行0.3bp。",
+              "history": [
+                {
+                  "date": "2026-04-14",
+                  "value": 1.3525
+                },
+                {
+                  "date": "2026-04-15",
+                  "value": 1.3427
+                },
+                {
+                  "date": "2026-04-16",
+                  "value": 1.3397
+                }
+              ],
+              "month_start": 1.3326,
+              "mtd_change": 0.0071
+            }
+          ]
+        },
+        {
+          "node_id": "SB-spread",
+          "name": "短端估值",
+          "question": "短端利差有配置价值吗？",
+          "score": 0,
+          "signal": "⛅️ 中性",
+          "highlights": "",
+          "drags": "",
+          "view": "【短端估值】⛅️ 中性。",
+          "indicator_count": 6,
+          "indicators": [
+            {
+              "name": "期限利差：（国债）3Y-1Y",
+              "frequency": "日度",
+              "code": null,
+              "current": 15.83,
+              "current_date": "2026-04-16",
+              "previous": 17.09,
+              "previous_date": "2026-04-15",
+              "change": -1.26000000000002,
+              "forecast": null,
+              "weight": 0,
+              "score": -1,
+              "signal": "⛅️ 正常 | 15.8bp",
+              "auto_view": "国债3Y-1Y期限利差15.8bp（前值17.1bp），利差收窄。",
+              "history": []
+            },
+            {
+              "name": "期限利差：（国开债）3Y-1Y",
+              "frequency": "日度",
+              "code": null,
+              "current": 16.42,
+              "current_date": "2026-04-16",
+              "previous": 14.92,
+              "previous_date": "2026-04-15",
+              "change": 1.49999999999999,
+              "forecast": null,
+              "weight": 0,
+              "score": 1,
+              "signal": "☀️ 走阔 | 16.4bp",
+              "auto_view": "国开债3Y-1Y期限利差16.4bp（前值14.9bp），利差走阔。",
+              "history": []
+            },
+            {
+              "name": "信用利差：1Y（企业债-国开债）",
+              "frequency": "日度",
+              "code": null,
+              "current": 13.35,
+              "current_date": "2026-04-16",
+              "previous": 10.77,
+              "previous_date": "2026-04-15",
+              "change": 2.57999999999998,
+              "forecast": null,
+              "weight": 0,
+              "score": 0,
+              "signal": "⛅️ 持平 | 13.4bp",
+              "auto_view": "1Y企业债信用利差13.4bp（前值10.8bp），走阔2.6bp。",
+              "history": []
+            },
+            {
+              "name": "信用利差：1Y（城投债-国开债）",
+              "frequency": "日度",
+              "code": null,
+              "current": 15.24,
+              "current_date": "2026-04-16",
+              "previous": 12.33,
+              "previous_date": "2026-04-15",
+              "change": 2.90999999999999,
+              "forecast": null,
+              "weight": 0,
+              "score": 0,
+              "signal": "⛅️ 持平 | 15.2bp",
+              "auto_view": "1Y城投债信用利差15.2bp（前值12.3bp），走阔2.9bp。",
+              "history": []
+            },
+            {
+              "name": "信用利差：3Y（企业债-国开债）",
+              "frequency": "日度",
+              "code": null,
+              "current": 15.99,
+              "current_date": "2026-04-16",
+              "previous": 14.63,
+              "previous_date": "2026-04-15",
+              "change": 1.36000000000001,
+              "forecast": null,
+              "weight": 0,
+              "score": 0,
+              "signal": "⛅️ 持平 | 16.0bp",
+              "auto_view": "3Y企业债信用利差16.0bp（前值14.6bp），走阔1.4bp。",
+              "history": []
+            },
+            {
+              "name": "信用利差：3Y（城投债-国开债）",
+              "frequency": "日度",
+              "code": null,
+              "current": 16.16,
+              "current_date": "2026-04-16",
+              "previous": 16.06,
+              "previous_date": "2026-04-15",
+              "change": 0.100000000000009,
+              "forecast": null,
+              "weight": 0,
+              "score": 0,
+              "signal": "⛅️ 持平 | 16.2bp",
+              "auto_view": "3Y城投债信用利差16.2bp（前值16.1bp），走阔0.1bp。",
+              "history": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "中长债",
+      "total_score": 0.02,
+      "signal_flow": "央行⛅️ 常规操作 → 经济预期⛅️ 中性 → 长端收益率⛅️ 窄幅震荡 → 长端估值⛅️ 中性",
+      "diagnosis": "【中长债传导诊断】央行⛅️ 常规操作 → 经济预期⛅️ 中性 → 长端收益率⛅️ 窄幅震荡 → 长端估值⛅️ 中性\n✅ 传导链路顺畅，无明显断点。",
+      "nodes": [
+        {
+          "node_id": "LB-cb",
+          "name": "央行态度",
+          "question": "央行有总量宽松信号吗？",
+          "score": -0.055,
+          "signal": "⛅️ 常规操作",
+          "highlights": "",
+          "drags": "净回笼偏多、",
+          "view": "【央行态度】⛅️ 常规操作。逆回购1.40%(不变)，存准率9.0%(不变)。周度净投放-3,005亿。",
+          "indicator_count": 7,
+          "indicators": [
+            {
+              "name": "7天逆回购利率",
+              "frequency": "不定期",
+              "code": "M0041371",
+              "current": 1.4,
+              "current_date": "2026-04-17",
+              "previous": 1.4,
+              "previous_date": "2026-04-16",
+              "change": 0,
+              "forecast": null,
+              "weight": 0,
+              "score": 0,
+              "signal": "⛅️ 不变 | 1.40%",
+              "auto_view": "7天逆回购利率1.40%（前值1.40%），政策利率维持不变。",
+              "history": [
+                {
+                  "date": "2026-04-15",
+                  "value": 1.4
+                },
+                {
+                  "date": "2026-04-16",
+                  "value": 1.4
+                },
+                {
+                  "date": "2026-04-17",
+                  "value": 1.4
+                }
+              ]
+            },
+            {
+              "name": "法定存款准备金率-大型国有银行",
+              "frequency": "不定期",
+              "code": "M0061518",
+              "current": 9,
+              "current_date": "2026-03-31",
+              "previous": 9,
+              "previous_date": "2026-02-28",
+              "change": 0,
+              "forecast": null,
+              "weight": 0,
+              "score": 0,
+              "signal": "⛅️ 不变 | 9.0%",
+              "auto_view": "法定存款准备金率9.0%（前值9.0%），准备金率维持。",
+              "history": [
+                {
+                  "date": "2026-01-31",
+                  "value": 9
+                },
+                {
+                  "date": "2026-02-28",
+                  "value": 9
+                },
+                {
+                  "date": "2026-03-31",
+                  "value": 9
+                }
+              ]
+            },
+            {
+              "name": "公开市场操作:货币净投放",
+              "frequency": "周度",
+              "code": "M0061614",
+              "current": -3005,
+              "current_date": "2026-04-10",
+              "previous": -1702,
+              "previous_date": "2026-04-03",
+              "change": -1303,
+              "forecast": null,
+              "weight": 0,
+              "score": -1,
+              "signal": "🌧️ 净回笼 | -3,005亿",
+              "auto_view": "公开市场操作周度净投放-3,005亿元。",
+              "history": [
+                {
+                  "date": "2026-03-27",
+                  "value": 2319
+                },
+                {
+                  "date": "2026-04-03",
+                  "value": -1702
+                },
+                {
+                  "date": "2026-04-10",
+                  "value": -3005
+                }
+              ],
+              "month_start": -1702,
+              "mtd_change": -1303
+            },
+            {
+              "name": "中央银行贷款-常备借贷便利（SLF）净投放",
+              "frequency": "月度",
+              "code": "N7822723",
+              "current": 8,
+              "current_date": "2026-03-31",
+              "previous": 0,
+              "previous_date": "2026-02-28",
+              "change": 8,
+              "forecast": null,
+              "weight": 0,
+              "score": 1,
+              "signal": "☀️ 净投放 | 8亿",
+              "auto_view": "SLF净投放8亿元，中长期流动性投放。",
+              "history": [
+                {
+                  "date": "2026-01-31",
+                  "value": -79
+                },
+                {
+                  "date": "2026-02-28",
+                  "value": 0
+                },
+                {
+                  "date": "2026-03-31",
+                  "value": 8
+                }
+              ]
+            },
+            {
+              "name": "中央银行贷款-中期借贷便利（MLF）净投放",
+              "frequency": "月度",
+              "code": "Z0569230",
+              "current": 500,
+              "current_date": "2026-03-31",
+              "previous": 3000,
+              "previous_date": "2026-02-28",
+              "change": -2500,
+              "forecast": null,
+              "weight": 0,
+              "score": 1,
+              "signal": "☀️ 净投放 | 500亿",
+              "auto_view": "MLF净投放500亿元，中长期流动性投放。",
+              "history": [
+                {
+                  "date": "2026-01-31",
+                  "value": 7000
+                },
+                {
+                  "date": "2026-02-28",
+                  "value": 3000
+                },
+                {
+                  "date": "2026-03-31",
+                  "value": 500
+                }
+              ]
+            },
+            {
+              "name": "中央银行贷款-抵押补充贷款（PSL）净投放",
+              "frequency": "月度",
+              "code": "Z7194825",
+              "current": 0,
+              "current_date": "2026-03-31",
+              "previous": 0,
+              "previous_date": "2026-02-28",
+              "change": 0,
+              "forecast": null,
+              "weight": 0,
+              "score": 0,
+              "signal": "⛅️ 持平 | 0亿",
+              "auto_view": "PSL净投放0亿元，等量续作。",
+              "history": [
+                {
+                  "date": "2026-01-31",
+                  "value": 1744
+                },
+                {
+                  "date": "2026-02-28",
+                  "value": 0
+                },
+                {
+                  "date": "2026-03-31",
+                  "value": 0
+                }
+              ]
+            },
+            {
+              "name": "中央银行贷款-其他政策工具净投放",
+              "frequency": "月度",
+              "code": "P5747228",
+              "current": 1728,
+              "current_date": "2026-03-31",
+              "previous": -76,
+              "previous_date": "2026-02-28",
+              "change": 1804,
+              "forecast": null,
+              "weight": 0,
+              "score": 1,
+              "signal": "☀️ 净投放 | 1,728亿",
+              "auto_view": "其他工具净投放1,728亿元，中长期流动性投放。",
+              "history": [
+                {
+                  "date": "2026-01-31",
+                  "value": 641
+                },
+                {
+                  "date": "2026-02-28",
+                  "value": -76
+                },
+                {
+                  "date": "2026-03-31",
+                  "value": 1728
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "node_id": "LB-eco",
+          "name": "经济预期",
+          "question": "经济对长端有压降空间吗？",
+          "score": 0.135,
+          "signal": "⛅️ 中性",
+          "highlights": "",
+          "drags": "",
+          "view": "【经济预期】⛅️ 中性。经济得分-0.14，经济中性，对长债影响有限。",
+          "indicator_count": 11,
+          "indicators": [
+            {
+              "name": "制造业PMI",
+              "frequency": "月度",
+              "code": "M0017126",
+              "current": 50.4,
+              "current_date": "2026-03-31",
+              "previous": 49,
+              "previous_date": "2026-02-28",
+              "change": 1.4,
+              "forecast": 49.88,
+              "weight": 0,
+              "score": 1.5,
+              "signal": "☀️ 温和扩张 | ↑改善",
+              "auto_view": "制造业PMI为50.4（前值49.0，预期49.9），处于扩张区间，环比改善1.4pct。超出市场预期。",
+              "history": [
+                {
+                  "date": "2026-01-31",
+                  "value": 49.3
+                },
+                {
+                  "date": "2026-02-28",
+                  "value": 49
+                },
+                {
+                  "date": "2026-03-31",
+                  "value": 50.4
+                }
+              ]
+            },
+            {
+              "name": "非制造业PMI",
+              "frequency": "月度",
+              "code": "M0048236",
+              "current": 50.1,
+              "current_date": "2026-03-31",
+              "previous": 49.5,
+              "previous_date": "2026-02-28",
+              "change": 0.600000000000001,
+              "forecast": 49.85,
+              "weight": 0,
+              "score": 0,
+              "signal": "⛅️ 动能偏弱 | →持平",
+              "auto_view": "非制造业PMI为50.1（前值49.5，预期49.9），动能偏弱，环比改善0.6pct。符合预期。",
+              "history": [
+                {
+                  "date": "2026-01-31",
+                  "value": 49.4
+                },
+                {
+                  "date": "2026-02-28",
+                  "value": 49.5
+                },
+                {
+                  "date": "2026-03-31",
+                  "value": 50.1
+                }
+              ]
+            },
+            {
+              "name": "社会消费品零售总额",
+              "frequency": "月度",
+              "code": "M0001428",
+              "current": 1.7,
+              "current_date": "2026-03-31",
+              "previous": 2.8,
+              "previous_date": "2026-02-28",
+              "change": -1.1,
+              "forecast": 2.45,
+              "weight": 0,
+              "score": -1.5,
+              "signal": "🌧️ 不及预期 | ↓恶化",
+              "auto_view": "社零同比1.7%（前值2.8%，预期2.5%），消费偏弱。不及预期。",
+              "history": [
+                {
+                  "date": "2025-12-31",
+                  "value": 0.9
+                },
+                {
+                  "date": "2026-02-28",
+                  "value": 2.8
+                },
+                {
+                  "date": "2026-03-31",
+                  "value": 1.7
+                }
+              ]
+            },
+            {
+              "name": "固定资产投资",
+              "frequency": "月度",
+              "code": "M0000273",
+              "current": 1.7,
+              "current_date": "2026-03-31",
+              "previous": 1.8,
+              "previous_date": "2026-02-28",
+              "change": -0.1,
+              "forecast": 1.65,
+              "weight": 0,
+              "score": 0,
+              "signal": "🌧️ 疲软 | →持平",
+              "auto_view": "固投累计同比为1.7%（前值1.8%，预期1.7%），投资疲软，环比恶化0.1pct。符合预期。",
+              "history": [
+                {
+                  "date": "2025-12-31",
+                  "value": -3.8
+                },
+                {
+                  "date": "2026-02-28",
+                  "value": 1.8
+                },
+                {
+                  "date": "2026-03-31",
+                  "value": 1.7
+                }
+              ]
+            },
+            {
+              "name": "商品房销售面积:累计同比",
+              "frequency": "月度",
+              "code": "S0073300",
+              "current": -10.4,
+              "current_date": "2026-03-31",
+              "previous": -13.5,
+              "previous_date": "2026-02-28",
+              "change": 3.1,
+              "forecast": null,
+              "weight": 0,
+              "score": -1,
+              "signal": "🌧️ 深度调整",
+              "auto_view": "商品房销售累计同比-10.4%。",
+              "history": [
+                {
+                  "date": "2025-12-31",
+                  "value": -8.7
+                },
+                {
+                  "date": "2026-02-28",
+                  "value": -13.5
+                },
+                {
+                  "date": "2026-03-31",
+                  "value": -10.4
+                }
+              ]
+            },
+            {
+              "name": "民间固定投资",
+              "frequency": "月度",
+              "code": "M5438208",
+              "current": -2.2,
+              "current_date": "2026-03-31",
+              "previous": -2.6,
+              "previous_date": "2026-02-28",
+              "change": 0.4,
+              "forecast": null,
+              "weight": 0,
+              "score": -1,
+              "signal": "🌪️ 信心不足 | →持平",
+              "auto_view": "民间固投累计同比为-2.2%（前值-2.6%），信心不足，环比改善0.4pct。",
+              "history": [
+                {
+                  "date": "2025-12-31",
+                  "value": -6.4
+                },
+                {
+                  "date": "2026-02-28",
+                  "value": -2.6
+                },
+                {
+                  "date": "2026-03-31",
+                  "value": -2.2
+                }
+              ]
+            },
+            {
+              "name": "工业增加值",
+              "frequency": "月度",
+              "code": "M0000545",
+              "current": 5.7,
+              "current_date": "2026-03-31",
+              "previous": 6.3,
+              "previous_date": "2026-02-28",
+              "change": -0.6,
+              "forecast": null,
+              "weight": 0,
+              "score": 1,
+              "signal": "⛅️ 平稳 | →持平",
+              "auto_view": "工业增加值同比为5.7%（前值6.3%），生产平稳，环比恶化0.6pct。",
+              "history": [
+                {
+                  "date": "2026-01-31",
+                  "value": 6.3
+                },
+                {
+                  "date": "2026-02-28",
+                  "value": 6.3
+                },
+                {
+                  "date": "2026-03-31",
+                  "value": 5.7
+                }
+              ]
+            },
+            {
+              "name": "出口：美元计价",
+              "frequency": "月度",
+              "code": "M0000607",
+              "current": 2.5,
+              "current_date": "2026-03-31",
+              "previous": 39.6,
+              "previous_date": "2026-02-28",
+              "change": -37.1,
+              "forecast": 3.96,
+              "weight": 0,
+              "score": -1.5,
+              "signal": "🌧️ 不及 | ↓放缓",
+              "auto_view": "出口同比为2.5%（前值39.6%，预期4.0%），温和增长，环比恶化37.1pct。不及预期。",
+              "history": [
+                {
+                  "date": "2026-01-31",
+                  "value": 10
+                },
+                {
+                  "date": "2026-02-28",
+                  "value": 39.6
+                },
+                {
+                  "date": "2026-03-31",
+                  "value": 2.5
+                }
+              ]
+            },
+            {
+              "name": "PPI",
+              "frequency": "月度",
+              "code": "M0001227",
+              "current": 0.5,
+              "current_date": "2026-03-31",
+              "previous": -0.9,
+              "previous_date": "2026-02-28",
+              "change": 1.4,
+              "forecast": 0.45,
+              "weight": 0,
+              "score": 0.5,
+              "signal": "⛅️ 符合 | ↑改善",
+              "auto_view": "PPI同比0.5%（前值-0.9%，预期0.5%），工业品价格转正。符合预期。",
+              "history": [
+                {
+                  "date": "2026-01-31",
+                  "value": -1.4
+                },
+                {
+                  "date": "2026-02-28",
+                  "value": -0.9
+                },
+                {
+                  "date": "2026-03-31",
+                  "value": 0.5
+                }
+              ]
+            },
+            {
+              "name": "CPI",
+              "frequency": "月度",
+              "code": "M0000612",
+              "current": 1,
+              "current_date": "2026-03-31",
+              "previous": 1.3,
+              "previous_date": "2026-02-28",
+              "change": -0.3,
+              "forecast": 1.27,
+              "weight": 0,
+              "score": -1,
+              "signal": "🌧️ 不及 | →持平",
+              "auto_view": "CPI同比1.0%（前值1.3%，预期1.3%），温和通胀区间。不及预期。",
+              "history": [
+                {
+                  "date": "2026-01-31",
+                  "value": 0.2
+                },
+                {
+                  "date": "2026-02-28",
+                  "value": 1.3
+                },
+                {
+                  "date": "2026-03-31",
+                  "value": 1
+                }
+              ]
+            },
+            {
+              "name": "ICE布伦特原油",
+              "frequency": "日度",
+              "code": "S0031525",
+              "current": 99.39,
+              "current_date": "2026-04-16",
+              "previous": 94.93,
+              "previous_date": "2026-04-15",
+              "change": 4.45999999999999,
+              "forecast": null,
+              "weight": 0,
+              "score": -0.5,
+              "signal": "⛅️🌧️ 偏高",
+              "auto_view": "布伦特原油99.4美元/桶。油价处于正常区间。",
+              "history": [
+                {
+                  "date": "2026-04-14",
+                  "value": 94.79
+                },
+                {
+                  "date": "2026-04-15",
+                  "value": 94.93
+                },
+                {
+                  "date": "2026-04-16",
+                  "value": 99.39
+                }
+              ],
+              "month_start": 101.16,
+              "mtd_change": -1.77
+            }
+          ]
+        },
+        {
+          "node_id": "LB-yield",
+          "name": "长端收益率",
+          "question": "长端收益率方向？",
+          "score": 0,
+          "signal": "⛅️ 窄幅震荡",
+          "highlights": "",
+          "drags": "",
+          "view": "【长端收益率】⛅️ 窄幅震荡。10Y国债1.78%，变动0bp。",
+          "indicator_count": 2,
+          "indicators": [
+            {
+              "name": "10年国债收益率",
+              "frequency": "日度",
+              "code": "S0059749",
+              "current": 1.7812,
+              "current_date": "2026-04-16",
+              "previous": 1.7809,
+              "previous_date": "2026-04-15",
+              "change": 0.000299999999999967,
+              "forecast": null,
+              "weight": 0,
+              "score": 0,
+              "signal": "⛅️ 震荡 | 1.78%",
+              "auto_view": "10Y国债收益率1.78%（前值1.78%），上行0.0bp。",
+              "history": [
+                {
+                  "date": "2026-04-14",
+                  "value": 1.7829
+                },
+                {
+                  "date": "2026-04-15",
+                  "value": 1.7809
+                },
+                {
+                  "date": "2026-04-16",
+                  "value": 1.7812
+                }
+              ],
+              "month_start": 1.8244,
+              "mtd_change": -0.0432
+            },
+            {
+              "name": "30年国债收益率",
+              "frequency": "日度",
+              "code": "S0059752",
+              "current": 2.281,
+              "current_date": "2026-04-16",
+              "previous": 2.2784,
+              "previous_date": "2026-04-15",
+              "change": 0.00260000000000016,
+              "forecast": null,
+              "weight": 0,
+              "score": 0,
+              "signal": "⛅️ 震荡 | 2.28%",
+              "auto_view": "30Y国债收益率2.28%（前值2.28%），上行0.3bp。",
+              "history": [
+                {
+                  "date": "2026-04-14",
+                  "value": 2.2805
+                },
+                {
+                  "date": "2026-04-15",
+                  "value": 2.2784
+                },
+                {
+                  "date": "2026-04-16",
+                  "value": 2.281
+                }
+              ],
+              "month_start": 2.3667,
+              "mtd_change": -0.0857
+            }
+          ]
+        },
+        {
+          "node_id": "LB-spread",
+          "name": "长端估值",
+          "question": "长端利差有配置价值吗？",
+          "score": 0,
+          "signal": "⛅️ 中性",
+          "highlights": "",
+          "drags": "",
+          "view": "【长端估值】⛅️ 中性。",
+          "indicator_count": 4,
+          "indicators": [
+            {
+              "name": "期限利差：（国债）10Y-1Y",
+              "frequency": "日度",
+              "code": null,
+              "current": 59.98,
+              "current_date": "2026-04-16",
+              "previous": 60.91,
+              "previous_date": "2026-04-15",
+              "change": -0.930000000000007,
+              "forecast": null,
+              "weight": 0,
+              "score": -1,
+              "signal": "⛅️ 正常 | 60.0bp",
+              "auto_view": "国债10Y-1Y期限利差60.0bp。",
+              "history": []
+            },
+            {
+              "name": "期限利差：（国开债）10Y-1Y",
+              "frequency": "日度",
+              "code": null,
+              "current": 46.9,
+              "current_date": "2026-04-16",
+              "previous": 44.49,
+              "previous_date": "2026-04-15",
+              "change": 2.41,
+              "forecast": null,
+              "weight": 0,
+              "score": 1,
+              "signal": "☀️ 走阔 | 46.9bp",
+              "auto_view": "国开债10Y-1Y期限利差46.9bp。",
+              "history": []
+            },
+            {
+              "name": "信用利差：10Y（企业债-国开债）",
+              "frequency": "日度",
+              "code": null,
+              "current": 30.65,
+              "current_date": "2026-04-16",
+              "previous": 30.85,
+              "previous_date": "2026-04-15",
+              "change": -0.200000000000045,
+              "forecast": null,
+              "weight": 0,
+              "score": 0,
+              "signal": "⛅️ 持平 | 30.7bp",
+              "auto_view": "10Y企业债信用利差30.7bp。",
+              "history": []
+            },
+            {
+              "name": "信用利差：10Y（城投债-国开债）",
+              "frequency": "日度",
+              "code": null,
+              "current": 34.89,
+              "current_date": "2026-04-16",
+              "previous": 35.09,
+              "previous_date": "2026-04-15",
+              "change": -0.199999999999996,
+              "forecast": null,
+              "weight": 0,
+              "score": 0,
+              "signal": "⛅️ 持平 | 34.9bp",
+              "auto_view": "10Y城投债信用利差34.9bp。",
+              "history": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "美股",
+      "total_score": -0.15,
+      "signal_flow": "美国经济⛅️ 企稳 → 美国流动性⛅️ 中性 → 情绪☀️ 偏乐观 → 估值🌪️ 显著偏贵",
+      "diagnosis": "【美股传导诊断】美国经济⛅️ 企稳 → 美国流动性⛅️ 中性 → 情绪☀️ 偏乐观 → 估值🌪️ 显著偏贵\n⚠️ 断点：情绪→估值。",
+      "nodes": [
+        {
+          "node_id": "US-eco",
+          "name": "美国经济",
+          "question": "美国经济扩张还是收缩？",
+          "score": 0.25,
+          "signal": "⛅️ 企稳",
+          "highlights": "ISM扩张、就业稳健、",
+          "drags": "消费者信心低迷、",
+          "view": "【美国经济】⛅️ 企稳。ISM制造业52.7，失业率4.3%，核心PCE3.0%。亮点：ISM扩张、就业稳健、拖累：消费者信心低迷、",
+          "indicator_count": 13,
+          "indicators": [
+            {
+              "name": "ICE布伦特原油",
+              "frequency": "日度",
+              "code": "S0031525",
+              "current": 99.39,
+              "current_date": "2026-04-16",
+              "previous": 94.93,
+              "previous_date": "2026-04-15",
+              "change": 4.45999999999999,
+              "forecast": null,
+              "weight": 0,
+              "score": -0.5,
+              "signal": "⛅️🌧️ 偏高",
+              "auto_view": "布伦特原油99.4美元/桶。油价处于正常区间。",
+              "history": [
+                {
+                  "date": "2026-04-14",
+                  "value": 94.79
+                },
+                {
+                  "date": "2026-04-15",
+                  "value": 94.93
+                },
+                {
+                  "date": "2026-04-16",
+                  "value": 99.39
+                }
+              ],
+              "month_start": 101.16,
+              "mtd_change": -1.77
+            },
+            {
+              "name": "美国核心CPI:同比",
+              "frequency": "月度",
+              "code": "G0000029",
+              "current": 2.6,
+              "current_date": "2026-03-31",
+              "previous": 2.5,
+              "previous_date": "2026-02-28",
+              "change": 0.1,
+              "forecast": null,
+              "weight": 0,
+              "score": 0,
+              "signal": "⛅️ 偏高",
+              "auto_view": "美国核心CPI2.6%，美联储决策的核心依据。",
+              "history": [
+                {
+                  "date": "2026-01-31",
+                  "value": 2.5
+                },
+                {
+                  "date": "2026-02-28",
+                  "value": 2.5
+                },
+                {
+                  "date": "2026-03-31",
+                  "value": 2.6
+                }
+              ]
+            },
+            {
+              "name": "美国:ISM:制造业PMI",
+              "frequency": "月度",
+              "code": "G0002323",
+              "current": 52.7,
+              "current_date": "2026-03-31",
+              "previous": 52.4,
+              "previous_date": "2026-02-28",
+              "change": 0.300000000000004,
+              "forecast": null,
+              "weight": 0,
+              "score": 1,
+              "signal": "☀️ 温和扩张 | →持平",
+              "auto_view": "ISM制造业PMI为52.7（前值52.4），温和扩张。环比改善0.3。",
+              "history": [
+                {
+                  "date": "2026-01-31",
+                  "value": 52.6
+                },
+                {
+                  "date": "2026-02-28",
+                  "value": 52.4
+                },
+                {
+                  "date": "2026-03-31",
+                  "value": 52.7
+                }
+              ]
+            },
+            {
+              "name": "非制造业ISM",
+              "frequency": "月度",
+              "code": "G0002324",
+              "current": 54,
+              "current_date": "2026-03-31",
+              "previous": 56.1,
+              "previous_date": "2026-02-28",
+              "change": -2.1,
+              "forecast": null,
+              "weight": 0,
+              "score": 0.5,
+              "signal": "☀️ 温和 | 54.0",
+              "auto_view": "非制造业ISM为54.0（前值56.1），温和扩张。",
+              "history": [
+                {
+                  "date": "2026-01-31",
+                  "value": 53.8
+                },
+                {
+                  "date": "2026-02-28",
+                  "value": 56.1
+                },
+                {
+                  "date": "2026-03-31",
+                  "value": 54
+                }
+              ]
+            },
+            {
+              "name": "核心PCE",
+              "frequency": "月度",
+              "code": "G1100005",
+              "current": 2.9678,
+              "current_date": "2026-02-28",
+              "previous": 3.0509,
+              "previous_date": "2026-01-31",
+              "change": -0.0831,
+              "forecast": null,
+              "weight": 0,
+              "score": 0,
+              "signal": "🌧️ 粘性 | 3.0%",
+              "auto_view": "核心PCE同比3.0%（前值3.1%），通胀粘性，降息空间有限。",
+              "history": [
+                {
+                  "date": "2025-12-31",
+                  "value": 2.9711
+                },
+                {
+                  "date": "2026-01-31",
+                  "value": 3.0509
+                },
+                {
+                  "date": "2026-02-28",
+                  "value": 2.9678
+                }
+              ]
+            },
+            {
+              "name": "美国:零售和食品服务销售额:季调:环比",
+              "frequency": "月度",
+              "code": "G1109265",
+              "current": 0.600991,
+              "current_date": "2026-02-28",
+              "previous": -0.103713,
+              "previous_date": "2026-01-31",
+              "change": 0.704704,
+              "forecast": null,
+              "weight": 0,
+              "score": 2,
+              "signal": "☀️ 强劲 | 0.6%",
+              "auto_view": "美国零售销售环比0.6%（前值-0.1%），消费动能正向。",
+              "history": [
+                {
+                  "date": "2025-12-31",
+                  "value": -0.000136
+                },
+                {
+                  "date": "2026-01-31",
+                  "value": -0.103713
+                },
+                {
+                  "date": "2026-02-28",
+                  "value": 0.600991
+                }
+              ]
+            },
+            {
+              "name": "美国:密歇根大学消费者信心指数",
+              "frequency": "月度",
+              "code": "G0002325",
+              "current": 47.6,
+              "current_date": "2026-04-30",
+              "previous": 53.3,
+              "previous_date": "2026-03-31",
+              "change": -5.7,
+              "forecast": null,
+              "weight": 0,
+              "score": -1.5,
+              "signal": "🌪️ 崩塌 | 47.6",
+              "auto_view": "密歇根消费者信心47.6（前值53.3），信心崩塌。",
+              "history": [
+                {
+                  "date": "2026-02-28",
+                  "value": 56.6
+                },
+                {
+                  "date": "2026-03-31",
+                  "value": 53.3
+                },
+                {
+                  "date": "2026-04-30",
+                  "value": 47.6
+                }
+              ]
+            },
+            {
+              "name": "美国:新建住房销量:非季调",
+              "frequency": "月度",
+              "code": "G0003645",
+              "current": 48,
+              "current_date": "2026-01-31",
+              "previous": 55,
+              "previous_date": "2025-12-31",
+              "change": -7,
+              "forecast": null,
+              "weight": 0,
+              "score": -1,
+              "signal": "🌧️ 恶化 | ↓",
+              "auto_view": "美国新建住房销量48.0万套（前值55.0万套），环比恶化。",
+              "history": [
+                {
+                  "date": "2025-11-30",
+                  "value": 53
+                },
+                {
+                  "date": "2025-12-31",
+                  "value": 55
+                },
+                {
+                  "date": "2026-01-31",
+                  "value": 48
+                }
+              ]
+            },
+            {
+              "name": "美国:建造支出:非季调",
+              "frequency": "月度",
+              "code": "G0003478",
+              "current": 154771,
+              "current_date": "2026-01-31",
+              "previous": 165212,
+              "previous_date": "2025-12-31",
+              "change": -10441,
+              "forecast": null,
+              "weight": 0,
+              "score": -1,
+              "signal": "🌧️ 恶化 | ↓",
+              "auto_view": "美国建造支出154771.0（前值165212.0），环比恶化。",
+              "history": [
+                {
+                  "date": "2025-11-30",
+                  "value": 178643
+                },
+                {
+                  "date": "2025-12-31",
+                  "value": 165212
+                },
+                {
+                  "date": "2026-01-31",
+                  "value": 154771
+                }
+              ]
+            },
+            {
+              "name": "美国:当周初次申请失业金人数:非季调",
+              "frequency": "周度",
+              "code": "V7993283",
+              "current": 213873,
+              "current_date": "2026-04-11",
+              "previous": 201757,
+              "previous_date": "2026-04-04",
+              "change": 12116,
+              "forecast": null,
+              "weight": 0,
+              "score": 1,
+              "signal": "☀️ 正常 | 21.4万",
+              "auto_view": "初请失业金213,873人（前值201,757人），就业市场健康。",
+              "history": [
+                {
+                  "date": "2026-03-28",
+                  "value": 186258
+                },
+                {
+                  "date": "2026-04-04",
+                  "value": 201757
+                },
+                {
+                  "date": "2026-04-11",
+                  "value": 213873
+                }
+              ],
+              "month_start": 201757,
+              "mtd_change": 12116
+            },
+            {
+              "name": "美国:失业率:季调",
+              "frequency": "月度",
+              "code": "G0000067",
+              "current": 4.3,
+              "current_date": "2026-03-31",
+              "previous": 4.4,
+              "previous_date": "2026-02-28",
+              "change": -0.100000000000001,
+              "forecast": null,
+              "weight": 0,
+              "score": 1.5,
+              "signal": "⛅️ 温和放缓 | 4.3%",
+              "auto_view": "美国失业率4.3%（前值4.4%），就业温和放缓。",
+              "history": [
+                {
+                  "date": "2026-01-31",
+                  "value": 4.3
+                },
+                {
+                  "date": "2026-02-28",
+                  "value": 4.4
+                },
+                {
+                  "date": "2026-03-31",
+                  "value": 4.3
+                }
+              ]
+            },
+            {
+              "name": "非农数据",
+              "frequency": "月度",
+              "code": "G1137704",
+              "current": 178,
+              "current_date": "2026-03-31",
+              "previous": -92,
+              "previous_date": "2026-02-28",
+              "change": 270,
+              "forecast": null,
+              "weight": 0,
+              "score": 0,
+              "signal": "🌧️ 疲软 | ↑改善",
+              "auto_view": "非农新增就业178人（前值-92人），就业疲软。",
+              "history": [
+                {
+                  "date": "2026-01-31",
+                  "value": 130
+                },
+                {
+                  "date": "2026-02-28",
+                  "value": -92
+                },
+                {
+                  "date": "2026-03-31",
+                  "value": 178
+                }
+              ]
+            },
+            {
+              "name": "美国:密歇根大学:通胀率预期:1年",
+              "frequency": "月度",
+              "code": "P9918147",
+              "current": 4.8,
+              "current_date": "2026-04-30",
+              "previous": 3.8,
+              "previous_date": "2026-03-31",
+              "change": 1,
+              "forecast": null,
+              "weight": 0,
+              "score": -1,
+              "signal": "🌧️ 上行 | 4.8%",
+              "auto_view": "密歇根1年通胀预期4.8%，通胀预期上行。",
+              "history": [
+                {
+                  "date": "2026-02-28",
+                  "value": 3.4
+                },
+                {
+                  "date": "2026-03-31",
+                  "value": 3.8
+                },
+                {
+                  "date": "2026-04-30",
+                  "value": 4.8
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "node_id": "US-liq",
+          "name": "美国流动性",
+          "question": "美国流动性环境如何？",
+          "score": 0.15,
+          "signal": "⛅️ 中性",
+          "highlights": "银行信贷扩张、",
+          "drags": "TGA抽水、",
+          "view": "【美国流动性】⛅️ 中性。联邦基金利率3.64%，SOFR3.72%。亮点：银行信贷扩张、拖累：TGA抽水、",
+          "indicator_count": 3,
+          "indicators": [
+            {
+              "name": "联邦基金利率",
+              "frequency": "月度",
+              "code": "G0001699",
+              "current": 3.64,
+              "current_date": "2026-04-15",
+              "previous": 3.64,
+              "previous_date": "2026-04-14",
+              "change": 0,
+              "forecast": null,
+              "weight": 0,
+              "score": 0,
+              "signal": "⛅️ 维持 | 3.64%",
+              "auto_view": "联邦基金利率3.64%（前值3.64%），利率维持。",
+              "history": [
+                {
+                  "date": "2026-04-13",
+                  "value": 3.64
+                },
+                {
+                  "date": "2026-04-14",
+                  "value": 3.64
+                },
+                {
+                  "date": "2026-04-15",
+                  "value": 3.64
+                }
+              ]
+            },
+            {
+              "name": "TGA（财政部账户余额）",
+              "frequency": "未知",
+              "code": "G1100038",
+              "current": 924435,
+              "current_date": "2026-04-15",
+              "previous": 697079,
+              "previous_date": "2026-04-08",
+              "change": 227356,
+              "forecast": null,
+              "weight": 0,
+              "score": -1,
+              "signal": "🌧️ 回收流动性 | 924,435",
+              "auto_view": "TGA余额924,435（前值697,079），财政部回收流动性。",
+              "history": [
+                {
+                  "date": "2026-04-01",
+                  "value": 803553
+                },
+                {
+                  "date": "2026-04-08",
+                  "value": 697079
+                },
+                {
+                  "date": "2026-04-15",
+                  "value": 924435
+                }
+              ]
+            },
+            {
+              "name": "银行贷款同比增速(H.8)",
+              "frequency": "周度",
+              "code": "G1109077",
+              "current": 6.68690661720353,
+              "current_date": "2026-04-01",
+              "previous": 6.60621096170668,
+              "previous_date": "2026-03-25",
+              "change": 0.080695655496843,
+              "forecast": null,
+              "weight": 0,
+              "score": 1,
+              "signal": "☀️ 温和扩张",
+              "auto_view": "银行贷款同比6.7%。",
+              "history": []
+            }
+          ]
+        },
+        {
+          "node_id": "US-sent",
+          "name": "美股情绪",
+          "question": "市场恐慌吗？",
+          "score": 1,
+          "signal": "☀️ 偏乐观",
+          "highlights": "VIX低位、",
+          "drags": "",
+          "view": "【美股情绪】☀️ 偏乐观。VIX17.9。",
+          "indicator_count": 1,
+          "indicators": [
+            {
+              "name": "VIX指数",
+              "frequency": "月度",
+              "code": "G0003892",
+              "current": 17.94,
+              "current_date": "2026-04-16",
+              "previous": 18.17,
+              "previous_date": "2026-04-15",
+              "change": -0.23,
+              "forecast": null,
+              "weight": 0,
+              "score": 1,
+              "signal": "⛅️ 正常 | 17.9",
+              "auto_view": "VIX指数17.9（前值18.2），波动正常。",
+              "history": [
+                {
+                  "date": "2026-04-14",
+                  "value": 18.36
+                },
+                {
+                  "date": "2026-04-15",
+                  "value": 18.17
+                },
+                {
+                  "date": "2026-04-16",
+                  "value": 17.94
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "node_id": "US-val",
+          "name": "美股估值",
+          "question": "美股贵不贵？",
+          "score": -2,
+          "signal": "🌪️ 显著偏贵",
+          "highlights": "",
+          "drags": "估值偏高、",
+          "view": "【美股估值】🌪️ 显著偏贵。标普500动态PE29.3倍。",
+          "indicator_count": 1,
+          "indicators": [
+            {
+              "name": "标普500动态PE",
+              "frequency": "月度",
+              "code": "G0011297",
+              "current": 29.2536,
+              "current_date": "2026-04-16",
+              "previous": 29.2565,
+              "previous_date": "2026-04-15",
+              "change": -0.00290000000000035,
+              "forecast": null,
+              "weight": 0,
+              "score": -2,
+              "signal": "🌪️ 高估 | 29.3x",
+              "auto_view": "标普500动态PE为29.3倍，高估警戒。",
+              "history": [
+                {
+                  "date": "2026-04-14",
+                  "value": 29.0499
+                },
+                {
+                  "date": "2026-04-15",
+                  "value": 29.2565
+                },
+                {
+                  "date": "2026-04-16",
+                  "value": 29.2536
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "美债",
+      "total_score": 0.25,
+      "signal_flow": "美联储⛅️ 按兵不动 → 供需⛅️☀️ 供需偏好 → 收益率⛅️🌧️ 小幅上行 → 利差☀️ 偏陡",
+      "diagnosis": "【美债传导诊断】美联储⛅️ 按兵不动 → 供需⛅️☀️ 供需偏好 → 收益率⛅️🌧️ 小幅上行 → 利差☀️ 偏陡\n🔍 堵点：利差强但收益率弱。",
+      "nodes": [
+        {
+          "node_id": "UB-fed",
+          "name": "美联储政策",
+          "question": "下一步降息还是加息？",
+          "score": 0,
+          "signal": "⛅️ 按兵不动",
+          "highlights": "",
+          "drags": "",
+          "view": "【美联储政策】⛅️ 按兵不动。联邦基金利率3.64%。",
+          "indicator_count": 2,
+          "indicators": [
+            {
+              "name": "联邦基金利率",
+              "frequency": "月度",
+              "code": "G0001699",
+              "current": 3.64,
+              "current_date": "2026-04-15",
+              "previous": 3.64,
+              "previous_date": "2026-04-14",
+              "change": 0,
+              "forecast": null,
+              "weight": 0,
+              "score": 0,
+              "signal": "⛅️ 维持 | 3.64%",
+              "auto_view": "联邦基金利率3.64%（前值3.64%），利率维持。",
+              "history": [
+                {
+                  "date": "2026-04-13",
+                  "value": 3.64
+                },
+                {
+                  "date": "2026-04-14",
+                  "value": 3.64
+                },
+                {
+                  "date": "2026-04-15",
+                  "value": 3.64
+                }
+              ]
+            },
+            {
+              "name": "美国:所有联储银行:资产:总资产",
+              "frequency": "周度",
+              "code": "G1100075",
+              "current": -0.318368369908462,
+              "current_date": "2026-04-15",
+              "previous": -0.498631272393446,
+              "previous_date": "2026-04-08",
+              "change": 0.180262902484984,
+              "forecast": null,
+              "weight": 0,
+              "score": 0,
+              "signal": "⛅️ 规模稳定 | -0.3% YoY",
+              "auto_view": "联储总资产同比-0.3%。",
+              "history": []
+            }
+          ]
+        },
+        {
+          "node_id": "UB-supply",
+          "name": "美债供需",
+          "question": "拍卖有人买吗？",
+          "score": 0.5,
+          "signal": "⛅️☀️ 供需偏好",
+          "highlights": "",
+          "drags": "",
+          "view": "【美债供需】⛅️☀️ 供需偏好。",
+          "indicator_count": 4,
+          "indicators": [
+            {
+              "name": "美国:国债拍卖竞拍倍数:2年",
+              "frequency": "月度",
+              "code": "G1130724",
+              "current": 2.3055,
+              "current_date": "2026-03-24",
+              "previous": 2.4551,
+              "previous_date": "2026-02-24",
+              "change": -0.1496,
+              "forecast": null,
+              "weight": 0,
+              "score": 1,
+              "signal": "⛅️ 正常 | 2.3x",
+              "auto_view": "2Y国债拍卖竞拍倍数2.3倍，需求正常。",
+              "history": [
+                {
+                  "date": "2026-01-26",
+                  "value": 2.6344
+                },
+                {
+                  "date": "2026-02-24",
+                  "value": 2.4551
+                },
+                {
+                  "date": "2026-03-24",
+                  "value": 2.3055
+                }
+              ]
+            },
+            {
+              "name": "美国:国债拍卖竞拍倍数:5年",
+              "frequency": "月度",
+              "code": "G1130736",
+              "current": 2.1668,
+              "current_date": "2026-03-25",
+              "previous": 2.1779,
+              "previous_date": "2026-02-25",
+              "change": -0.0111000000000003,
+              "forecast": null,
+              "weight": 0,
+              "score": 0,
+              "signal": "🌧️ 偏弱 | 2.2x",
+              "auto_view": "5Y国债拍卖竞拍倍数2.2倍，需求偏弱。",
+              "history": [
+                {
+                  "date": "2026-01-27",
+                  "value": 2.2492
+                },
+                {
+                  "date": "2026-02-25",
+                  "value": 2.1779
+                },
+                {
+                  "date": "2026-03-25",
+                  "value": 2.1668
+                }
+              ]
+            },
+            {
+              "name": "美国:国债拍卖竞拍倍数:10年",
+              "frequency": "月度",
+              "code": "G1130748",
+              "current": 2.2134,
+              "current_date": "2026-04-08",
+              "previous": 2.4491,
+              "previous_date": "2026-03-11",
+              "change": -0.2357,
+              "forecast": null,
+              "weight": 0,
+              "score": 1,
+              "signal": "⛅️ 正常 | 2.2x",
+              "auto_view": "10Y国债拍卖竞拍倍数2.2倍，需求正常。",
+              "history": [
+                {
+                  "date": "2026-02-11",
+                  "value": 2.0813
+                },
+                {
+                  "date": "2026-03-11",
+                  "value": 2.4491
+                },
+                {
+                  "date": "2026-04-08",
+                  "value": 2.2134
+                }
+              ]
+            },
+            {
+              "name": "美国:国债拍卖竞拍倍数:30年",
+              "frequency": "月度",
+              "code": "G1130766",
+              "current": 2.1767,
+              "current_date": "2026-04-09",
+              "previous": 2.4516,
+              "previous_date": "2026-03-12",
+              "change": -0.2749,
+              "forecast": null,
+              "weight": 0,
+              "score": 0,
+              "signal": "🌧️ 偏弱 | 2.2x",
+              "auto_view": "30Y国债拍卖竞拍倍数2.2倍，需求偏弱。",
+              "history": [
+                {
+                  "date": "2026-02-12",
+                  "value": 2.2951
+                },
+                {
+                  "date": "2026-03-12",
+                  "value": 2.4516
+                },
+                {
+                  "date": "2026-04-09",
+                  "value": 2.1767
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "node_id": "UB-yield",
+          "name": "美债收益率",
+          "question": "收益率方向？",
+          "score": -0.5,
+          "signal": "⛅️🌧️ 小幅上行",
+          "highlights": "",
+          "drags": "收益率上行、",
+          "view": "【美债收益率】⛅️🌧️ 小幅上行。2Y3.78%，10Y4.32%。",
+          "indicator_count": 2,
+          "indicators": [
+            {
+              "name": "2年期美债收益率",
+              "frequency": "日度",
+              "code": "G0000887",
+              "current": 3.78,
+              "current_date": "2026-04-16",
+              "previous": 3.76,
+              "previous_date": "2026-04-15",
+              "change": 0.02,
+              "forecast": null,
+              "weight": 0,
+              "score": 0,
+              "signal": "⛅️ 震荡 | 3.78%",
+              "auto_view": "2Y美债收益率3.78%（前值3.76%），上行2bp。",
+              "history": [
+                {
+                  "date": "2026-04-14",
+                  "value": 3.76
+                },
+                {
+                  "date": "2026-04-15",
+                  "value": 3.76
+                },
+                {
+                  "date": "2026-04-16",
+                  "value": 3.78
+                }
+              ],
+              "month_start": 3.81,
+              "mtd_change": -0.03
+            },
+            {
+              "name": "10年期美债收益率",
+              "frequency": "日度",
+              "code": "G0000891",
+              "current": 4.32,
+              "current_date": "2026-04-16",
+              "previous": 4.29,
+              "previous_date": "2026-04-15",
+              "change": 0.0300000000000003,
+              "forecast": null,
+              "weight": 0,
+              "score": -1,
+              "signal": "🌧️ 利率上行 | 4.32%",
+              "auto_view": "10Y美债收益率4.32%（前值4.29%），上行3bp。",
+              "history": [
+                {
+                  "date": "2026-04-14",
+                  "value": 4.26
+                },
+                {
+                  "date": "2026-04-15",
+                  "value": 4.29
+                },
+                {
+                  "date": "2026-04-16",
+                  "value": 4.32
+                }
+              ],
+              "month_start": 4.33,
+              "mtd_change": -0.01
+            }
+          ]
+        },
+        {
+          "node_id": "UB-spread",
+          "name": "美债利差",
+          "question": "曲线形态？",
+          "score": 1,
+          "signal": "☀️ 偏陡",
+          "highlights": "曲线陡峭化、",
+          "drags": "",
+          "view": "【美债利差】☀️ 偏陡。10Y-2Y利差54bp。",
+          "indicator_count": 1,
+          "indicators": [
+            {
+              "name": "10年-2年利差",
+              "frequency": "日度",
+              "code": null,
+              "current": 54.0000000000001,
+              "current_date": "2026-04-16",
+              "previous": 53,
+              "previous_date": "2026-04-15",
+              "change": 1.00000000000002,
+              "forecast": null,
+              "weight": 0,
+              "score": 1,
+              "signal": "⛅️ 正常 | 54bp",
+              "auto_view": "10Y-2Y利差5400bp，曲线陡峭，扩张预期强。",
+              "history": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "黄金",
+      "total_score": 0.212,
+      "signal_flow": "实际利率⛅️🌧️ 温和压制 → 美元☀️ 偏弱 → 通胀⛅️☀️ 温和偏高 → 交易⛅️ 中性",
+      "diagnosis": "【黄金传导诊断】实际利率⛅️🌧️ 温和压制 → 美元☀️ 偏弱 → 通胀⛅️☀️ 温和偏高 → 交易⛅️ 中性\n🔍 堵点：美元强但实际利率弱。",
+      "nodes": [
+        {
+          "node_id": "AU-rate",
+          "name": "实际利率",
+          "question": "实际利率压制还是支撑？",
+          "score": -0.7,
+          "signal": "⛅️🌧️ 温和压制",
+          "highlights": "",
+          "drags": "实际利率上行、",
+          "view": "【实际利率】⛅️🌧️ 温和压制。2Y美债3.78%，10Y美债4.32%。",
+          "indicator_count": 3,
+          "indicators": [
+            {
+              "name": "TIPS 10年收益率",
+              "frequency": "月度",
+              "code": "G1130774",
+              "current": 1.896,
+              "current_date": "2026-03-19",
+              "previous": 1.94,
+              "previous_date": "2026-01-22",
+              "change": -0.044,
+              "forecast": null,
+              "weight": 0,
+              "score": -1,
+              "signal": "🌧️ 偏高",
+              "auto_view": "TIPS 10Y实际利率1.90%，黄金机会成本的真实锚。",
+              "history": [
+                {
+                  "date": "2025-11-20",
+                  "value": 1.843
+                },
+                {
+                  "date": "2026-01-22",
+                  "value": 1.94
+                },
+                {
+                  "date": "2026-03-19",
+                  "value": 1.896
+                }
+              ]
+            },
+            {
+              "name": "2 年期美债利率",
+              "frequency": "日度",
+              "code": "G0000887",
+              "current": 3.78,
+              "current_date": "2026-04-16",
+              "previous": 3.76,
+              "previous_date": "2026-04-15",
+              "change": 0.02,
+              "forecast": null,
+              "weight": 0,
+              "score": 0,
+              "signal": "⛅️ 震荡 | 3.78%",
+              "auto_view": "2Y美债利率3.78%（前值3.76%），上行2bp，压制黄金。",
+              "history": [
+                {
+                  "date": "2026-04-14",
+                  "value": 3.76
+                },
+                {
+                  "date": "2026-04-15",
+                  "value": 3.76
+                },
+                {
+                  "date": "2026-04-16",
+                  "value": 3.78
+                }
+              ],
+              "month_start": 3.81,
+              "mtd_change": -0.03
+            },
+            {
+              "name": "10 年期美债利率",
+              "frequency": "日度",
+              "code": "G0000891",
+              "current": 4.32,
+              "current_date": "2026-04-16",
+              "previous": 4.29,
+              "previous_date": "2026-04-15",
+              "change": 0.0300000000000003,
+              "forecast": null,
+              "weight": 0,
+              "score": -1,
+              "signal": "🌧️ 利率上行压制黄金 | 4.32%",
+              "auto_view": "10Y美债利率4.32%（前值4.29%），上行3bp，压制黄金。",
+              "history": [
+                {
+                  "date": "2026-04-14",
+                  "value": 4.26
+                },
+                {
+                  "date": "2026-04-15",
+                  "value": 4.29
+                },
+                {
+                  "date": "2026-04-16",
+                  "value": 4.32
+                }
+              ],
+              "month_start": 4.33,
+              "mtd_change": -0.01
+            }
+          ]
+        },
+        {
+          "node_id": "AU-usd",
+          "name": "美元强弱",
+          "question": "美元顺风还是逆风？",
+          "score": 1,
+          "signal": "☀️ 偏弱",
+          "highlights": "美元走弱、",
+          "drags": "",
+          "view": "【美元强弱】☀️ 偏弱。美元指数98.2。",
+          "indicator_count": 1,
+          "indicators": [
+            {
+              "name": "美元指数",
+              "frequency": "日度",
+              "code": "M0000271",
+              "current": 98.2035,
+              "current_date": "2026-04-16",
+              "previous": 98.0792,
+              "previous_date": "2026-04-15",
+              "change": 0.124300000000005,
+              "forecast": null,
+              "weight": 0,
+              "score": 1,
+              "signal": "⛅️ 中性 | 98.2",
+              "auto_view": "美元指数98.2（前值98.1），美元中性。",
+              "history": [
+                {
+                  "date": "2026-04-14",
+                  "value": 98.0995
+                },
+                {
+                  "date": "2026-04-15",
+                  "value": 98.0792
+                },
+                {
+                  "date": "2026-04-16",
+                  "value": 98.2035
+                }
+              ],
+              "month_start": 99.5539,
+              "mtd_change": -1.3504
+            }
+          ]
+        },
+        {
+          "node_id": "AU-infl",
+          "name": "通胀预期",
+          "question": "通胀预期上行吗？",
+          "score": 0.35,
+          "signal": "⛅️☀️ 温和偏高",
+          "highlights": "通胀偏高、",
+          "drags": "",
+          "view": "【通胀预期】⛅️☀️ 温和偏高。美国CPI3.3%。",
+          "indicator_count": 3,
+          "indicators": [
+            {
+              "name": "ICE布伦特原油",
+              "frequency": "日度",
+              "code": "S0031525",
+              "current": 99.39,
+              "current_date": "2026-04-16",
+              "previous": 94.93,
+              "previous_date": "2026-04-15",
+              "change": 4.45999999999999,
+              "forecast": null,
+              "weight": 0,
+              "score": -0.5,
+              "signal": "⛅️🌧️ 偏高",
+              "auto_view": "布伦特原油99.4美元/桶。油价处于正常区间。",
+              "history": [
+                {
+                  "date": "2026-04-14",
+                  "value": 94.79
+                },
+                {
+                  "date": "2026-04-15",
+                  "value": 94.93
+                },
+                {
+                  "date": "2026-04-16",
+                  "value": 99.39
+                }
+              ],
+              "month_start": 101.16,
+              "mtd_change": -1.77
+            },
+            {
+              "name": "美国CPI",
+              "frequency": "月度",
+              "code": "G0000027",
+              "current": 3.3,
+              "current_date": "2026-03-31",
+              "previous": 2.4,
+              "previous_date": "2026-02-28",
+              "change": 0.9,
+              "forecast": null,
+              "weight": 0,
+              "score": 2,
+              "signal": "☀️ 高通胀利好黄金 | 3.3%",
+              "auto_view": "美国CPI同比3.3%，通胀偏高，利好黄金避险属性。",
+              "history": [
+                {
+                  "date": "2026-01-31",
+                  "value": 2.4
+                },
+                {
+                  "date": "2026-02-28",
+                  "value": 2.4
+                },
+                {
+                  "date": "2026-03-31",
+                  "value": 3.3
+                }
+              ]
+            },
+            {
+              "name": "美国:密歇根大学:通胀率预期:1年",
+              "frequency": "月度",
+              "code": "P9918147",
+              "current": 4.8,
+              "current_date": "2026-04-30",
+              "previous": 3.8,
+              "previous_date": "2026-03-31",
+              "change": 1,
+              "forecast": null,
+              "weight": 0,
+              "score": -1,
+              "signal": "🌧️ 上行 | 4.8%",
+              "auto_view": "密歇根1年通胀预期4.8%，通胀预期上行。",
+              "history": [
+                {
+                  "date": "2026-02-28",
+                  "value": 3.4
+                },
+                {
+                  "date": "2026-03-31",
+                  "value": 3.8
+                },
+                {
+                  "date": "2026-04-30",
+                  "value": 4.8
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "node_id": "AU-trade",
+          "name": "黄金交易",
+          "question": "交易面什么信号？",
+          "score": 0.2,
+          "signal": "⛅️ 中性",
+          "highlights": "",
+          "drags": "波动率高、",
+          "view": "【黄金交易】⛅️ 中性。GVZ28.7。",
+          "indicator_count": 4,
+          "indicators": [
+            {
+              "name": "全球官方黄金储备:变动量:当月值",
+              "frequency": "月度",
+              "code": "F2284050",
+              "current": 19.425626,
+              "current_date": "2026-02-28",
+              "previous": 48.432985,
+              "previous_date": "2026-01-31",
+              "change": -29.007359,
+              "forecast": null,
+              "weight": 0,
+              "score": 1,
+              "signal": "☀️ 净购入",
+              "auto_view": "全球央行黄金储备当月变动+19.4吨。",
+              "history": [
+                {
+                  "date": "2025-12-31",
+                  "value": 33.782109
+                },
+                {
+                  "date": "2026-01-31",
+                  "value": 48.432985
+                },
+                {
+                  "date": "2026-02-28",
+                  "value": 19.425626
+                }
+              ]
+            },
+            {
+              "name": "金油比",
+              "frequency": "日度",
+              "code": "计算:COMEX/BRENT",
+              "current": 48.4042660227387,
+              "current_date": null,
+              "previous": null,
+              "previous_date": null,
+              "change": null,
+              "forecast": null,
+              "weight": 0,
+              "score": 1,
+              "signal": "☀️ 避险主导",
+              "auto_view": "金油比48.4，反映避险vs通胀交易切换。",
+              "history": []
+            },
+            {
+              "name": "黄金波动率(GVZ)",
+              "frequency": "日度",
+              "code": "G1122642",
+              "current": 28.65,
+              "current_date": "2026-04-16",
+              "previous": 29.97,
+              "previous_date": "2026-04-15",
+              "change": -1.32,
+              "forecast": null,
+              "weight": 0,
+              "score": -1,
+              "signal": "🌧️ 高波动 | 28.7",
+              "auto_view": "黄金波动率GVZ为28.7，高波动短期交易风险大。",
+              "history": [
+                {
+                  "date": "2026-04-14",
+                  "value": 31.04
+                },
+                {
+                  "date": "2026-04-15",
+                  "value": 29.97
+                },
+                {
+                  "date": "2026-04-16",
+                  "value": 28.65
+                }
+              ],
+              "month_start": 36.11,
+              "mtd_change": -7.46
+            },
+            {
+              "name": "COMEX黄金",
+              "frequency": "日度",
+              "code": "GC.CMX",
+              "current": 4810.9,
+              "current_date": "2026-04-16",
+              "previous": 4813.9,
+              "previous_date": "2026-04-15",
+              "change": -3,
+              "forecast": null,
+              "weight": 0,
+              "score": 0,
+              "signal": "🌧️ 下跌 | -0.1%",
+              "auto_view": "COMEX黄金4,811美元/盎司（前值4,814），下跌0.1%。",
+              "history": [
+                {
+                  "date": "2026-04-14",
+                  "value": 4864.5
+                },
+                {
+                  "date": "2026-04-15",
+                  "value": 4813.9
+                },
+                {
+                  "date": "2026-04-16",
+                  "value": 4810.9
+                }
+              ],
+              "month_start": 4784.6,
+              "mtd_change": 26.3
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "dimension_summary": [
+    {
+      "asset": "中国A股",
+      "dimension": "经济基本面",
+      "weighted_score": 0,
+      "indicator_count": 14
+    },
+    {
+      "asset": "中国A股",
+      "dimension": "流动性面",
+      "weighted_score": 0,
+      "indicator_count": 24
+    },
+    {
+      "asset": "中国A股",
+      "dimension": "市场资金面\n",
+      "weighted_score": 0,
+      "indicator_count": 2
+    },
+    {
+      "asset": "中国A股",
+      "dimension": "情绪面",
+      "weighted_score": 0,
+      "indicator_count": 10
+    },
+    {
+      "asset": "港股",
+      "dimension": "资金面",
+      "weighted_score": 0,
+      "indicator_count": 2
+    },
+    {
+      "asset": "港股",
+      "dimension": "情绪面",
+      "weighted_score": 0,
+      "indicator_count": 3
+    },
+    {
+      "asset": "短债",
+      "dimension": "资金面",
+      "weighted_score": 0,
+      "indicator_count": 4
+    },
+    {
+      "asset": "短债",
+      "dimension": "估值面",
+      "weighted_score": 0,
+      "indicator_count": 6
+    },
+    {
+      "asset": "中长期纯债",
+      "dimension": "资金面",
+      "weighted_score": 0,
+      "indicator_count": 2
+    },
+    {
+      "asset": "中长期纯债",
+      "dimension": "估值面",
+      "weighted_score": 0,
+      "indicator_count": 4
+    },
+    {
+      "asset": "黄金",
+      "dimension": "购金量",
+      "weighted_score": 0,
+      "indicator_count": 1
+    },
+    {
+      "asset": "黄金",
+      "dimension": "流动性面",
+      "weighted_score": 0,
+      "indicator_count": 4
+    },
+    {
+      "asset": "黄金",
+      "dimension": "美元信用",
+      "weighted_score": 0,
+      "indicator_count": 5
+    },
+    {
+      "asset": "黄金",
+      "dimension": "交易操作辅助",
+      "weighted_score": 0,
+      "indicator_count": 2
+    },
+    {
+      "asset": "美股",
+      "dimension": "经济基本面",
+      "weighted_score": 0,
+      "indicator_count": 17
+    },
+    {
+      "asset": "美股",
+      "dimension": "流动性面",
+      "weighted_score": 0,
+      "indicator_count": 4
+    },
+    {
+      "asset": "美股",
+      "dimension": "情绪面",
+      "weighted_score": 0,
+      "indicator_count": 2
+    },
+    {
+      "asset": "中短端美债",
+      "dimension": "供需面",
+      "weighted_score": 0,
+      "indicator_count": 4
+    },
+    {
+      "asset": "中短端美债",
+      "dimension": "汇率",
+      "weighted_score": 0,
+      "indicator_count": 1
+    },
+    {
+      "asset": "中短端美债",
+      "dimension": "利率水平",
+      "weighted_score": 0,
+      "indicator_count": 3
+    },
+    {
+      "asset": "美国经济",
+      "dimension": "利率水平",
+      "weighted_score": 0,
+      "indicator_count": 4
+    }
+  ],
+  "vs_previous": null
+}
