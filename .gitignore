@@ -5,10 +5,13 @@
 *.xlsx
 *.xls
 *.xlsm
+# 当前版本的核心 Excel 样例入库,方便新接手者理解真实结构
+!macro_final_v11.2.xlsx
 
 # HTML 展示页(每天产出)
 *.html
 !samples/*.html
+!samples/html/*.html
 
 # 每日 JSON 快照(但 samples/ 里的样例保留)
 snapshot_*.json

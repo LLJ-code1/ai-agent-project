@@ -36,11 +36,11 @@
 
 ## 当前状态
 
-- **Excel**:`macro_final_v11.xlsx`(v11 + 议题 1 权重重构后)
+- **Excel**:`macro_final_v11.2.xlsx`(v11 + 议题 1 权重重构后,当前核心样例文件)
 - **Python 脚本**:`macro_snapshot_export.py` v2.2
 - **Prompt**:`analysis_prompt_v2.2.md`
 - **首轮完整观点**:2026-04-19,7 份 markdown 分析
-- **HTML 展示**:`项目展示_2026-04-19.html`(单文件,含 21 个趋势图)
+- **HTML 展示样例**:`samples/html/项目展示_fixed.html`(单文件,含 21 个趋势图)
 
 ## 仓库结构
 
@@ -50,6 +50,7 @@
 ├── README_how_to_use.md      ← 每日使用手册(给投研员/同事)
 ├── CLAUDE.md                 ← AI 入口文档(Agent 必读)
 ├── AGENT_PROTOCOL.md         ← Agent 工作协议(改项目前必读)
+├── macro_final_v11.2.xlsx    ← 当前核心 Excel 样例(用于理解真实结构)
 │
 ├── docs/                     ← 项目知识库
 │   ├── 01_project_overview.md    项目全貌
@@ -74,7 +75,8 @@
 │   ├── README.md
 │   ├── snapshot_2026-04-17_lite.json
 │   ├── snapshot_2026-04-17_full.json
-│   └── analyses/             7 份样例分析 md
+│   ├── analyses/             7 份样例分析 md
+│   └── html/                 HTML 展示样例
 │
 ├── changelog/                ← 历史变更日志(每轮独立文件)
 │   ├── README.md             命名规范
@@ -91,13 +93,18 @@
 3. 根据具体任务读对应的 `skills/*.md`
 4. 遇到决策点,问用户,不要自己拍
 
-## 非代码资产
+## 数据资产与样例
 
-以下文件**不在本仓库**(由使用者自行管理):
+当前仓库保留一份核心 Excel 样例和一份 HTML 展示样例,方便新接手者理解真实结构:
 
-- Excel 原始文件(`*.xlsx`):每日 Wind 刷新会变,Git 管理不适合
+- `macro_final_v11.2.xlsx`:当前核心 Excel 样例,包含真实 Sheet 结构、公式、节点权重和链路信号
+- `samples/html/项目展示_fixed.html`:首轮 HTML 展示样例,用于参考最终展示形态
+
+以下文件仍由使用者本地管理,不随每日运行自动入库:
+
+- 每日刷新后的 Excel 工作副本(`*.xlsx`):如果只是日常 Wind 刷新,不建议每次提交
 - 每轮产出的 JSON 快照(`snapshot_YYYY-MM-DD*.json`):每日产出
-- 生成的 HTML 展示页(`项目展示_*.html`):每日产出
+- 每日生成的 HTML 展示页(`项目展示_*.html`):每日产出
 - 每轮的 markdown 分析报告(`分析_<资产>_*.md`):每日产出
 
 本仓库管理以下内容:
@@ -105,7 +112,7 @@
 - **说明文档**(README / CLAUDE / docs / skills / changelog / roadmap)
 - **Python 脚本**(`scripts/macro_snapshot_export.py`)
 - **AI Prompt**(`prompts/analysis_prompt_v2.2.md`)
-- **产出样例**(`samples/`,供 AI 参考输出风格)
+- **核心样例**(`macro_final_v11.2.xlsx` + `samples/`,供 AI 和新接手者参考真实输入与输出)
 
 ## 作者
 

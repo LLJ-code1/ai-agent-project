@@ -1,0 +1,1639 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>宏观投研自动化工程 · 进度快照</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Noto+Serif+SC:wght@400;500;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0a0e14;
+  --bg-card: #141a22;
+  --bg-elevated: #1d242e;
+  --border: #2a333f;
+  --border-hi: #3a4656;
+  --text: #e4e9f0;
+  --text-dim: #8a95a6;
+  --text-mute: #5a6578;
+  --amber: #f0b90b;
+  --amber-dim: #a87f00;
+  --green: #3fb77a;
+  --red: #e0574c;
+  --blue: #4a9eff;
+  --purple: #8b7dd8;
+  --serif: 'Noto Serif SC', serif;
+  --sans: 'Noto Sans SC', -apple-system, sans-serif;
+  --mono: 'JetBrains Mono', 'SF Mono', Menlo, monospace;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--sans);
+  font-weight: 300;
+  line-height: 1.7;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* 全局背景:极细网格纹理 */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(240, 185, 11, 0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(240, 185, 11, 0.02) 1px, transparent 1px);
+  background-size: 64px 64px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.container {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 0 40px;
+  position: relative;
+  z-index: 1;
+}
+
+/* ═════ HERO ═════ */
+.hero {
+  padding: 80px 0 60px;
+  border-bottom: 1px solid var(--border);
+  position: relative;
+}
+
+.hero::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  width: 160px;
+  height: 3px;
+  background: var(--amber);
+}
+
+.tag-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  color: var(--text-mute);
+  margin-bottom: 40px;
+}
+
+.tag-row::before {
+  content: '';
+  width: 8px;
+  height: 8px;
+  background: var(--amber);
+  border-radius: 50%;
+  box-shadow: 0 0 12px var(--amber);
+  animation: pulse 2.4s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+.hero h1 {
+  font-family: var(--serif);
+  font-size: clamp(40px, 5.5vw, 64px);
+  font-weight: 700;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  margin-bottom: 28px;
+  color: var(--text);
+}
+
+.hero h1 .accent {
+  color: var(--amber);
+  font-style: italic;
+  font-weight: 500;
+}
+
+.hero-sub {
+  font-size: 18px;
+  color: var(--text-dim);
+  max-width: 680px;
+  font-weight: 300;
+  margin-bottom: 48px;
+}
+
+.hero-meta {
+  display: flex;
+  gap: 48px;
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  color: var(--text-mute);
+}
+
+.hero-meta b {
+  color: var(--amber);
+  font-weight: 500;
+  display: block;
+  font-size: 22px;
+  margin-top: 6px;
+}
+
+/* ═════ SECTION 通用 ═════ */
+section {
+  padding: 72px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.section-label {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.25em;
+  color: var(--amber-dim);
+  margin-bottom: 8px;
+}
+
+.section-title {
+  font-family: var(--serif);
+  font-size: 36px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  margin-bottom: 16px;
+  color: var(--text);
+}
+
+.section-desc {
+  font-size: 15px;
+  color: var(--text-dim);
+  max-width: 720px;
+  margin-bottom: 48px;
+}
+
+/* ═════ ① PIPELINE ═════ */
+.pipeline-wrap {
+  overflow-x: auto;
+  margin: 0 -40px;
+  padding: 0 40px;
+}
+
+.pipeline-svg {
+  width: 100%;
+  min-width: 960px;
+  height: auto;
+  display: block;
+}
+
+.pipeline-cards {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 16px;
+  margin-top: 32px;
+}
+
+.pipe-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-top: 3px solid;
+  padding: 20px 20px 24px;
+  font-size: 13px;
+  position: relative;
+}
+
+.pipe-card.auto { border-top-color: var(--green); }
+.pipe-card.manual { border-top-color: var(--amber); }
+.pipe-card.wip { border-top-color: var(--text-mute); }
+
+.pipe-card-num {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--text-mute);
+  letter-spacing: 0.1em;
+  margin-bottom: 8px;
+}
+
+.pipe-card-name {
+  font-family: var(--serif);
+  font-size: 17px;
+  font-weight: 500;
+  color: var(--text);
+  margin-bottom: 12px;
+  line-height: 1.3;
+}
+
+.pipe-card-status {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  margin-bottom: 12px;
+  text-transform: uppercase;
+}
+
+.pipe-card.auto .pipe-card-status { color: var(--green); }
+.pipe-card.manual .pipe-card-status { color: var(--amber); }
+.pipe-card.wip .pipe-card-status { color: var(--text-mute); }
+
+.pipe-card-detail {
+  color: var(--text-dim);
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.legend {
+  display: flex;
+  gap: 28px;
+  margin-top: 32px;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  color: var(--text-dim);
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.legend-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+}
+
+/* ═════ ② 方法论 ═════ */
+.method-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 32px;
+}
+
+.method-item {
+  background: var(--bg-card);
+  border-left: 3px solid var(--amber);
+  padding: 28px 28px;
+}
+
+.method-item-num {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  color: var(--amber);
+  margin-bottom: 16px;
+}
+
+.method-item-title {
+  font-family: var(--serif);
+  font-size: 20px;
+  font-weight: 500;
+  margin-bottom: 12px;
+  line-height: 1.3;
+}
+
+.method-item-desc {
+  font-size: 13.5px;
+  color: var(--text-dim);
+  line-height: 1.7;
+}
+
+.method-item-desc code {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--amber);
+  background: rgba(240, 185, 11, 0.08);
+  padding: 1px 6px;
+  border-radius: 2px;
+}
+
+/* 4层金字塔图 */
+.pyramid-visual {
+  margin-top: 40px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  padding: 40px;
+  display: flex;
+  align-items: center;
+  gap: 48px;
+}
+
+.pyramid-svg {
+  width: 320px;
+  flex-shrink: 0;
+}
+
+.pyramid-desc {
+  flex: 1;
+}
+
+.pyramid-desc h4 {
+  font-family: var(--serif);
+  font-size: 18px;
+  font-weight: 500;
+  color: var(--amber);
+  margin-bottom: 16px;
+}
+
+.pyramid-desc p {
+  font-size: 14px;
+  color: var(--text-dim);
+  line-height: 1.8;
+}
+
+/* ═════ ③ 产出 — 仪表盘 ═════ */
+.dashboard {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+}
+
+.dash-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 28px;
+  border-bottom: 1px solid var(--border);
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  color: var(--text-mute);
+}
+
+.dash-row {
+  display: grid;
+  grid-template-columns: 100px 80px 220px 1fr;
+  gap: 20px;
+  align-items: center;
+  padding: 18px 28px;
+  border-bottom: 1px solid var(--border);
+  transition: background 0.2s;
+}
+
+.dash-row:last-child {
+  border-bottom: none;
+}
+
+.dash-row:hover {
+  background: rgba(240, 185, 11, 0.03);
+}
+
+.dash-asset {
+  font-family: var(--serif);
+  font-size: 19px;
+  font-weight: 500;
+}
+
+.dash-score {
+  font-family: var(--mono);
+  font-size: 17px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+}
+
+.dash-score.pos { color: var(--green); }
+.dash-score.neg { color: var(--red); }
+.dash-score.neutral { color: var(--text-dim); }
+
+.dash-bar {
+  height: 6px;
+  background: var(--bg-elevated);
+  position: relative;
+  overflow: visible;
+}
+
+.dash-bar-center {
+  position: absolute;
+  left: 50%;
+  top: -2px;
+  bottom: -2px;
+  width: 1px;
+  background: var(--text-mute);
+}
+
+.dash-bar-fill {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  height: 100%;
+}
+
+.dash-bar-fill.pos {
+  background: var(--green);
+  box-shadow: 0 0 8px rgba(63, 183, 122, 0.4);
+}
+
+.dash-bar-fill.neg {
+  background: var(--red);
+  box-shadow: 0 0 8px rgba(224, 87, 76, 0.4);
+}
+
+.dash-flow {
+  font-family: var(--sans);
+  font-size: 12.5px;
+  color: var(--text-dim);
+  line-height: 1.5;
+}
+
+/* ═════ 跨链路洞察 ═════ */
+.insight-wrap {
+  margin-top: 40px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.insight {
+  background: var(--bg-card);
+  border-left: 3px solid var(--blue);
+  padding: 24px 28px;
+}
+
+.insight-label {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  color: var(--blue);
+  margin-bottom: 10px;
+}
+
+.insight h4 {
+  font-family: var(--serif);
+  font-size: 17px;
+  font-weight: 500;
+  margin-bottom: 10px;
+  color: var(--text);
+}
+
+.insight p {
+  font-size: 13px;
+  color: var(--text-dim);
+  line-height: 1.65;
+}
+
+/* ═════ 分析详情 ═════ */
+.analysis-wrap {
+  margin-top: 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.analysis {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  transition: border-color 0.2s;
+}
+
+.analysis:hover {
+  border-color: var(--border-hi);
+}
+
+.analysis-header {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  padding: 22px 28px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.analysis-header:hover {
+  background: rgba(240, 185, 11, 0.02);
+}
+
+.analysis-toggle {
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--amber);
+  font-family: var(--mono);
+  font-size: 16px;
+  transition: transform 0.2s;
+  flex-shrink: 0;
+}
+
+.analysis[data-open="true"] .analysis-toggle {
+  transform: rotate(90deg);
+}
+
+.analysis-asset {
+  font-family: var(--serif);
+  font-size: 22px;
+  font-weight: 500;
+  min-width: 100px;
+}
+
+.analysis-score {
+  font-family: var(--mono);
+  font-size: 14px;
+  font-weight: 500;
+  padding: 3px 10px;
+  border-radius: 2px;
+}
+
+.analysis-score.pos {
+  color: var(--green);
+  background: rgba(63, 183, 122, 0.1);
+}
+
+.analysis-score.neg {
+  color: var(--red);
+  background: rgba(224, 87, 76, 0.1);
+}
+
+.analysis-score.neutral {
+  color: var(--text-dim);
+  background: rgba(138, 149, 166, 0.1);
+}
+
+.analysis-flow {
+  font-size: 12.5px;
+  color: var(--text-dim);
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.analysis-expand-hint {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  color: var(--text-mute);
+  text-transform: uppercase;
+}
+
+.analysis-body {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.35s ease;
+}
+
+.analysis[data-open="true"] .analysis-body {
+  max-height: 4000px;
+}
+
+.analysis-content {
+  padding: 0 28px 32px;
+  border-top: 1px solid var(--border);
+  padding-top: 28px;
+  margin-top: 0;
+}
+
+.analysis-content h1 {
+  display: none; /* 外面已有标题 */
+}
+
+.analysis-content .meta-row {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--text-mute);
+  letter-spacing: 0.1em;
+  margin-bottom: 24px;
+  padding-bottom: 16px;
+  border-bottom: 1px dashed var(--border);
+}
+
+.analysis-content h4 {
+  font-family: var(--serif);
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--amber);
+  margin: 28px 0 14px;
+}
+
+.analysis-content p {
+  font-size: 14px;
+  color: var(--text);
+  line-height: 1.85;
+  margin-bottom: 14px;
+}
+
+.analysis-content strong {
+  color: var(--amber);
+  font-weight: 500;
+}
+
+.analysis-content .signal-flow-box {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  padding: 18px 24px;
+  margin: 20px 0 24px;
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--text);
+  font-family: var(--sans);
+}
+
+.analysis-content .panorama-box {
+  border-left: 3px solid var(--amber);
+  padding: 14px 20px;
+  background: rgba(240, 185, 11, 0.03);
+  margin-bottom: 24px;
+  font-size: 14.5px;
+  line-height: 1.8;
+  color: var(--text);
+}
+
+.analysis-content em {
+  font-style: normal;
+  color: var(--text-mute);
+  font-size: 12px;
+}
+
+/* ═════ SPARK 数据小图 ═════ */
+.spark {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-left: 2px solid var(--amber);
+  padding: 14px 18px;
+  margin: 16px 0 20px;
+}
+
+.spark-meta {
+  flex-shrink: 0;
+  min-width: 148px;
+}
+
+.spark-title {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  color: var(--text-mute);
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+
+.spark-value {
+  font-family: var(--mono);
+  font-size: 22px;
+  font-weight: 500;
+  color: var(--amber);
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+  margin-bottom: 4px;
+}
+
+.spark-note {
+  font-family: var(--sans);
+  font-size: 11px;
+  color: var(--text-dim);
+  line-height: 1.4;
+}
+
+.spark-note .pos { color: var(--green); }
+.spark-note .neg { color: var(--red); }
+
+.spark-chart {
+  flex: 1;
+  min-width: 0;
+}
+
+@media (max-width: 640px) {
+  .spark { flex-direction: column; align-items: stretch; gap: 10px; }
+  .spark-meta { min-width: unset; }
+  .spark-grid { grid-template-columns: 1fr !important; }
+}
+
+/* 双图横排网格 */
+.spark-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin: 16px 0 20px;
+}
+
+.spark.spark-compact {
+  flex-direction: column;
+  align-items: stretch;
+  gap: 10px;
+  padding: 12px 14px;
+  margin: 0;
+}
+
+.spark.spark-compact .spark-meta-sm {
+  min-width: unset;
+}
+
+.spark-meta-sm .spark-title {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  letter-spacing: 0.08em;
+  color: var(--text-mute);
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+
+.spark-value-sm {
+  font-family: var(--mono);
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--amber);
+  line-height: 1.2;
+  margin-bottom: 3px;
+}
+
+/* ═════ ④ ROADMAP ═════ */
+.roadmap-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.roadmap-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  padding: 28px;
+  position: relative;
+}
+
+.roadmap-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--border-hi), transparent);
+}
+
+.roadmap-num {
+  font-family: var(--mono);
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--border-hi);
+  line-height: 1;
+  margin-bottom: 20px;
+}
+
+.roadmap-card h4 {
+  font-family: var(--serif);
+  font-size: 19px;
+  font-weight: 500;
+  margin-bottom: 12px;
+}
+
+.roadmap-card p {
+  font-size: 13px;
+  color: var(--text-dim);
+  line-height: 1.75;
+  margin-bottom: 16px;
+}
+
+.roadmap-tag {
+  display: inline-block;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  padding: 4px 10px;
+  background: rgba(240, 185, 11, 0.1);
+  color: var(--amber);
+  text-transform: uppercase;
+}
+
+.roadmap-tag.next { background: rgba(74, 158, 255, 0.1); color: var(--blue); }
+.roadmap-tag.later { background: rgba(139, 125, 216, 0.1); color: var(--purple); }
+
+/* ═════ FOOTER ═════ */
+footer {
+  padding: 48px 0 64px;
+  text-align: center;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  color: var(--text-mute);
+}
+
+footer::before {
+  content: '';
+  display: block;
+  width: 40px;
+  height: 2px;
+  background: var(--amber);
+  margin: 0 auto 24px;
+}
+
+/* ═════ 响应式 ═════ */
+@media (max-width: 900px) {
+  .container { padding: 0 24px; }
+  .method-grid, .roadmap-grid, .insight-wrap { grid-template-columns: 1fr; }
+  .pipeline-cards { grid-template-columns: 1fr 1fr; }
+  .pyramid-visual { flex-direction: column; }
+  .dash-row { grid-template-columns: 80px 70px 1fr; }
+  .dash-flow { display: none; }
+  .hero h1 { font-size: 36px; }
+  .analysis-header { flex-wrap: wrap; }
+  .analysis-flow { display: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════ HERO ═══════════════════ -->
+<div class="container">
+<section class="hero">
+  <div class="tag-row">MILESTONE · FIRST CLOSED-LOOP RUN · 2026-04-19</div>
+  <h1>宏观投研<br><span class="accent">自动化工程</span> · 进度快照</h1>
+  <p class="hero-sub">
+    从 Wind 数据刷新到资产分析产出,全链路首次跑通。覆盖中美 <b style="color:var(--amber)">7</b> 类资产、<b style="color:var(--amber)">29</b> 个传导节点、<b style="color:var(--amber)">118</b> 个指标。当前 5/6 环节已实现自动化。
+  </p>
+  <div class="hero-meta">
+    <div>已完成自动化<b>5 / 6</b></div>
+    <div>监测指标<b>118</b></div>
+    <div>传导节点<b>29</b></div>
+    <div>资产链路<b>7</b></div>
+  </div>
+</section>
+
+<!-- ═══════════════════ ① PIPELINE ═══════════════════ -->
+<section>
+  <div class="section-label">SECTION 01 · WORKFLOW</div>
+  <h2 class="section-title">流程全貌</h2>
+  <p class="section-desc">投研团队过去以 Wind 终端 + 人工整理为主,本工程将其中 5 个环节自动化,仅保留首个"数据刷新"人工触发步骤。终端到推送,从约 4 小时工作量压缩到 5 分钟。</p>
+
+  <div class="pipeline-wrap">
+    <svg class="pipeline-svg" viewBox="0 0 1100 180" xmlns="http://www.w3.org/2000/svg">
+      <!-- 连接线 -->
+      <defs>
+        <marker id="arrow-amber" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+          <path d="M 0 0 L 10 5 L 0 10 z" fill="#f0b90b"/>
+        </marker>
+        <marker id="arrow-mute" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+          <path d="M 0 0 L 10 5 L 0 10 z" fill="#5a6578"/>
+        </marker>
+        <linearGradient id="pipe-line" x1="0" x2="1">
+          <stop offset="0%" stop-color="#3fb77a" stop-opacity="0.6"/>
+          <stop offset="75%" stop-color="#3fb77a" stop-opacity="0.6"/>
+          <stop offset="85%" stop-color="#5a6578" stop-opacity="0.4"/>
+          <stop offset="100%" stop-color="#5a6578" stop-opacity="0.2"/>
+        </linearGradient>
+      </defs>
+
+      <!-- 水平连接主线 -->
+      <line x1="60" y1="90" x2="1040" y2="90" stroke="url(#pipe-line)" stroke-width="1.5"/>
+
+      <!-- 5个节点(圆形) -->
+      <!-- 1: Wind 刷新 (人工) -->
+      <g transform="translate(110, 90)">
+        <circle r="36" fill="#141a22" stroke="#f0b90b" stroke-width="1.5"/>
+        <circle r="6" fill="#f0b90b"/>
+        <text x="0" y="-58" fill="#f0b90b" font-family="JetBrains Mono" font-size="10" font-weight="500" letter-spacing="2" text-anchor="middle">01</text>
+        <text x="0" y="62" fill="#e4e9f0" font-family="Noto Sans SC" font-size="13" font-weight="400" text-anchor="middle">Wind 数据刷新</text>
+      </g>
+
+      <!-- 2: Excel 打分 (全自动) -->
+      <g transform="translate(305, 90)">
+        <circle r="36" fill="#141a22" stroke="#3fb77a" stroke-width="1.5"/>
+        <circle r="6" fill="#3fb77a"/>
+        <text x="0" y="-58" fill="#3fb77a" font-family="JetBrains Mono" font-size="10" font-weight="500" letter-spacing="2" text-anchor="middle">02</text>
+        <text x="0" y="62" fill="#e4e9f0" font-family="Noto Sans SC" font-size="13" font-weight="400" text-anchor="middle">Excel 自动打分</text>
+      </g>
+
+      <!-- 3: Python 导出 -->
+      <g transform="translate(500, 90)">
+        <circle r="36" fill="#141a22" stroke="#3fb77a" stroke-width="1.5"/>
+        <circle r="6" fill="#3fb77a"/>
+        <text x="0" y="-58" fill="#3fb77a" font-family="JetBrains Mono" font-size="10" font-weight="500" letter-spacing="2" text-anchor="middle">03</text>
+        <text x="0" y="62" fill="#e4e9f0" font-family="Noto Sans SC" font-size="13" font-weight="400" text-anchor="middle">Python 导出 JSON</text>
+      </g>
+
+      <!-- 4: AI 分析 -->
+      <g transform="translate(695, 90)">
+        <circle r="36" fill="#141a22" stroke="#3fb77a" stroke-width="1.5"/>
+        <circle r="6" fill="#3fb77a"/>
+        <text x="0" y="-58" fill="#3fb77a" font-family="JetBrains Mono" font-size="10" font-weight="500" letter-spacing="2" text-anchor="middle">04</text>
+        <text x="0" y="62" fill="#e4e9f0" font-family="Noto Sans SC" font-size="13" font-weight="400" text-anchor="middle">AI 生成分析</text>
+      </g>
+
+      <!-- 5: HTML 报告 -->
+      <g transform="translate(890, 90)">
+        <circle r="36" fill="#141a22" stroke="#3fb77a" stroke-width="1.5"/>
+        <circle r="6" fill="#3fb77a"/>
+        <text x="0" y="-58" fill="#3fb77a" font-family="JetBrains Mono" font-size="10" font-weight="500" letter-spacing="2" text-anchor="middle">05</text>
+        <text x="0" y="62" fill="#e4e9f0" font-family="Noto Sans SC" font-size="13" font-weight="400" text-anchor="middle">HTML 报告</text>
+      </g>
+
+      <!-- 6: 飞书推送(待开发,虚线) -->
+      <g transform="translate(1040, 90)">
+        <circle r="36" fill="#141a22" stroke="#5a6578" stroke-width="1.5" stroke-dasharray="3,3"/>
+        <text x="0" y="6" fill="#5a6578" font-family="JetBrains Mono" font-size="22" font-weight="300" text-anchor="middle">?</text>
+        <text x="0" y="-58" fill="#5a6578" font-family="JetBrains Mono" font-size="10" font-weight="500" letter-spacing="2" text-anchor="middle">06</text>
+        <text x="0" y="62" fill="#8a95a6" font-family="Noto Sans SC" font-size="13" font-weight="400" text-anchor="middle">飞书推送</text>
+      </g>
+    </svg>
+  </div>
+
+  <div class="pipeline-cards">
+    <div class="pipe-card manual">
+      <div class="pipe-card-num">01</div>
+      <div class="pipe-card-name">Wind 数据刷新</div>
+      <div class="pipe-card-status">▸ 人工触发</div>
+      <div class="pipe-card-detail">投研员在 Wind 终端点"刷新",118 个指标自动写入 Excel 数据 Sheet。约 1 分钟。</div>
+    </div>
+    <div class="pipe-card auto">
+      <div class="pipe-card-num">02</div>
+      <div class="pipe-card-name">Excel 自动打分</div>
+      <div class="pipe-card-status">◆ 全自动</div>
+      <div class="pipe-card-detail">打开 Excel 保存一次,公式自动重算:每个指标 0-±2 打分,29 节点加权合成得分,7 条链路生成信号流。</div>
+    </div>
+    <div class="pipe-card auto">
+      <div class="pipe-card-num">03</div>
+      <div class="pipe-card-name">Python 导出 JSON</div>
+      <div class="pipe-card-status">◆ 全自动</div>
+      <div class="pipe-card-detail">一条命令,生成 AI 可读的精简版 JSON(约 23k tokens)+完整版(含 12 月历史)。</div>
+    </div>
+    <div class="pipe-card auto">
+      <div class="pipe-card-num">04</div>
+      <div class="pipe-card-name">AI 生成分析</div>
+      <div class="pipe-card-status">◆ 全自动</div>
+      <div class="pipe-card-detail">JSON + Prompt 规则投喂大模型,按"断点为主线"的写作框架,产出 7 份结构化分析。</div>
+    </div>
+    <div class="pipe-card auto">
+      <div class="pipe-card-num">05</div>
+      <div class="pipe-card-name">HTML 报告</div>
+      <div class="pipe-card-status">◆ 本文件本身</div>
+      <div class="pipe-card-detail">7 份分析打包为单文件 HTML,可离线分发、嵌入任何渠道。即本页。</div>
+    </div>
+  </div>
+
+  <div class="legend">
+    <div class="legend-item"><div class="legend-dot" style="background:var(--green)"></div>全自动 / 已完成</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--amber)"></div>人工触发</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--text-mute)"></div>待开发</div>
+  </div>
+</section>
+
+<!-- ═══════════════════ ② 方法论 ═══════════════════ -->
+<section>
+  <div class="section-label">SECTION 02 · METHODOLOGY</div>
+  <h2 class="section-title">方法论要点</h2>
+  <p class="section-desc">框架不凭直觉,而是对标国际专业机构的标准做法。本周完成了权重体系的结构性重构。</p>
+
+  <div class="method-grid">
+    <div class="method-item">
+      <div class="method-item-num">— 01</div>
+      <div class="method-item-title">框架起点</div>
+      <div class="method-item-desc">
+        原始框架由投研团队共同设计,覆盖四层金字塔结构:<code>策略层</code>(7 个资产) → <code>基本面层</code>(中/美) → <code>传导层</code>(29 个节点) → <code>指标层</code>。搭建了一期可跑通的完整结构。
+      </div>
+    </div>
+    <div class="method-item">
+      <div class="method-item-num">— 02</div>
+      <div class="method-item-title">问题识别</div>
+      <div class="method-item-desc">
+        一期产出后发现:AI 依照原始指标体系,得出的观点多为<strong style="color:var(--amber);font-weight:500">数据陈述式</strong>(如"PMI 为 50.4"),难以产生符合投研习惯的<strong style="color:var(--amber);font-weight:500">因果与判断</strong>(如"PMI 回升但价格分项受油价推动,成色待察")。
+      </div>
+    </div>
+    <div class="method-item">
+      <div class="method-item-num">— 03</div>
+      <div class="method-item-title">迭代方向</div>
+      <div class="method-item-desc">
+        对标 <code>Conference Board LEI</code>、<code>高盛 FCI</code>、<code>中金 信贷脉冲</code>等成熟方法论,补齐<strong style="color:var(--amber);font-weight:500">信贷结构分项、盈利预期、外部冲击</strong>等 15 个关键指标,并重构权重原则:同节点内只给主项权重,消除父子项重复加权。
+      </div>
+    </div>
+  </div>
+
+  <div class="pyramid-visual">
+    <svg class="pyramid-svg" viewBox="0 0 300 240" xmlns="http://www.w3.org/2000/svg">
+      <!-- 四层金字塔 -->
+      <g font-family="JetBrains Mono" font-size="10" letter-spacing="1.5">
+        <!-- L0 -->
+        <polygon points="130,10 170,10 185,50 115,50" fill="#f0b90b" fill-opacity="0.25" stroke="#f0b90b" stroke-width="1"/>
+        <text x="150" y="35" fill="#f0b90b" text-anchor="middle" font-size="11" font-weight="500">L0 策略</text>
+        <text x="228" y="34" fill="#8a95a6" font-size="10">7 资产</text>
+
+        <!-- L1 -->
+        <polygon points="115,55 185,55 205,105 95,105" fill="#f0b90b" fill-opacity="0.18" stroke="#f0b90b" stroke-width="1"/>
+        <text x="150" y="85" fill="#f0b90b" text-anchor="middle" font-size="11" font-weight="500">L1 基本面</text>
+        <text x="228" y="84" fill="#8a95a6" font-size="10">中/美</text>
+
+        <!-- L2 -->
+        <polygon points="95,110 205,110 230,160 70,160" fill="#f0b90b" fill-opacity="0.12" stroke="#f0b90b" stroke-width="1"/>
+        <text x="150" y="140" fill="#f0b90b" text-anchor="middle" font-size="11" font-weight="500">L2 传导节点</text>
+        <text x="250" y="139" fill="#8a95a6" font-size="10">29 个</text>
+
+        <!-- L3 -->
+        <polygon points="70,165 230,165 265,220 35,220" fill="#f0b90b" fill-opacity="0.06" stroke="#f0b90b" stroke-width="1"/>
+        <text x="150" y="197" fill="#f0b90b" text-anchor="middle" font-size="11" font-weight="500">L3 指标</text>
+        <text x="272" y="196" fill="#8a95a6" font-size="10">118 个</text>
+      </g>
+    </svg>
+    <div class="pyramid-desc">
+      <h4>从 118 个指标到一句信号流</h4>
+      <p>
+        底层 118 个 Wind 指标,按业务逻辑归属到 29 个传导节点;每个节点内的指标加权合成节点得分;同一资产的 4-5 个节点串联,形成"央行 → 银行间 → 实体 → 经济 → 市场"的传导链路信号流。
+      </p>
+      <p style="margin-top:12px">
+        这种结构让分析师能快速定位<strong style="color:var(--amber);font-weight:500">链路中的断点</strong>——比如今天 A 股链路里"银行间极宽松但实体信用收缩",一眼可见。
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════ ③ 首轮产出 ═══════════════════ -->
+<section>
+  <div class="section-label">SECTION 03 · FIRST OUTPUT · 2026-04-19</div>
+  <h2 class="section-title">首轮完整观点</h2>
+  <p class="section-desc">基于 4 月 17 日 Wind 数据,系统跑出 7 条资产链路的结构化分析。下表为一屏总览,下方可展开具体报告。</p>
+
+  <div style="background:var(--bg-card); border-left:3px solid var(--blue); padding:18px 24px; margin-bottom:28px; font-size:13px; color:var(--text-dim); line-height:1.75;">
+    <div style="font-family:var(--mono); font-size:10px; letter-spacing:0.2em; color:var(--blue); margin-bottom:8px;">— 得分的含义</div>
+    得分范围 −2 至 +2,<strong style="color:var(--text);font-weight:500">不代表买入 / 卖出建议</strong>,而是反映该资产传导链路内部的<strong style="color:var(--text);font-weight:500">一致性与信号强度</strong>。正分意味着链路逻辑顺畅支持多头方向,负分意味着链路内部存在矛盾或断点。同一得分在不同资产下含义不同——美股 −0.15 代表基本面与估值之间存在背离,A 股 +0.32 代表链路虽有信用收缩断点但整体仍偏支持。真正有信息量的是<strong style="color:var(--text);font-weight:500">信号流里的节点组合</strong>,而非总分数字本身。
+  </div>
+
+  <div class="dashboard">
+    <div class="dash-header">
+      <div>7 ASSETS · CURRENT SIGNAL</div>
+      <div>SCORE RANGE −2.0 ~ +2.0</div>
+    </div>
+
+    <div class="dash-row">
+      <div class="dash-asset">A 股</div>
+      <div class="dash-score pos">+0.318</div>
+      <div class="dash-bar">
+        <div class="dash-bar-center"></div>
+        <div class="dash-bar-fill pos" style="left:50%; width:7.95%;"></div>
+      </div>
+      <div class="dash-flow">央行 ⛅ → 银行间 ☀☀ → 实体 ⛅🌧 → 经济 ⛅ → 市场 ⛅☀</div>
+    </div>
+
+    <div class="dash-row">
+      <div class="dash-asset">港 股</div>
+      <div class="dash-score pos">+0.571</div>
+      <div class="dash-bar">
+        <div class="dash-bar-center"></div>
+        <div class="dash-bar-fill pos" style="left:50%; width:14.3%;"></div>
+      </div>
+      <div class="dash-flow">中国经济 ⛅ → 海外 ⛅☀ → 资金面 ☀☀ → 情绪 ⛅</div>
+    </div>
+
+    <div class="dash-row">
+      <div class="dash-asset">短 债</div>
+      <div class="dash-score pos">+0.403</div>
+      <div class="dash-bar">
+        <div class="dash-bar-center"></div>
+        <div class="dash-bar-fill pos" style="left:50%; width:10.1%;"></div>
+      </div>
+      <div class="dash-flow">央行 ⛅ → 银行间 ☀☀ → 收益率 ⛅ → 估值 ⛅🌧</div>
+    </div>
+
+    <div class="dash-row">
+      <div class="dash-asset">中长债</div>
+      <div class="dash-score neutral">+0.020</div>
+      <div class="dash-bar">
+        <div class="dash-bar-center"></div>
+        <div class="dash-bar-fill pos" style="left:50%; width:0.5%;"></div>
+      </div>
+      <div class="dash-flow">央行 ⛅ → 经济预期 ⛅ → 长端收益率 ⛅☀ → 长端估值 ⛅🌧</div>
+    </div>
+
+    <div class="dash-row">
+      <div class="dash-asset">美 股</div>
+      <div class="dash-score neg">−0.150</div>
+      <div class="dash-bar">
+        <div class="dash-bar-center"></div>
+        <div class="dash-bar-fill neg" style="right:50%; width:3.75%;"></div>
+      </div>
+      <div class="dash-flow">美国经济 ⛅ → 美国流动性 ⛅ → 情绪 ☀ → 估值 🌪 显著偏贵</div>
+    </div>
+
+    <div class="dash-row">
+      <div class="dash-asset">美 债</div>
+      <div class="dash-score pos">+0.625</div>
+      <div class="dash-bar">
+        <div class="dash-bar-center"></div>
+        <div class="dash-bar-fill pos" style="left:50%; width:15.6%;"></div>
+      </div>
+      <div class="dash-flow">美联储 ⛅ → 供需 ⛅☀ → 收益率 ☀ → 利差 ☀ 偏陡</div>
+    </div>
+
+    <div class="dash-row">
+      <div class="dash-asset">黄 金</div>
+      <div class="dash-score pos">+0.512</div>
+      <div class="dash-bar">
+        <div class="dash-bar-center"></div>
+        <div class="dash-bar-fill pos" style="left:50%; width:12.8%;"></div>
+      </div>
+      <div class="dash-flow">实际利率 ⛅ → 美元 ☀ 偏弱 → 通胀 ⛅☀ → 交易 ⛅☀</div>
+    </div>
+  </div>
+
+  <!-- 跨链路洞察 -->
+  <div class="insight-wrap">
+    <div class="insight">
+      <div class="insight-label">— CROSS-ASSET INSIGHT 01</div>
+      <h4>布伦特原油回落贯穿 5 条链路</h4>
+      <p>本月油价从 99.39 回落至 90.38,累计下行 10.78 美元。这一变量同步作用于 A 股经济(输入性通胀缓解)、港股海外环境(风险偏好回升)、中长债(PPI 压力减轻)、美股经济(美联储压力下降)、黄金通胀预期(对冲需求减弱)——系统的跨链路联动效应被正确捕捉。</p>
+    </div>
+    <div class="insight">
+      <div class="insight-label">— CROSS-ASSET INSIGHT 02</div>
+      <h4>A 股断点:银行间 ☀☀ vs 实体 ⛅🌧</h4>
+      <p>DR007 本月下行 10bp 至 1.32%,银行间资金极宽松;但社融 7.9%、M2 8.5% 同步走弱。权重重构后主项暴露出"流动性陷阱"特征:钱在银行间流,但信用派生受阻。单靠宽松的传统工具难以打破。</p>
+    </div>
+  </div>
+
+  <!-- 分析展开/折叠 -->
+  <div class="analysis-wrap" id="analyses">
+    <!-- 由 JS 填充 -->
+  </div>
+</section>
+
+<!-- ═══════════════════ ④ 路线图 ═══════════════════ -->
+<section>
+  <div class="section-label">SECTION 04 · ROADMAP</div>
+  <h2 class="section-title">下一步</h2>
+  <p class="section-desc">当前自动化程度 5/6,剩余一个环节(飞书推送)+两项质量迭代。</p>
+
+  <div class="roadmap-grid">
+    <div class="roadmap-card">
+      <div class="roadmap-num">06</div>
+      <h4>AI 替代公式打分</h4>
+      <p>当前 Excel 用 IF 阈值打分,产出如"PPI 为 0.5%"的数据陈述。下一步让 AI 基于上下文生成因果判断,如"PPI 转正或部分受油价推升,非需求改善型"。</p>
+      <span class="roadmap-tag next">下一迭代</span>
+    </div>
+    <div class="roadmap-card">
+      <div class="roadmap-num">07</div>
+      <h4>HTML 研报模板标准化</h4>
+      <p>本页是首版 HTML 输出,下一步抽象为可复用模板,Python 脚本直接生成带数据的 HTML,无需 AI 另外编排。</p>
+      <span class="roadmap-tag later">中期</span>
+    </div>
+    <div class="roadmap-card">
+      <div class="roadmap-num">08</div>
+      <h4>飞书推送集成</h4>
+      <p>每日定时,将生成的 HTML 或摘要推送至投研团队飞书群。打通"Wind 刷新 → 团队看到报告"的最后一公里。</p>
+      <span class="roadmap-tag later">中期</span>
+    </div>
+  </div>
+</section>
+
+<footer>
+  MACRO RESEARCH AUTOMATION · SNAPSHOT 2026-04-19 · INTERNAL USE
+</footer>
+</div>
+
+<script>
+// ═══════════════════ 分析数据注入 ═══════════════════
+const analyses = {
+  "A股": {
+    score: "+0.318",
+    scoreClass: "pos",
+    flow: "央行⛅ 常规操作 → 银行间☀☀ 显著宽松 → 实体⛅🌧 传导不畅 → 经济⛅ 企稳观望 → 市场⛅☀ 温和活跃",
+    open: true,
+    body: `
+<div class="signal-flow-box">央行⛅ 常规操作 → 银行间☀☀ 显著宽松 → 实体⛅🌧 <strong>传导不畅</strong> → 经济⛅ 企稳观望 → 市场⛅☀ 温和活跃</div>
+<div class="panorama-box"><strong>全景判断</strong>:外部环境改善(布伦特从<strong>99.39</strong>降至<strong>90.38</strong>,地缘缓和),国内银行间资金持续极宽松但信用派生偏弱,制造业 PMI 回升至<strong>50.4</strong>(时隔 3 个月重回扩张区间)与市场温和活跃相呼应,但 M2 同比<strong>8.5%</strong>创阶段新低,传导链路的关键断点在银行间与实体之间。</div>
+
+<h4>⚠ 核心断点:银行间 → 实体传导</h4>
+<p><strong>银行间端</strong>:DR007 本月以来累计下行约<strong>10bp</strong>至<strong>1.32%</strong>,与 7 天逆回购利率倒挂<strong>8bp</strong>;1Y 同业存单到期收益率(AAA)回落至<strong>1.475%</strong>,本月累计下行约<strong>4bp</strong>,均指向银行间资金面极为宽松。R007 与 DR007 利差仅<strong>1bp</strong>,说明不仅银行之间资金宽裕,非银机构(券商、基金等)的资金面同样宽裕。</p>
+
+<p><strong>实体端</strong>:社融存量同比<strong>7.9%</strong>(前值 8.2%,<strong>持续 9 个月下行,创近一年新低</strong>);新增人民币贷款同比<strong>5.8%</strong>(前值 6.1%),M2 同比<strong>8.5%</strong>(前值 9.0%,1 月 / 2 月连续高位后<strong>快速回落</strong>)——三项总量同步走弱。M1 同比<strong>5.1%</strong>虽然较前值 5.9% 回落,但与 M2 的剪刀差收窄至<strong>−3.4pct</strong>,货币活化有边际改善。</p>
+
+<div class="spark-grid">
+  <div class="spark spark-compact">
+    <div class="spark-meta-sm">
+      <div class="spark-title">社融存量同比 · 近 12 月</div>
+      <div class="spark-value-sm">7.9%</div>
+      <div class="spark-note">环比 <span class="neg">−0.3pct</span> · 持续 9 月下行</div>
+    </div>
+    <div class="spark-chart"><svg viewBox="0 0 220 60" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto"><path d="M 8.0,21.7 L 26.5,21.7 L 45.1,15.8 L 63.6,12.8 L 82.2,18.7 L 100.7,21.7 L 119.3,27.5 L 137.8,27.5 L 156.4,33.4 L 174.9,36.3 L 193.5,36.3 L 212.0,45.2 L 212.0,50 L 8.0,50 Z" fill="rgba(240,185,11,0.12)" stroke="none"/><path d="M 8.0,21.7 L 26.5,21.7 L 45.1,15.8 L 63.6,12.8 L 82.2,18.7 L 100.7,21.7 L 119.3,27.5 L 137.8,27.5 L 156.4,33.4 L 174.9,36.3 L 193.5,36.3 L 212.0,45.2" fill="none" stroke="#f0b90b" stroke-width="1.3" stroke-linejoin="round"/><circle cx="212.0" cy="45.2" r="2.5" fill="#f0b90b" stroke="#0a0e14" stroke-width="1.5"/><text x="8" y="59" fill="#5a6578" font-family="JetBrains Mono" font-size="7">2025-04</text><text x="212" y="59" fill="#5a6578" font-family="JetBrains Mono" font-size="7" text-anchor="end">2026-03</text></svg></div>
+  </div>
+  <div class="spark spark-compact">
+    <div class="spark-meta-sm">
+      <div class="spark-title">M1 vs M2 同比 · 近 12 月</div>
+      <div class="spark-value-sm">M1 5.1% · M2 8.5%</div>
+      <div class="spark-note">剪刀差收窄至 <span class="pos">−3.4pct</span>(边际活化)</div>
+    </div>
+    <div class="spark-chart"><svg viewBox="0 0 220 60" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto"><path d="M 8.0,43.6 L 23.6,40.5 L 39.3,31.5 L 54.9,27.6 L 70.5,26.1 L 86.2,21.4 L 101.8,25.3 L 117.5,30.4 L 133.1,34.7 L 148.7,30.4 L 164.4,26.5 L 180.0,29.6" fill="none" stroke="#f0b90b" stroke-width="1.3" stroke-linejoin="round"/><path d="M 8.0,18.3 L 23.6,18.7 L 39.3,17.1 L 54.9,15.2 L 70.5,15.2 L 86.2,16.7 L 101.8,17.5 L 117.5,18.3 L 133.1,16.3 L 148.7,14.4 L 164.4,14.4 L 180.0,16.3" fill="none" stroke="#4a9eff" stroke-width="1.3" stroke-linejoin="round" stroke-dasharray="0"/><circle cx="180.0" cy="29.6" r="2.2" fill="#f0b90b" stroke="#0a0e14" stroke-width="1.3"/><circle cx="180.0" cy="16.3" r="2.2" fill="#4a9eff" stroke="#0a0e14" stroke-width="1.3"/><line x1="184" y1="16" x2="192" y2="16" stroke="#f0b90b" stroke-width="1.5"/><text x="195" y="18" fill="#e4e9f0" font-family="JetBrains Mono" font-size="8">M1</text><line x1="184" y1="28" x2="192" y2="28" stroke="#4a9eff" stroke-width="1.5"/><text x="195" y="30" fill="#e4e9f0" font-family="JetBrains Mono" font-size="8">M2</text><text x="8" y="59" fill="#5a6578" font-family="JetBrains Mono" font-size="7">2025-04</text><text x="180" y="59" fill="#5a6578" font-family="JetBrains Mono" font-size="7" text-anchor="end">2026-03</text></svg></div>
+  </div>
+</div>
+
+<p><strong>断点含义</strong>:银行手里的钱充裕(价格信号极宽松),但这些钱没有有效转化为实体经济的融资(数量信号走弱)。这种"流动性陷阱"特征提示:单靠降准降息的传统货币政策工具,对当前信用扩张的边际刺激可能有限。</p>
+
+<h4>央行态度:常规操作,边际小幅扶持</h4>
+<p>7 天逆回购利率<strong>1.40%</strong>与存准率<strong>9.0%</strong>均未动,周度净投放<strong>−5 亿</strong>(环比大幅收敛,前值净回笼 3,005 亿)。<strong>3 月当月</strong>结构性工具投放:MLF <strong>500 亿</strong>、SLF <strong>8 亿</strong>、"其他政策工具"<strong>1,728 亿</strong>——结构性工具在定向发力,但总量保持中性。短期内大规模降准或降息的概率偏低。</p>
+
+<h4>经济效果:PMI 扩张但内需外需齐弱</h4>
+<p>制造业 PMI 回升至<strong>50.4</strong>(前值 49.0),<strong>时隔 3 个月重回扩张区间</strong>,工业增加值同比<strong>5.7%</strong>平稳,均是积极信号。但<strong>社零同比仅 1.7%</strong>(前值 2.8%)、<strong>出口同比 2.5%</strong>(前值 39.6%,2 月高基数回落)大幅回落,商品房销售面积累计同比仍在<strong>−10.4%</strong>的深度调整区间。</p>
+<div class="spark-grid">
+  <div class="spark spark-compact">
+    <div class="spark-meta-sm">
+      <div class="spark-title">社会消费品零售总额同比 · 近 12 月</div>
+      <div class="spark-value-sm">1.7%</div>
+      <div class="spark-note">环比 <span class="neg">−1.1pct</span> · 内需持续走弱</div>
+    </div>
+    <div class="spark-chart"><svg viewBox="0 0 220 60" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto"><line x1="8" y1="45.2" x2="212" y2="45.2" stroke="#5a6578" stroke-width="0.5" stroke-dasharray="2,2"/><text x="210" y="43.2" fill="#5a6578" font-family="JetBrains Mono" font-size="7" text-anchor="end">0 轴</text><path d="M 8.0,19.4 L 28.4,12.8 L 48.8,20.9 L 69.2,26.5 L 89.6,28.0 L 110.0,30.0 L 130.4,30.5 L 150.8,38.6 L 171.2,40.6 L 191.6,31.0 L 212.0,36.6 L 212.0,50 L 8.0,50 Z" fill="rgba(240,185,11,0.12)" stroke="none"/><path d="M 8.0,19.4 L 28.4,12.8 L 48.8,20.9 L 69.2,26.5 L 89.6,28.0 L 110.0,30.0 L 130.4,30.5 L 150.8,38.6 L 171.2,40.6 L 191.6,31.0 L 212.0,36.6" fill="none" stroke="#f0b90b" stroke-width="1.3" stroke-linejoin="round"/><circle cx="212.0" cy="36.6" r="2.5" fill="#f0b90b" stroke="#0a0e14" stroke-width="1.5"/><text x="8" y="59" fill="#5a6578" font-family="JetBrains Mono" font-size="7">2025-04</text><text x="212" y="59" fill="#5a6578" font-family="JetBrains Mono" font-size="7" text-anchor="end">2026-03</text></svg></div>
+  </div>
+  <div class="spark spark-compact">
+    <div class="spark-meta-sm">
+      <div class="spark-title">出口(美元计价)同比 · 近 12 月</div>
+      <div class="spark-value-sm">2.5%</div>
+      <div class="spark-note">2 月高基数 <span class="neg">−37.1pct</span> · 外需回落</div>
+    </div>
+    <div class="spark-chart"><svg viewBox="0 0 220 60" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto"><line x1="8" y1="44.1" x2="212" y2="44.1" stroke="#5a6578" stroke-width="0.5" stroke-dasharray="2,2"/><text x="210" y="42.1" fill="#5a6578" font-family="JetBrains Mono" font-size="7" text-anchor="end">0 轴</text><path d="M 8.0,37.8 L 28.4,40.5 L 48.8,39.7 L 69.2,38.6 L 89.6,40.8 L 110.0,37.7 L 130.4,45.2 L 150.8,39.5 L 171.2,39.0 L 191.6,12.8 L 212.0,42.2 L 212.0,50 L 8.0,50 Z" fill="rgba(240,185,11,0.12)" stroke="none"/><path d="M 8.0,37.8 L 28.4,40.5 L 48.8,39.7 L 69.2,38.6 L 89.6,40.8 L 110.0,37.7 L 130.4,45.2 L 150.8,39.5 L 171.2,39.0 L 191.6,12.8 L 212.0,42.2" fill="none" stroke="#f0b90b" stroke-width="1.3" stroke-linejoin="round"/><circle cx="212.0" cy="42.2" r="2.5" fill="#f0b90b" stroke="#0a0e14" stroke-width="1.5"/><text x="8" y="59" fill="#5a6578" font-family="JetBrains Mono" font-size="7">2025-04</text><text x="212" y="59" fill="#5a6578" font-family="JetBrains Mono" font-size="7" text-anchor="end">2026-03</text></svg></div>
+  </div>
+</div>
+<p>PPI 同比<strong>+0.5%</strong>(前值 −0.9%)由负转正值得关注——<strong>需关注价格分项是否受能源成本推动</strong>。布伦特原油 3 月曾冲高至<strong>118 美元</strong>,近期虽已回落至<strong>90.38</strong>,但 PPI 数据对应的 3 月原料价格仍处历史偏高位置,转正或部分反映输入性通胀而非需求改善型通胀。</p>
+<div class="spark-grid">
+  <div class="spark spark-compact">
+    <div class="spark-meta-sm">
+      <div class="spark-title">PPI 同比 · 近 12 月</div>
+      <div class="spark-value-sm">+0.5%</div>
+      <div class="spark-note">环比 <span class="pos">+1.4pct</span> · <span class="pos">转正</span>待察成色</div>
+    </div>
+    <div class="spark-chart"><svg viewBox="0 0 220 60" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto"><line x1="8" y1="16.8" x2="212" y2="16.8" stroke="#5a6578" stroke-width="0.5" stroke-dasharray="2,2"/><text x="210" y="14.8" fill="#5a6578" font-family="JetBrains Mono" font-size="7" text-anchor="end">0 轴</text><path d="M 8.0,38.1 L 26.5,42.8 L 45.1,45.2 L 63.6,45.2 L 82.2,39.6 L 100.7,34.9 L 119.3,33.3 L 137.8,34.1 L 156.4,31.8 L 174.9,27.8 L 193.5,23.9 L 212.0,12.8 L 212.0,50 L 8.0,50 Z" fill="rgba(240,185,11,0.12)" stroke="none"/><path d="M 8.0,38.1 L 26.5,42.8 L 45.1,45.2 L 63.6,45.2 L 82.2,39.6 L 100.7,34.9 L 119.3,33.3 L 137.8,34.1 L 156.4,31.8 L 174.9,27.8 L 193.5,23.9 L 212.0,12.8" fill="none" stroke="#f0b90b" stroke-width="1.3" stroke-linejoin="round"/><circle cx="212.0" cy="12.8" r="2.5" fill="#f0b90b" stroke="#0a0e14" stroke-width="1.5"/><text x="8" y="59" fill="#5a6578" font-family="JetBrains Mono" font-size="7">2025-04</text><text x="212" y="59" fill="#5a6578" font-family="JetBrains Mono" font-size="7" text-anchor="end">2026-03</text></svg></div>
+  </div>
+  <div class="spark spark-compact">
+    <div class="spark-meta-sm">
+      <div class="spark-title">PMI 原材料购进价格 vs 布伦特原油月末 · 近 12 月</div>
+      <div class="spark-value-sm">购进 63.9 · 油 $118(3月末)</div>
+      <div class="spark-note">3 月原油冲高,<span class="neg">带动购进价格跳涨</span>,PPI 转正部分是"成本推"</div>
+    </div>
+    <div class="spark-chart"><svg viewBox="0 0 280 90" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto"><text x="27" y="16.0" fill="#f0b90b" font-family="JetBrains Mono" font-size="7" text-anchor="end" opacity="0.75">66</text><text x="27" y="47.0" fill="#f0b90b" font-family="JetBrains Mono" font-size="7" text-anchor="end" opacity="0.75">55</text><text x="27" y="78.0" fill="#f0b90b" font-family="JetBrains Mono" font-size="7" text-anchor="end" opacity="0.75">44</text><text x="251" y="16.0" fill="#4a9eff" font-family="JetBrains Mono" font-size="7" text-anchor="start" opacity="0.75">127</text><text x="251" y="47.0" fill="#4a9eff" font-family="JetBrains Mono" font-size="7" text-anchor="start" opacity="0.75">90</text><text x="251" y="78.0" fill="#4a9eff" font-family="JetBrains Mono" font-size="7" text-anchor="start" opacity="0.75">52</text><path d="M 30.0,68.6 L 49.8,68.8 L 69.6,64.6 L 89.5,55.9 L 109.3,50.9 L 129.1,51.2 L 148.9,53.1 L 168.7,50.0 L 188.5,51.5 L 208.4,43.0 L 228.2,46.7 L 248.0,21.2" fill="none" stroke="#f0b90b" stroke-width="1.4" stroke-linejoin="round"/><path d="M 30.0,67.0 L 49.8,66.3 L 69.6,63.2 L 89.5,59.2 L 109.3,62.8 L 129.1,63.7 L 148.9,65.3 L 168.7,66.9 L 188.5,68.8 L 208.4,60.7 L 228.2,59.2 L 248.0,21.2" fill="none" stroke="#4a9eff" stroke-width="1.4" stroke-linejoin="round"/><circle cx="248.0" cy="21.2" r="2.3" fill="#f0b90b" stroke="#0a0e14" stroke-width="1.3"/><circle cx="248.0" cy="21.2" r="2.3" fill="#4a9eff" stroke="#0a0e14" stroke-width="1.3"/><text x="30" y="89" fill="#5a6578" font-family="JetBrains Mono" font-size="7">2025-04</text><text x="248" y="89" fill="#5a6578" font-family="JetBrains Mono" font-size="7" text-anchor="end">2026-03</text><line x1="30" y1="8" x2="40" y2="8" stroke="#f0b90b" stroke-width="1.5"/><text x="43" y="10.5" fill="#f0b90b" font-family="JetBrains Mono" font-size="7.5">购进价格</text><line x1="203" y1="8" x2="213" y2="8" stroke="#4a9eff" stroke-width="1.5"/><text x="216" y="10.5" fill="#4a9eff" font-family="JetBrains Mono" font-size="7.5">布伦特($)</text></svg></div>
+  </div>
+</div>
+
+<h4>市场反映:量能活跃,盈利预期平稳</h4>
+<p>A 股日度成交额<strong>2.45 万亿</strong>(温和活跃区间),个人新开户<strong>459 万户</strong>同比大增,北向资金净流入<strong>2,981 亿</strong>。沪深 300 一致预测净利润同比<strong>3.9%</strong>(前值 4.03%,小幅下调)提示盈利预期未见积极改善。创业板指盈利预期同比<strong>34.86%</strong>(前值 32.57%)上修,提示市场对成长股基本面相对乐观。</p>
+
+<h4>后续关注</h4>
+<p>一是下月金融数据能否反映信贷脉冲企稳(重点看居民中长贷与企业中长贷分项);二是 PPI 连续转正的可持续性,以及油价回落后 CPI 是否跟随下行(当前 CPI 同比仅<strong>1.0%</strong>,远低于目标水位)。</p>
+`
+  },
+  "港股": {
+    score: "+0.571",
+    scoreClass: "pos",
+    flow: "中国经济⛅ 企稳观望 → 海外环境⛅☀ 温和偏好 → 资金面☀☀ 大幅流入 → 情绪面⛅ 中性",
+    open: false,
+    body: `
+<div class="signal-flow-box">中国经济⛅ 企稳观望 → 海外环境⛅☀ 温和偏好 → 资金面<strong>☀☀ 大幅流入</strong> → 情绪面⛅ 中性</div>
+<div class="panorama-box"><strong>全景判断</strong>:布伦特从<strong>99.39</strong>回落至<strong>90.38</strong>,地缘紧张缓和叠加美元美债双降,海外环境全面改善;南向资金年初至今累计净流入<strong>2,152 亿港元</strong>,持续大幅买入;但恒指与恒生科技近期回调,情绪面尚未跟上资金面的乐观节奏。</div>
+
+<h4>资金面:南向资金是港股最稳定的支撑</h4>
+<p>南向资金当日净流入<strong>148 亿港元</strong>(前值 37 亿),<strong>2026 年至今累计净流入 2,152 亿港元</strong>。这是当前港股链路得分最高的节点(<strong>+1.70</strong>)。叠加恒指估值较全球主要市场仍有折价(根据中信证券研究,恒指当前 PE 约<strong>12 倍</strong>,股权风险溢价<strong>5.7%</strong>),南向资金的长期配置逻辑尚未改变。</p>
+
+<h4>⚠ 资金面 → 情绪面的落差</h4>
+<p><strong>资金端</strong>:☀☀ 大幅流入(score +1.70)。<strong>情绪端</strong>:⛅ 中性(score 0)——恒指当日下跌<strong>0.9%</strong>至<strong>26,160</strong>,但本月以来累计上涨约<strong>866 点</strong>,日度回调并不改变月度上行趋势。</p>
+<div class="spark">
+  <div class="spark-meta">
+    <div class="spark-title">恒生指数 · 近60日</div>
+    <div class="spark-value">26,160</div>
+    <div class="spark-note">日度 <span class="neg">−0.9%</span> · 本月累计 <span class="pos">+866 点</span></div>
+  </div>
+  <div class="spark-chart"><svg viewBox="0 0 280 70" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto"><path d="M 8.0,27.2 L 12.5,25.4 L 16.9,26.3 L 21.4,27.2 L 25.9,30.5 L 30.4,31.4 L 34.8,30.3 L 39.3,29.7 L 43.8,28.3 L 48.3,28.2 L 52.7,24.0 L 57.2,15.9 L 61.7,14.2 L 66.2,21.0 L 70.6,28.0 L 75.1,27.4 L 79.6,27.2 L 84.1,26.8 L 88.5,30.5 L 93.0,25.1 L 97.5,23.3 L 102.0,22.4 L 106.4,25.1 L 110.9,30.5 L 115.4,30.2 L 119.9,28.2 L 124.3,32.6 L 128.8,29.7 L 133.3,36.3 L 137.8,39.7 L 142.2,45.7 L 146.7,44.9 L 151.2,39.8 L 155.7,43.9 L 160.1,37.5 L 164.6,38.2 L 169.1,40.3 L 173.6,43.2 L 178.0,39.0 L 182.5,38.6 L 187.0,36.7 L 191.5,42.8 L 195.9,45.4 L 200.4,55.8 L 204.9,47.9 L 209.4,44.7 L 213.8,50.3 L 218.3,49.2 L 222.8,51.5 L 227.3,51.1 L 231.7,45.2 L 236.2,47.3 L 240.7,38.3 L 245.2,39.9 L 249.6,38.3 L 254.1,41.0 L 258.6,38.5 L 263.1,37.6 L 267.5,32.5 L 272.0,35.2 L 272.0,62 L 8.0,62 Z" fill="rgba(240,185,11,0.12)" stroke="none"/><path d="M 8.0,27.2 L 12.5,25.4 L 16.9,26.3 L 21.4,27.2 L 25.9,30.5 L 30.4,31.4 L 34.8,30.3 L 39.3,29.7 L 43.8,28.3 L 48.3,28.2 L 52.7,24.0 L 57.2,15.9 L 61.7,14.2 L 66.2,21.0 L 70.6,28.0 L 75.1,27.4 L 79.6,27.2 L 84.1,26.8 L 88.5,30.5 L 93.0,25.1 L 97.5,23.3 L 102.0,22.4 L 106.4,25.1 L 110.9,30.5 L 115.4,30.2 L 119.9,28.2 L 124.3,32.6 L 128.8,29.7 L 133.3,36.3 L 137.8,39.7 L 142.2,45.7 L 146.7,44.9 L 151.2,39.8 L 155.7,43.9 L 160.1,37.5 L 164.6,38.2 L 169.1,40.3 L 173.6,43.2 L 178.0,39.0 L 182.5,38.6 L 187.0,36.7 L 191.5,42.8 L 195.9,45.4 L 200.4,55.8 L 204.9,47.9 L 209.4,44.7 L 213.8,50.3 L 218.3,49.2 L 222.8,51.5 L 227.3,51.1 L 231.7,45.2 L 236.2,47.3 L 240.7,38.3 L 245.2,39.9 L 249.6,38.3 L 254.1,41.0 L 258.6,38.5 L 263.1,37.6 L 267.5,32.5 L 272.0,35.2" fill="none" stroke="#f0b90b" stroke-width="1.3" stroke-linejoin="round"/><circle cx="272.0" cy="35.2" r="2.5" fill="#f0b90b" stroke="#0a0e14" stroke-width="1.5"/><text x="8" y="69" fill="#5a6578" font-family="JetBrains Mono" font-size="7">01/13</text><text x="272" y="69" fill="#5a6578" font-family="JetBrains Mono" font-size="7" text-anchor="end">04/17</text></svg></div>
+</div>
+<p><strong>落差含义</strong>:南向在买,但港股当日并未完全反应资金流入。可能是外资存在阶段性卖出对冲(美元交易时段卖盘)、或短期获利了结。不构成趋势性警报,但值得继续跟踪恒指能否突破前高确认情绪面跟进。</p>
+
+<h4>海外环境:全面改善,是本轮港股链路的关键支撑</h4>
+<p>美元指数<strong>98.23</strong>本月以来累计下行<strong>1.3</strong>,2Y 美债利率<strong>3.71%</strong>下行<strong>10bp</strong>,10Y 美债<strong>4.26%</strong>下行<strong>7bp</strong>,VIX<strong>17.48</strong>处于正常区间。</p>
+<div class="spark">
+  <div class="spark-meta">
+    <div class="spark-title">美元指数 · 近60日</div>
+    <div class="spark-value">98.23</div>
+    <div class="spark-note">本月累计 <span class="pos">−1.3</span> · 处中性区间下沿</div>
+  </div>
+  <div class="spark-chart"><svg viewBox="0 0 280 70" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto"><path d="M 8.0,44.6 L 12.5,55.8 L 16.9,50.7 L 21.4,52.3 L 25.9,44.0 L 30.4,39.6 L 34.8,41.6 L 39.3,39.3 L 43.8,36.6 L 48.3,39.6 L 52.7,46.3 L 57.2,46.2 L 61.7,45.7 L 66.2,45.8 L 70.6,46.2 L 75.1,44.2 L 79.6,43.9 L 84.1,38.5 L 88.5,37.6 L 93.0,38.5 L 97.5,38.5 L 102.0,37.2 L 106.4,39.2 L 110.9,38.1 L 115.4,39.3 L 119.9,31.4 L 124.3,26.9 L 128.8,29.2 L 133.3,27.1 L 137.8,27.8 L 142.2,29.9 L 146.7,27.9 L 151.2,25.1 L 155.7,21.0 L 160.1,14.2 L 164.6,20.4 L 169.1,22.6 L 173.6,16.1 L 178.0,25.8 L 182.5,23.0 L 187.0,26.0 L 191.5,25.4 L 195.9,21.9 L 200.4,19.4 L 204.9,17.1 L 209.4,14.2 L 213.8,19.7 L 218.3,22.6 L 222.8,18.6 L 227.3,17.0 L 231.7,18.8 L 236.2,21.7 L 240.7,27.2 L 245.2,29.1 L 249.6,30.1 L 254.1,32.6 L 258.6,35.3 L 263.1,35.5 L 267.5,34.4 L 272.0,34.2 L 272.0,62 L 8.0,62 Z" fill="rgba(240,185,11,0.12)" stroke="none"/><path d="M 8.0,44.6 L 12.5,55.8 L 16.9,50.7 L 21.4,52.3 L 25.9,44.0 L 30.4,39.6 L 34.8,41.6 L 39.3,39.3 L 43.8,36.6 L 48.3,39.6 L 52.7,46.3 L 57.2,46.2 L 61.7,45.7 L 66.2,45.8 L 70.6,46.2 L 75.1,44.2 L 79.6,43.9 L 84.1,38.5 L 88.5,37.6 L 93.0,38.5 L 97.5,38.5 L 102.0,37.2 L 106.4,39.2 L 110.9,38.1 L 115.4,39.3 L 119.9,31.4 L 124.3,26.9 L 128.8,29.2 L 133.3,27.1 L 137.8,27.8 L 142.2,29.9 L 146.7,27.9 L 151.2,25.1 L 155.7,21.0 L 160.1,14.2 L 164.6,20.4 L 169.1,22.6 L 173.6,16.1 L 178.0,25.8 L 182.5,23.0 L 187.0,26.0 L 191.5,25.4 L 195.9,21.9 L 200.4,19.4 L 204.9,17.1 L 209.4,14.2 L 213.8,19.7 L 218.3,22.6 L 222.8,18.6 L 227.3,17.0 L 231.7,18.8 L 236.2,21.7 L 240.7,27.2 L 245.2,29.1 L 249.6,30.1 L 254.1,32.6 L 258.6,35.3 L 263.1,35.5 L 267.5,34.4 L 272.0,34.2" fill="none" stroke="#f0b90b" stroke-width="1.3" stroke-linejoin="round"/><circle cx="272.0" cy="34.2" r="2.5" fill="#f0b90b" stroke="#0a0e14" stroke-width="1.5"/><text x="8" y="69" fill="#5a6578" font-family="JetBrains Mono" font-size="7">01/26</text><text x="272" y="69" fill="#5a6578" font-family="JetBrains Mono" font-size="7" text-anchor="end">04/17</text></svg></div>
+</div>
+<p><strong>布伦特原油</strong>是最大变化点——本月累计下行<strong>10.78 美元</strong>至<strong>90.38</strong>,地缘紧张缓和带动全球风险偏好回升。</p>
+<div class="spark">
+  <div class="spark-meta">
+    <div class="spark-title">ICE 布伦特原油 · 近60日</div>
+    <div class="spark-value">90.38</div>
+    <div class="spark-note">本月 <span class="pos">−10.78</span> · 3月冲高至118后快速回落</div>
+  </div>
+  <div class="spark-chart"><svg viewBox="0 0 280 70" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto"><path d="M 8.0,55.5 L 12.5,55.8 L 16.9,54.2 L 21.4,53.6 L 25.9,51.7 L 30.4,51.8 L 34.8,55.2 L 39.3,54.4 L 43.8,52.7 L 48.3,54.2 L 52.7,53.8 L 57.2,53.1 L 61.7,53.2 L 66.2,52.8 L 70.6,54.2 L 75.1,54.1 L 79.6,53.4 L 84.1,54.3 L 88.5,52.0 L 93.0,51.0 L 97.5,50.9 L 102.0,51.1 L 106.4,51.7 L 110.9,51.6 L 115.4,51.7 L 119.9,50.3 L 124.3,46.2 L 128.8,43.3 L 133.3,43.3 L 137.8,40.2 L 142.2,34.4 L 146.7,29.5 L 151.2,38.3 L 155.7,35.0 L 160.1,28.3 L 164.6,26.2 L 169.1,28.5 L 173.6,26.0 L 178.0,22.9 L 182.5,21.9 L 187.0,19.1 L 191.5,28.7 L 195.9,25.1 L 200.4,26.9 L 204.9,22.4 L 209.4,18.8 L 213.8,18.6 L 218.3,14.2 L 222.8,27.8 L 227.3,21.6 L 231.7,21.0 L 236.2,21.4 L 240.7,32.8 L 245.2,31.9 L 249.6,32.5 L 254.1,29.2 L 258.6,32.8 L 263.1,32.7 L 267.5,29.2 L 272.0,36.3 L 272.0,62 L 8.0,62 Z" fill="rgba(240,185,11,0.12)" stroke="none"/><path d="M 8.0,55.5 L 12.5,55.8 L 16.9,54.2 L 21.4,53.6 L 25.9,51.7 L 30.4,51.8 L 34.8,55.2 L 39.3,54.4 L 43.8,52.7 L 48.3,54.2 L 52.7,53.8 L 57.2,53.1 L 61.7,53.2 L 66.2,52.8 L 70.6,54.2 L 75.1,54.1 L 79.6,53.4 L 84.1,54.3 L 88.5,52.0 L 93.0,51.0 L 97.5,50.9 L 102.0,51.1 L 106.4,51.7 L 110.9,51.6 L 115.4,51.7 L 119.9,50.3 L 124.3,46.2 L 128.8,43.3 L 133.3,43.3 L 137.8,40.2 L 142.2,34.4 L 146.7,29.5 L 151.2,38.3 L 155.7,35.0 L 160.1,28.3 L 164.6,26.2 L 169.1,28.5 L 173.6,26.0 L 178.0,22.9 L 182.5,21.9 L 187.0,19.1 L 191.5,28.7 L 195.9,25.1 L 200.4,26.9 L 204.9,22.4 L 209.4,18.8 L 213.8,18.6 L 218.3,14.2 L 222.8,27.8 L 227.3,21.6 L 231.7,21.0 L 236.2,21.4 L 240.7,32.8 L 245.2,31.9 L 249.6,32.5 L 254.1,29.2 L 258.6,32.8 L 263.1,32.7 L 267.5,29.2 L 272.0,36.3" fill="none" stroke="#f0b90b" stroke-width="1.3" stroke-linejoin="round"/><circle cx="272.0" cy="36.3" r="2.5" fill="#f0b90b" stroke="#0a0e14" stroke-width="1.5"/><text x="8" y="69" fill="#5a6578" font-family="JetBrains Mono" font-size="7">01/23</text><text x="272" y="69" fill="#5a6578" font-family="JetBrains Mono" font-size="7" text-anchor="end">04/17</text></svg></div>
+</div>
+<p>美元下行降低港币(与美元挂钩)的被动紧缩压力,美债利率作为全球风险资产估值折现率锚同步下行降低压制,三重因素共振形成海外环境的温和偏好(score <strong>+0.72</strong>)。</p>
+
+<h4>中国经济:企稳观望,对港股基本面构成拖累</h4>
+<p>中国经济节点与 A 股经济效果共用同一套得分(<strong>−0.135</strong>,⛅ 企稳观望)。PMI <strong>50.4</strong>回升扩张是亮点,但社零<strong>1.7%</strong>、出口<strong>2.5%</strong>、商品房销售<strong>−10.4%</strong>等内需和外需指标仍偏弱。</p>
+<p><strong>盈利预期补充</strong>(基于中信证券 2025 年末数据):恒生指数 2026 年净利润同比一致预期<strong>+8.5%</strong>,恒生科技指数<strong>+29.9%</strong>。这一预期水平比 Wind 对沪深 300 的预测(<strong>+3.9%</strong>)明显更高,是港股相对 A 股估值修复的核心基本面支撑。</p>
+
+<h4>后续关注</h4>
+<p>一是恒指能否突破<strong>26,500 − 27,000</strong>区间,确认情绪面跟上资金面;二是布伦特若持续低位,能否进一步降低全球流动性压力;三是企业一季报对盈利预期的验证程度。</p>
+<p><em>注:恒生指数 2026 盈利预期数据引自中信证券港股 2026 年度策略(2025-11-19 发布,基于 Bloomberg 一致预期)。</em></p>
+`
+  },
+  "短债": {
+    score: "+0.403",
+    scoreClass: "pos",
+    flow: "央行⛅ 常规操作 → 银行间☀☀ 显著宽松 → 短端收益率⛅ 窄幅震荡 → 短端估值⛅🌧 略偏贵",
+    open: false,
+    body: `
+<div class="signal-flow-box">央行⛅ 常规操作 → 银行间☀☀ 显著宽松 → 短端收益率⛅ 窄幅震荡 → 短端估值<strong>⛅🌧 略偏贵</strong></div>
+<div class="panorama-box"><strong>全景判断</strong>:银行间资金持续极宽松(DR007 <strong>1.32%</strong>,本月累计下行<strong>10bp</strong>),但 1-3Y 国债收益率震荡徘徊,期限利差压缩至<strong>14.4bp</strong>,短端估值已偏贵,配置性价比下降。</div>
+
+<h4>⚠ 核心矛盾:资金面宽松 vs 收益率不下</h4>
+<p><strong>资金端</strong>:DR007 本月以来累计下行<strong>10bp</strong>至<strong>1.32%</strong>,与 7 天逆回购利率倒挂<strong>8bp</strong>。</p>
+<div class="spark">
+  <div class="spark-meta">
+    <div class="spark-title">DR007 · 近60日</div>
+    <div class="spark-value">1.32%</div>
+    <div class="spark-note">本月 <span class="pos">−10bp</span> · 与逆回购倒挂 <span class="pos">8bp</span></div>
+  </div>
+  <div class="spark-chart"><svg viewBox="0 0 280 70" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto"><path d="M 8.0,31.8 L 12.5,29.1 L 16.9,29.1 L 21.4,27.2 L 25.9,29.3 L 30.4,17.1 L 34.8,15.6 L 39.3,21.0 L 43.8,14.5 L 48.3,14.2 L 52.7,29.8 L 57.2,28.8 L 61.7,29.6 L 66.2,31.1 L 70.6,34.2 L 75.1,22.5 L 79.6,19.6 L 84.1,22.4 L 88.5,24.4 L 93.0,39.6 L 97.5,55.6 L 102.0,20.0 L 106.4,27.3 L 110.9,30.9 L 115.4,31.3 L 119.9,27.8 L 124.3,33.8 L 128.8,35.7 L 133.3,40.7 L 137.8,40.4 L 142.2,41.3 L 146.7,36.3 L 151.2,37.4 L 155.7,33.8 L 160.1,32.9 L 164.6,34.2 L 169.1,35.6 L 173.6,38.3 L 178.0,38.5 L 182.5,39.5 L 187.0,40.4 L 191.5,39.6 L 195.9,41.8 L 200.4,36.8 L 204.9,36.9 L 209.4,37.5 L 213.8,39.1 L 218.3,40.1 L 222.8,40.1 L 227.3,42.2 L 231.7,53.2 L 236.2,55.4 L 240.7,55.3 L 245.2,54.1 L 249.6,55.3 L 254.1,48.5 L 258.6,49.0 L 263.1,48.7 L 267.5,54.6 L 272.0,55.8 L 272.0,62 L 8.0,62 Z" fill="rgba(240,185,11,0.12)" stroke="none"/><path d="M 8.0,31.8 L 12.5,29.1 L 16.9,29.1 L 21.4,27.2 L 25.9,29.3 L 30.4,17.1 L 34.8,15.6 L 39.3,21.0 L 43.8,14.5 L 48.3,14.2 L 52.7,29.8 L 57.2,28.8 L 61.7,29.6 L 66.2,31.1 L 70.6,34.2 L 75.1,22.5 L 79.6,19.6 L 84.1,22.4 L 88.5,24.4 L 93.0,39.6 L 97.5,55.6 L 102.0,20.0 L 106.4,27.3 L 110.9,30.9 L 115.4,31.3 L 119.9,27.8 L 124.3,33.8 L 128.8,35.7 L 133.3,40.7 L 137.8,40.4 L 142.2,41.3 L 146.7,36.3 L 151.2,37.4 L 155.7,33.8 L 160.1,32.9 L 164.6,34.2 L 169.1,35.6 L 173.6,38.3 L 178.0,38.5 L 182.5,39.5 L 187.0,40.4 L 191.5,39.6 L 195.9,41.8 L 200.4,36.8 L 204.9,36.9 L 209.4,37.5 L 213.8,39.1 L 218.3,40.1 L 222.8,40.1 L 227.3,42.2 L 231.7,53.2 L 236.2,55.4 L 240.7,55.3 L 245.2,54.1 L 249.6,55.3 L 254.1,48.5 L 258.6,49.0 L 263.1,48.7 L 267.5,54.6 L 272.0,55.8" fill="none" stroke="#f0b90b" stroke-width="1.3" stroke-linejoin="round"/><circle cx="272.0" cy="55.8" r="2.5" fill="#f0b90b" stroke="#0a0e14" stroke-width="1.5"/><text x="8" y="69" fill="#5a6578" font-family="JetBrains Mono" font-size="7">01/19</text><text x="272" y="69" fill="#5a6578" font-family="JetBrains Mono" font-size="7" text-anchor="end">04/17</text></svg></div>
+</div>
+<p>1Y 同业存单(AAA)下行至<strong>1.475%</strong>,本月累计下行<strong>4bp</strong>,银行负债端成本压力同步缓解(同业存单利率高于 1Y 国债<strong>约 30bp</strong>,属正常的信用利差结构)。</p>
+<div class="spark">
+  <div class="spark-meta">
+    <div class="spark-title">1Y 同业存单(AAA) · 近60日</div>
+    <div class="spark-value">1.475%</div>
+    <div class="spark-note">本月 <span class="pos">−4bp</span> · 高于1Y国债约30bp</div>
+  </div>
+  <div class="spark-chart"><svg viewBox="0 0 280 70" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto"><path d="M 8.0,14.2 L 12.5,15.6 L 16.9,19.7 L 21.4,19.0 L 25.9,23.1 L 30.4,20.4 L 34.8,20.4 L 39.3,20.8 L 43.8,20.4 L 48.3,21.7 L 52.7,22.4 L 57.2,21.7 L 61.7,21.7 L 66.2,23.1 L 70.6,24.4 L 75.1,25.1 L 79.6,23.8 L 84.1,24.1 L 88.5,25.5 L 93.0,26.5 L 97.5,25.8 L 102.0,25.1 L 106.4,24.5 L 110.9,24.2 L 115.4,26.4 L 119.9,27.2 L 124.3,28.5 L 128.8,31.3 L 133.3,33.3 L 137.8,33.3 L 142.2,33.3 L 146.7,31.9 L 151.2,32.6 L 155.7,33.3 L 160.1,34.7 L 164.6,39.4 L 169.1,37.4 L 173.6,38.1 L 178.0,39.8 L 182.5,42.8 L 187.0,44.2 L 191.5,40.8 L 195.9,39.4 L 200.4,40.1 L 204.9,39.4 L 209.4,40.5 L 213.8,45.6 L 218.3,45.6 L 222.8,44.7 L 227.3,49.0 L 231.7,54.4 L 236.2,55.1 L 240.7,54.4 L 245.2,53.7 L 249.6,53.7 L 254.1,52.8 L 258.6,52.4 L 263.1,53.6 L 267.5,54.4 L 272.0,55.8 L 272.0,62 L 8.0,62 Z" fill="rgba(240,185,11,0.12)" stroke="none"/><path d="M 8.0,14.2 L 12.5,15.6 L 16.9,19.7 L 21.4,19.0 L 25.9,23.1 L 30.4,20.4 L 34.8,20.4 L 39.3,20.8 L 43.8,20.4 L 48.3,21.7 L 52.7,22.4 L 57.2,21.7 L 61.7,21.7 L 66.2,23.1 L 70.6,24.4 L 75.1,25.1 L 79.6,23.8 L 84.1,24.1 L 88.5,25.5 L 93.0,26.5 L 97.5,25.8 L 102.0,25.1 L 106.4,24.5 L 110.9,24.2 L 115.4,26.4 L 119.9,27.2 L 124.3,28.5 L 128.8,31.3 L 133.3,33.3 L 137.8,33.3 L 142.2,33.3 L 146.7,31.9 L 151.2,32.6 L 155.7,33.3 L 160.1,34.7 L 164.6,39.4 L 169.1,37.4 L 173.6,38.1 L 178.0,39.8 L 182.5,42.8 L 187.0,44.2 L 191.5,40.8 L 195.9,39.4 L 200.4,40.1 L 204.9,39.4 L 209.4,40.5 L 213.8,45.6 L 218.3,45.6 L 222.8,44.7 L 227.3,49.0 L 231.7,54.4 L 236.2,55.1 L 240.7,54.4 L 245.2,53.7 L 249.6,53.7 L 254.1,52.8 L 258.6,52.4 L 263.1,53.6 L 267.5,54.4 L 272.0,55.8" fill="none" stroke="#f0b90b" stroke-width="1.3" stroke-linejoin="round"/><circle cx="272.0" cy="55.8" r="2.5" fill="#f0b90b" stroke="#0a0e14" stroke-width="1.5"/><text x="8" y="69" fill="#5a6578" font-family="JetBrains Mono" font-size="7">01/19</text><text x="272" y="69" fill="#5a6578" font-family="JetBrains Mono" font-size="7" text-anchor="end">04/17</text></svg></div>
+</div>
+<p><strong>收益率端</strong>:1Y 国债<strong>1.18%</strong>、2Y 国债<strong>1.29%</strong>、3Y 国债<strong>1.33%</strong>,单日变化均在<strong>1-2bp</strong>窄幅区间。1Y 国债本月累计下行<strong>5bp</strong>,但 2Y、3Y 基本持平。</p>
+<div class="spark">
+  <div class="spark-meta">
+    <div class="spark-title">1 年国债收益率 · 近60日</div>
+    <div class="spark-value">1.18%</div>
+    <div class="spark-note">本月 <span class="pos">−5bp</span> · 下行空间收敛</div>
+  </div>
+  <div class="spark-chart"><svg viewBox="0 0 280 70" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto"><path d="M 8.0,30.5 L 12.5,38.7 L 16.9,36.9 L 21.4,36.2 L 25.9,36.8 L 30.4,33.5 L 34.8,33.1 L 39.3,30.5 L 43.8,31.8 L 48.3,32.3 L 52.7,16.3 L 57.2,18.7 L 61.7,19.3 L 66.2,15.9 L 70.6,19.2 L 75.1,15.4 L 79.6,17.7 L 84.1,18.2 L 88.5,16.9 L 93.0,14.2 L 97.5,16.4 L 102.0,19.0 L 106.4,16.6 L 110.9,15.3 L 115.4,16.6 L 119.9,16.8 L 124.3,20.2 L 128.8,23.4 L 133.3,26.4 L 137.8,26.2 L 142.2,27.1 L 146.7,27.3 L 151.2,27.0 L 155.7,28.1 L 160.1,32.1 L 164.6,31.6 L 169.1,30.9 L 173.6,30.3 L 178.0,32.8 L 182.5,33.8 L 187.0,35.2 L 191.5,34.7 L 195.9,31.7 L 200.4,32.7 L 204.9,33.2 L 209.4,35.3 L 213.8,44.6 L 218.3,45.5 L 222.8,39.6 L 227.3,38.0 L 231.7,40.2 L 236.2,43.5 L 240.7,43.0 L 245.2,43.8 L 249.6,43.2 L 254.1,45.3 L 258.6,47.1 L 263.1,51.8 L 267.5,55.8 L 272.0,53.0 L 272.0,62 L 8.0,62 Z" fill="rgba(240,185,11,0.12)" stroke="none"/><path d="M 8.0,30.5 L 12.5,38.7 L 16.9,36.9 L 21.4,36.2 L 25.9,36.8 L 30.4,33.5 L 34.8,33.1 L 39.3,30.5 L 43.8,31.8 L 48.3,32.3 L 52.7,16.3 L 57.2,18.7 L 61.7,19.3 L 66.2,15.9 L 70.6,19.2 L 75.1,15.4 L 79.6,17.7 L 84.1,18.2 L 88.5,16.9 L 93.0,14.2 L 97.5,16.4 L 102.0,19.0 L 106.4,16.6 L 110.9,15.3 L 115.4,16.6 L 119.9,16.8 L 124.3,20.2 L 128.8,23.4 L 133.3,26.4 L 137.8,26.2 L 142.2,27.1 L 146.7,27.3 L 151.2,27.0 L 155.7,28.1 L 160.1,32.1 L 164.6,31.6 L 169.1,30.9 L 173.6,30.3 L 178.0,32.8 L 182.5,33.8 L 187.0,35.2 L 191.5,34.7 L 195.9,31.7 L 200.4,32.7 L 204.9,33.2 L 209.4,35.3 L 213.8,44.6 L 218.3,45.5 L 222.8,39.6 L 227.3,38.0 L 231.7,40.2 L 236.2,43.5 L 240.7,43.0 L 245.2,43.8 L 249.6,43.2 L 254.1,45.3 L 258.6,47.1 L 263.1,51.8 L 267.5,55.8 L 272.0,53.0" fill="none" stroke="#f0b90b" stroke-width="1.3" stroke-linejoin="round"/><circle cx="272.0" cy="53.0" r="2.5" fill="#f0b90b" stroke="#0a0e14" stroke-width="1.5"/><text x="8" y="69" fill="#5a6578" font-family="JetBrains Mono" font-size="7">01/19</text><text x="272" y="69" fill="#5a6578" font-family="JetBrains Mono" font-size="7" text-anchor="end">04/17</text></svg></div>
+</div>
+<p><strong>含义</strong>:资金极宽松没能有效带动短端收益率继续下行,反映短端定价已充分 Price-in 宽松预期。后续除非有明确的降息信号,短端下行空间有限。</p>
+
+<h4>短端估值:期限利差压缩,配置性价比下降</h4>
+<p>期限利差(国债)3Y-1Y 仅<strong>14.4bp</strong>(前值 16.8bp),(国开债)3Y-1Y <strong>14.9bp</strong>(前值 16.4bp),本月以来均收窄约<strong>2bp</strong>。1Y / 3Y 信用利差均在<strong>12-18bp</strong>区间小幅震荡。</p>
+
+<h4>后续关注</h4>
+<p>一是 1Y 同业存单与 1Y 国债利差(当前存单-国债利差<strong>约 30bp</strong>)能否进一步收窄;二是若后续经济数据继续偏弱,降息概率上升,3Y 段的期限利差能否重新走阔。</p>
+`
+  },
+  "中长债": {
+    score: "+0.020",
+    scoreClass: "neutral",
+    flow: "央行⛅ 常规操作 → 经济预期⛅ 中性 → 长端收益率⛅☀ 小幅下行 → 长端估值⛅🌧 略偏贵",
+    open: false,
+    body: `
+<div class="signal-flow-box">央行⛅ 常规操作 → 经济预期⛅ 中性 → 长端收益率⛅☀ 小幅下行 → 长端估值<strong>⛅🌧 略偏贵</strong></div>
+<div class="panorama-box"><strong>全景判断</strong>:10Y 国债本月累计下行<strong>6bp</strong>至<strong>1.76%</strong>,30Y 下行<strong>12bp</strong>至<strong>2.25%</strong>,长端小幅下行反映了经济预期中性偏弱;但(国债)10Y-1Y 期限利差压缩至<strong>58bp</strong>,配置性价比边际下降。</div>
+
+<h4>长端收益率:30Y 下行幅度大于 10Y,曲线平坦化</h4>
+<p>10Y 国债<strong>1.76%</strong>本月下行<strong>6bp</strong>,30Y 国债<strong>2.25%</strong>本月下行<strong>12bp</strong>。</p>
+<div class="spark">
+  <div class="spark-meta">
+    <div class="spark-title">10 年国债收益率 · 近60日</div>
+    <div class="spark-value">1.76%</div>
+    <div class="spark-note">本月 <span class="pos">−6bp</span> · 接近区间底部</div>
+  </div>
+  <div class="spark-chart"><svg viewBox="0 0 280 70" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto"><path d="M 8.0,15.9 L 12.5,19.4 L 16.9,20.1 L 21.4,14.2 L 25.9,20.8 L 30.4,23.7 L 34.8,20.1 L 39.3,27.7 L 43.8,27.2 L 48.3,30.4 L 52.7,25.9 L 57.2,27.3 L 61.7,26.2 L 66.2,27.5 L 70.6,31.0 L 75.1,30.3 L 79.6,31.4 L 84.1,36.6 L 88.5,41.8 L 93.0,40.0 L 97.5,41.5 L 102.0,35.1 L 106.4,28.1 L 110.9,21.3 L 115.4,42.6 L 119.9,49.0 L 124.3,48.6 L 128.8,46.2 L 133.3,48.3 L 137.8,47.7 L 142.2,46.1 L 146.7,33.4 L 151.2,33.4 L 155.7,32.4 L 160.1,33.5 L 164.6,28.8 L 169.1,20.1 L 173.6,20.0 L 178.0,27.2 L 182.5,23.2 L 187.0,20.8 L 191.5,19.9 L 195.9,22.2 L 200.4,24.2 L 204.9,26.2 L 209.4,27.3 L 213.8,33.0 L 218.3,27.4 L 222.8,23.6 L 227.3,25.4 L 231.7,25.9 L 236.2,27.4 L 240.7,29.2 L 245.2,26.3 L 249.6,29.6 L 254.1,39.7 L 258.6,45.1 L 263.1,46.1 L 267.5,46.0 L 272.0,55.8 L 272.0,62 L 8.0,62 Z" fill="rgba(240,185,11,0.12)" stroke="none"/><path d="M 8.0,15.9 L 12.5,19.4 L 16.9,20.1 L 21.4,14.2 L 25.9,20.8 L 30.4,23.7 L 34.8,20.1 L 39.3,27.7 L 43.8,27.2 L 48.3,30.4 L 52.7,25.9 L 57.2,27.3 L 61.7,26.2 L 66.2,27.5 L 70.6,31.0 L 75.1,30.3 L 79.6,31.4 L 84.1,36.6 L 88.5,41.8 L 93.0,40.0 L 97.5,41.5 L 102.0,35.1 L 106.4,28.1 L 110.9,21.3 L 115.4,42.6 L 119.9,49.0 L 124.3,48.6 L 128.8,46.2 L 133.3,48.3 L 137.8,47.7 L 142.2,46.1 L 146.7,33.4 L 151.2,33.4 L 155.7,32.4 L 160.1,33.5 L 164.6,28.8 L 169.1,20.1 L 173.6,20.0 L 178.0,27.2 L 182.5,23.2 L 187.0,20.8 L 191.5,19.9 L 195.9,22.2 L 200.4,24.2 L 204.9,26.2 L 209.4,27.3 L 213.8,33.0 L 218.3,27.4 L 222.8,23.6 L 227.3,25.4 L 231.7,25.9 L 236.2,27.4 L 240.7,29.2 L 245.2,26.3 L 249.6,29.6 L 254.1,39.7 L 258.6,45.1 L 263.1,46.1 L 267.5,46.0 L 272.0,55.8" fill="none" stroke="#f0b90b" stroke-width="1.3" stroke-linejoin="round"/><circle cx="272.0" cy="55.8" r="2.5" fill="#f0b90b" stroke="#0a0e14" stroke-width="1.5"/><text x="8" y="69" fill="#5a6578" font-family="JetBrains Mono" font-size="7">01/19</text><text x="272" y="69" fill="#5a6578" font-family="JetBrains Mono" font-size="7" text-anchor="end">04/17</text></svg></div>
+</div>
+<div class="spark">
+  <div class="spark-meta">
+    <div class="spark-title">30 年国债收益率 · 近60日</div>
+    <div class="spark-value">2.25%</div>
+    <div class="spark-note">本月 <span class="pos">−12bp</span> · 下行快于10Y</div>
+  </div>
+  <div class="spark-chart"><svg viewBox="0 0 280 70" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto"><path d="M 8.0,28.2 L 12.5,30.0 L 16.9,39.1 L 21.4,37.0 L 25.9,43.4 L 30.4,48.1 L 34.8,44.0 L 39.3,46.2 L 43.8,45.3 L 48.3,42.8 L 52.7,45.1 L 57.2,45.3 L 61.7,44.5 L 66.2,47.9 L 70.6,53.4 L 75.1,54.3 L 79.6,54.5 L 84.1,55.0 L 88.5,54.8 L 93.0,55.4 L 97.5,54.8 L 102.0,55.8 L 106.4,52.3 L 110.9,41.1 L 115.4,42.7 L 119.9,47.4 L 124.3,48.2 L 128.8,44.6 L 133.3,46.7 L 137.8,47.7 L 142.2,45.0 L 146.7,31.6 L 151.2,30.6 L 155.7,25.8 L 160.1,28.5 L 164.6,21.3 L 169.1,14.2 L 173.6,17.3 L 178.0,22.9 L 182.5,14.4 L 187.0,15.2 L 191.5,19.4 L 195.9,27.0 L 200.4,27.0 L 204.9,25.9 L 209.4,25.9 L 213.8,31.8 L 218.3,25.3 L 222.8,21.2 L 227.3,19.4 L 231.7,19.6 L 236.2,23.1 L 240.7,29.3 L 245.2,28.8 L 249.6,38.2 L 254.1,44.9 L 258.6,45.2 L 263.1,45.8 L 267.5,45.1 L 272.0,53.7 L 272.0,62 L 8.0,62 Z" fill="rgba(240,185,11,0.12)" stroke="none"/><path d="M 8.0,28.2 L 12.5,30.0 L 16.9,39.1 L 21.4,37.0 L 25.9,43.4 L 30.4,48.1 L 34.8,44.0 L 39.3,46.2 L 43.8,45.3 L 48.3,42.8 L 52.7,45.1 L 57.2,45.3 L 61.7,44.5 L 66.2,47.9 L 70.6,53.4 L 75.1,54.3 L 79.6,54.5 L 84.1,55.0 L 88.5,54.8 L 93.0,55.4 L 97.5,54.8 L 102.0,55.8 L 106.4,52.3 L 110.9,41.1 L 115.4,42.7 L 119.9,47.4 L 124.3,48.2 L 128.8,44.6 L 133.3,46.7 L 137.8,47.7 L 142.2,45.0 L 146.7,31.6 L 151.2,30.6 L 155.7,25.8 L 160.1,28.5 L 164.6,21.3 L 169.1,14.2 L 173.6,17.3 L 178.0,22.9 L 182.5,14.4 L 187.0,15.2 L 191.5,19.4 L 195.9,27.0 L 200.4,27.0 L 204.9,25.9 L 209.4,25.9 L 213.8,31.8 L 218.3,25.3 L 222.8,21.2 L 227.3,19.4 L 231.7,19.6 L 236.2,23.1 L 240.7,29.3 L 245.2,28.8 L 249.6,38.2 L 254.1,44.9 L 258.6,45.2 L 263.1,45.8 L 267.5,45.1 L 272.0,53.7" fill="none" stroke="#f0b90b" stroke-width="1.3" stroke-linejoin="round"/><circle cx="272.0" cy="53.7" r="2.5" fill="#f0b90b" stroke="#0a0e14" stroke-width="1.5"/><text x="8" y="69" fill="#5a6578" font-family="JetBrains Mono" font-size="7">01/19</text><text x="272" y="69" fill="#5a6578" font-family="JetBrains Mono" font-size="7" text-anchor="end">04/17</text></svg></div>
+</div>
+<p>30Y-10Y 利差从约 50bp 压缩至<strong>49bp</strong>,超长端的利差压缩幅度更大,反映市场对超长期经济预期偏谨慎。</p>
+<p><strong>潜在含义</strong>:长端利率下行不是单纯的"经济差-避险买长债",而是包含了<strong>机构配置力量</strong>(保险、养老金等长久期负债机构在低利率环境下对超长债的持续需求)。</p>
+
+<h4>经济预期:⛅ 中性,对长债影响有限</h4>
+<p>PMI <strong>50.4</strong>回升,工业增加值<strong>5.7%</strong>平稳是正面信号,但社零<strong>1.7%</strong>、出口<strong>2.5%</strong>、商品房销售<strong>−10.4%</strong>的弱势抵消了这些正面信号。<strong>布伦特原油从 99.39 降至 90.38</strong>,输入性通胀压力缓解,PPI 同比<strong>+0.5%</strong>虽然转正但需关注价格分项是否受能源成本推动。</p>
+
+<h4>长端估值:期限利差压缩,配置价值下降</h4>
+<p>(国债)10Y-1Y 利差<strong>58.1bp</strong>本月压缩<strong>3bp</strong>,(国开债)10Y-1Y 利差<strong>44.2bp</strong>压缩<strong>3bp</strong>。10Y 信用利差(企业债-国开债)<strong>32.9bp</strong>、(城投债-国开债)<strong>35.6bp</strong>均小幅走阔。</p>
+<div class="spark">
+  <div class="spark-meta">
+    <div class="spark-title">(国债)10Y-1Y 利差 · 近60日</div>
+    <div class="spark-value">58.1 bp</div>
+    <div class="spark-note">本月 <span class="neg">−3bp</span> · 曲线走平</div>
+  </div>
+  <div class="spark-chart"><svg viewBox="0 0 280 70" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto"><path d="M 8.0,23.0 L 12.5,16.6 L 16.9,18.9 L 21.4,16.3 L 25.9,19.2 L 30.4,24.2 L 34.8,22.7 L 39.3,29.7 L 43.8,28.3 L 48.3,29.4 L 52.7,43.2 L 57.2,41.7 L 61.7,40.3 L 66.2,44.4 L 70.6,43.2 L 75.1,46.7 L 79.6,44.9 L 84.1,47.3 L 88.5,51.7 L 93.0,53.1 L 97.5,52.0 L 102.0,45.5 L 106.4,44.1 L 110.9,41.7 L 115.4,52.3 L 119.9,55.8 L 124.3,52.0 L 128.8,47.6 L 133.3,45.5 L 137.8,45.2 L 142.2,43.5 L 146.7,36.2 L 151.2,36.5 L 155.7,34.7 L 160.1,31.2 L 164.6,29.1 L 169.1,25.1 L 173.6,25.6 L 178.0,27.1 L 182.5,23.9 L 187.0,21.0 L 191.5,21.0 L 195.9,25.3 L 200.4,25.3 L 204.9,26.2 L 209.4,24.5 L 213.8,18.3 L 218.3,14.2 L 222.8,18.0 L 227.3,20.7 L 231.7,18.6 L 236.2,16.3 L 240.7,17.7 L 245.2,15.4 L 249.6,17.7 L 254.1,21.3 L 258.6,22.4 L 263.1,18.3 L 267.5,14.2 L 272.0,22.4 L 272.0,62 L 8.0,62 Z" fill="rgba(240,185,11,0.12)" stroke="none"/><path d="M 8.0,23.0 L 12.5,16.6 L 16.9,18.9 L 21.4,16.3 L 25.9,19.2 L 30.4,24.2 L 34.8,22.7 L 39.3,29.7 L 43.8,28.3 L 48.3,29.4 L 52.7,43.2 L 57.2,41.7 L 61.7,40.3 L 66.2,44.4 L 70.6,43.2 L 75.1,46.7 L 79.6,44.9 L 84.1,47.3 L 88.5,51.7 L 93.0,53.1 L 97.5,52.0 L 102.0,45.5 L 106.4,44.1 L 110.9,41.7 L 115.4,52.3 L 119.9,55.8 L 124.3,52.0 L 128.8,47.6 L 133.3,45.5 L 137.8,45.2 L 142.2,43.5 L 146.7,36.2 L 151.2,36.5 L 155.7,34.7 L 160.1,31.2 L 164.6,29.1 L 169.1,25.1 L 173.6,25.6 L 178.0,27.1 L 182.5,23.9 L 187.0,21.0 L 191.5,21.0 L 195.9,25.3 L 200.4,25.3 L 204.9,26.2 L 209.4,24.5 L 213.8,18.3 L 218.3,14.2 L 222.8,18.0 L 227.3,20.7 L 231.7,18.6 L 236.2,16.3 L 240.7,17.7 L 245.2,15.4 L 249.6,17.7 L 254.1,21.3 L 258.6,22.4 L 263.1,18.3 L 267.5,14.2 L 272.0,22.4" fill="none" stroke="#f0b90b" stroke-width="1.3" stroke-linejoin="round"/><circle cx="272.0" cy="22.4" r="2.5" fill="#f0b90b" stroke="#0a0e14" stroke-width="1.5"/><text x="8" y="69" fill="#5a6578" font-family="JetBrains Mono" font-size="7">01/19</text><text x="272" y="69" fill="#5a6578" font-family="JetBrains Mono" font-size="7" text-anchor="end">04/17</text></svg></div>
+</div>
+
+<h4>后续关注</h4>
+<p>一是 10Y 国债能否突破<strong>1.75%</strong>区间的底部支撑;二是 30Y-10Y 利差能否继续压缩;三是油价持续低位若带动 PPI 回落,对长债是利多。</p>
+`
+  },
+  "美股": {
+    score: "−0.150",
+    scoreClass: "neg",
+    flow: "美国经济⛅ 企稳 → 美国流动性⛅ 中性 → 情绪☀ 偏乐观 → 估值🌪 显著偏贵",
+    open: true,
+    body: `
+<div class="signal-flow-box">美国经济⛅ 企稳 → 美国流动性⛅ 中性 → 情绪☀ 偏乐观 → 估值<strong>🌪 显著偏贵</strong></div>
+<div class="panorama-box"><strong>全景判断</strong>:美国经济 4 个维度(景气 / 就业 / 消费 / 通胀)整体企稳,VIX <strong>17.5</strong>处正常区间,但<strong>标普 500 动态 PE 达 29.6 倍(显著偏贵)</strong>,这是美股链路最大的拖累。CME FedWatch 显示 4 月 FOMC 按兵不动概率<strong>97.9%</strong>,降息预期被推至 Q3 以后。</div>
+
+<h4>⚠ 核心矛盾:基本面企稳 vs 估值显著偏贵</h4>
+<p><strong>基本面端</strong>(US-eco score <strong>+0.25</strong>):</p>
+<p>· <strong>景气</strong>:ISM 制造业<strong>52.7</strong>(前值 52.4)、非制造业 ISM <strong>54</strong>,温和扩张<br>
+· <strong>就业</strong>:失业率<strong>4.3%</strong>、非农<strong>17.8 万</strong>、初请失业金<strong>21.4 万</strong>,劳动力市场稳健<br>
+· <strong>消费</strong>:零售销售环比<strong>+0.6%</strong>,强劲反弹<br>
+· <strong>地产</strong>:新建住房销量<strong>48</strong>、建造支出<strong>154,771</strong>均环比下降,是美国经济中最弱的一环</p>
+<div class="spark">
+  <div class="spark-meta">
+    <div class="spark-title">ISM 制造业 PMI · 近12月</div>
+    <div class="spark-value">52.7</div>
+    <div class="spark-note">环比 <span class="pos">+0.3</span> · <span class="pos">连续扩张</span></div>
+  </div>
+  <div class="spark-chart"><svg viewBox="0 0 280 70" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto"><line x1="8" y1="37.6" x2="272" y2="37.6" stroke="#5a6578" stroke-width="0.5" stroke-dasharray="2,2"/><text x="270" y="35.6" fill="#5a6578" font-family="JetBrains Mono" font-size="7" text-anchor="end">50 荣枯线</text><path d="M 8.0,48.8 L 32.0,50.6 L 56.0,46.2 L 80.0,54.9 L 104.0,48.8 L 128.0,45.4 L 152.0,48.8 L 176.0,53.2 L 200.0,55.8 L 224.0,15.1 L 248.0,16.8 L 272.0,14.2 L 272.0,62 L 8.0,62 Z" fill="rgba(240,185,11,0.12)" stroke="none"/><path d="M 8.0,48.8 L 32.0,50.6 L 56.0,46.2 L 80.0,54.9 L 104.0,48.8 L 128.0,45.4 L 152.0,48.8 L 176.0,53.2 L 200.0,55.8 L 224.0,15.1 L 248.0,16.8 L 272.0,14.2" fill="none" stroke="#f0b90b" stroke-width="1.3" stroke-linejoin="round"/><circle cx="272.0" cy="14.2" r="2.5" fill="#f0b90b" stroke="#0a0e14" stroke-width="1.5"/><text x="8" y="69" fill="#5a6578" font-family="JetBrains Mono" font-size="7">04月</text><text x="272" y="69" fill="#5a6578" font-family="JetBrains Mono" font-size="7" text-anchor="end">03月</text></svg></div>
+</div>
+<p><strong>估值端</strong>(US-val score <strong>−2</strong>):标普 500 动态 PE <strong>29.6 倍</strong>维持高位,创造当前美股链路最大的单点拖累。</p>
+<div class="spark">
+  <div class="spark-meta">
+    <div class="spark-title">标普 500 动态 PE · 近12月</div>
+    <div class="spark-value">29.6 x</div>
+    <div class="spark-note">位于 <span class="neg">历史高位</span> · 打分 <span class="neg">−2 显著偏贵</span></div>
+  </div>
+  <div class="spark-chart"><svg viewBox="0 0 280 70" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto"><path d="M 8.0,55.8 L 32.0,50.6 L 56.0,51.8 L 80.0,51.8 L 104.0,51.8 L 128.0,43.2 L 152.0,31.1 L 176.0,24.9 L 200.0,25.2 L 224.0,14.2 L 248.0,14.2 L 272.0,14.2 L 272.0,62 L 8.0,62 Z" fill="rgba(240,185,11,0.12)" stroke="none"/><path d="M 8.0,55.8 L 32.0,50.6 L 56.0,51.8 L 80.0,51.8 L 104.0,51.8 L 128.0,43.2 L 152.0,31.1 L 176.0,24.9 L 200.0,25.2 L 224.0,14.2 L 248.0,14.2 L 272.0,14.2" fill="none" stroke="#f0b90b" stroke-width="1.3" stroke-linejoin="round"/><circle cx="272.0" cy="14.2" r="2.5" fill="#f0b90b" stroke="#0a0e14" stroke-width="1.5"/><text x="8" y="69" fill="#5a6578" font-family="JetBrains Mono" font-size="7">04月</text><text x="272" y="69" fill="#5a6578" font-family="JetBrains Mono" font-size="7" text-anchor="end">04月</text></svg></div>
+</div>
+<p><strong>断点含义</strong>:经济企稳 + 情绪偏乐观(VIX 偏低)支撑美股当前点位,但高估值使得任何经济数据意外下行或通胀超预期都会触发回调。风险收益比不对称。</p>
+
+<h4>通胀仍具粘性,美联储降息空间受限</h4>
+<p><strong>核心 CPI</strong> 同比<strong>2.6%</strong>(前值 2.5%)边际小幅上行,<strong>核心 PCE</strong> 同比<strong>3.0%</strong>(前值 3.1%)小幅回落,但均显著高于 2% 目标。</p>
+<div class="spark">
+  <div class="spark-meta">
+    <div class="spark-title">美国核心 CPI 同比 · 近12月</div>
+    <div class="spark-value">2.6%</div>
+    <div class="spark-note">环比 <span class="neg">+0.1pct</span> · 仍高于 <span class="neg">2% 目标</span></div>
+  </div>
+  <div class="spark-chart"><svg viewBox="0 0 280 70" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto"><path d="M 8.0,35.0 L 32.0,35.0 L 56.0,35.0 L 80.0,28.1 L 104.0,14.2 L 128.0,14.2 L 152.0,21.2 L 176.0,48.8 L 200.0,48.8 L 224.0,55.8 L 248.0,55.8 L 272.0,48.8 L 272.0,62 L 8.0,62 Z" fill="rgba(240,185,11,0.12)" stroke="none"/><path d="M 8.0,35.0 L 32.0,35.0 L 56.0,35.0 L 80.0,28.1 L 104.0,14.2 L 128.0,14.2 L 152.0,21.2 L 176.0,48.8 L 200.0,48.8 L 224.0,55.8 L 248.0,55.8 L 272.0,48.8" fill="none" stroke="#f0b90b" stroke-width="1.3" stroke-linejoin="round"/><circle cx="272.0" cy="48.8" r="2.5" fill="#f0b90b" stroke="#0a0e14" stroke-width="1.5"/><text x="8" y="69" fill="#5a6578" font-family="JetBrains Mono" font-size="7">03月</text><text x="272" y="69" fill="#5a6578" font-family="JetBrains Mono" font-size="7" text-anchor="end">03月</text></svg></div>
+</div>
+<p>密歇根通胀预期(1 年)跃升至<strong>4.8%</strong>(前值 3.8%),是值得警惕的信号——虽然密歇根调查受关税话题影响波动较大,但<strong>通胀预期失锚</strong>是美联储最担心的风险。</p>
+<p><strong>布伦特原油本月累计回落 10.78 美元至 90.38</strong>,地缘紧张缓和降低了输入性通胀压力。但当前油价仍在偏高区间,需要持续低位才能真正降低通胀压力。</p>
+<div class="spark">
+  <div class="spark-meta">
+    <div class="spark-title">ICE 布伦特原油 · 近60日</div>
+    <div class="spark-value">90.38</div>
+    <div class="spark-note">本月 <span class="pos">−10.78</span> · 外部冲击缓解</div>
+  </div>
+  <div class="spark-chart"><svg viewBox="0 0 280 70" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto"><path d="M 8.0,55.5 L 12.5,55.8 L 16.9,54.2 L 21.4,53.6 L 25.9,51.7 L 30.4,51.8 L 34.8,55.2 L 39.3,54.4 L 43.8,52.7 L 48.3,54.2 L 52.7,53.8 L 57.2,53.1 L 61.7,53.2 L 66.2,52.8 L 70.6,54.2 L 75.1,54.1 L 79.6,53.4 L 84.1,54.3 L 88.5,52.0 L 93.0,51.0 L 97.5,50.9 L 102.0,51.1 L 106.4,51.7 L 110.9,51.6 L 115.4,51.7 L 119.9,50.3 L 124.3,46.2 L 128.8,43.3 L 133.3,43.3 L 137.8,40.2 L 142.2,34.4 L 146.7,29.5 L 151.2,38.3 L 155.7,35.0 L 160.1,28.3 L 164.6,26.2 L 169.1,28.5 L 173.6,26.0 L 178.0,22.9 L 182.5,21.9 L 187.0,19.1 L 191.5,28.7 L 195.9,25.1 L 200.4,26.9 L 204.9,22.4 L 209.4,18.8 L 213.8,18.6 L 218.3,14.2 L 222.8,27.8 L 227.3,21.6 L 231.7,21.0 L 236.2,21.4 L 240.7,32.8 L 245.2,31.9 L 249.6,32.5 L 254.1,29.2 L 258.6,32.8 L 263.1,32.7 L 267.5,29.2 L 272.0,36.3 L 272.0,62 L 8.0,62 Z" fill="rgba(240,185,11,0.12)" stroke="none"/><path d="M 8.0,55.5 L 12.5,55.8 L 16.9,54.2 L 21.4,53.6 L 25.9,51.7 L 30.4,51.8 L 34.8,55.2 L 39.3,54.4 L 43.8,52.7 L 48.3,54.2 L 52.7,53.8 L 57.2,53.1 L 61.7,53.2 L 66.2,52.8 L 70.6,54.2 L 75.1,54.1 L 79.6,53.4 L 84.1,54.3 L 88.5,52.0 L 93.0,51.0 L 97.5,50.9 L 102.0,51.1 L 106.4,51.7 L 110.9,51.6 L 115.4,51.7 L 119.9,50.3 L 124.3,46.2 L 128.8,43.3 L 133.3,43.3 L 137.8,40.2 L 142.2,34.4 L 146.7,29.5 L 151.2,38.3 L 155.7,35.0 L 160.1,28.3 L 164.6,26.2 L 169.1,28.5 L 173.6,26.0 L 178.0,22.9 L 182.5,21.9 L 187.0,19.1 L 191.5,28.7 L 195.9,25.1 L 200.4,26.9 L 204.9,22.4 L 209.4,18.8 L 213.8,18.6 L 218.3,14.2 L 222.8,27.8 L 227.3,21.6 L 231.7,21.0 L 236.2,21.4 L 240.7,32.8 L 245.2,31.9 L 249.6,32.5 L 254.1,29.2 L 258.6,32.8 L 263.1,32.7 L 267.5,29.2 L 272.0,36.3" fill="none" stroke="#f0b90b" stroke-width="1.3" stroke-linejoin="round"/><circle cx="272.0" cy="36.3" r="2.5" fill="#f0b90b" stroke="#0a0e14" stroke-width="1.5"/><text x="8" y="69" fill="#5a6578" font-family="JetBrains Mono" font-size="7">01/23</text><text x="272" y="69" fill="#5a6578" font-family="JetBrains Mono" font-size="7" text-anchor="end">04/17</text></svg></div>
+</div>
+<p><strong>CME FedWatch 显示 4 月 29-30 日 FOMC 按兵不动概率 97.9%</strong>(截至 4 月 17 日),市场完全接受了"Higher for longer"的路径;首次降息预期被推至 Q3 或之后。</p>
+
+<h4>美国流动性:中性,财政扰动为主</h4>
+<p>FFR <strong>3.64%</strong>维持、联储总资产同比<strong>−0.3%</strong>(微缩表)、银行贷款同比<strong>+6.6%</strong>(温和扩张)。<strong>TGA(财政部账户余额)单周暴增 2,274 亿美元至 9,244 亿美元</strong>(前值 6,971 亿,创 2025 年 9 月以来最大单周跳涨)。主因美国 4 月 15 日报税季税款集中入账(据彭博社报道),属<strong>季节性现象</strong>,并非结构性流动性恶化;但短期内仍对银行准备金构成临时性抽水,是近期美元流动性的主要扰动源。</p>
+
+<h4>情绪:VIX 正常偏低,暗含过度乐观</h4>
+<p>VIX <strong>17.5</strong>(前值 17.9)处于正常区间下沿。历史上 VIX 长期低位 + 标普 PE 高位,通常是美股局部顶部的特征——不是立即触发下跌的信号,但提示市场对风险定价偏不足。</p>
+
+<h4>后续关注</h4>
+<p>一是 4 月 CPI 数据(5 月发布)和核心 PCE 能否继续回落,直接影响 CME 降息概率;二是密歇根通胀预期的可持续性(若连续两个月高于 4%,美联储可能需要表态);三是标普 500 盈利季(4 月下旬至 5 月)能否验证当前高估值。</p>
+<p><em>注:CME FedWatch 降息概率数据来自 CME Group 2026-04-17 披露的数据。</em></p>
+`
+  },
+  "美债": {
+    score: "+0.625",
+    scoreClass: "pos",
+    flow: "美联储⛅ 按兵不动 → 供需⛅☀ 供需偏好 → 收益率☀ 温和下行 → 利差☀ 偏陡",
+    open: false,
+    body: `
+<div class="signal-flow-box">美联储⛅ 按兵不动 → 供需⛅☀ 供需偏好 → 收益率<strong>☀ 温和下行</strong> → 利差☀ 偏陡</div>
+<div class="panorama-box"><strong>全景判断</strong>:美联储 4 月按兵不动概率<strong>97.9%</strong>(CME FedWatch 4-17 日数据),但美债收益率全线下行——2Y <strong>3.71%</strong>本月下行<strong>10bp</strong>,10Y <strong>4.26%</strong>本月下行<strong>7bp</strong>,10Y-2Y 利差维持<strong>55bp</strong>偏陡形态。这组合提示市场开始 Price-in 更远的降息路径,但短期内美联储不会动。</div>
+
+<h4>美联储政策:按兵不动,QT 接近尾声</h4>
+<p><strong>联邦基金利率</strong>维持<strong>3.64%</strong>。<strong>联储总资产同比 −0.3%</strong>——和 2024 年缩表高峰期(<strong>−8% YoY</strong>)相比,当前缩表已明显放缓,基本进入"名义缩表但规模稳定"的阶段。</p>
+<p><strong>CME FedWatch 显示 4 月 29-30 日 FOMC 按兵不动概率 97.9%</strong>,其余 2.1% 是加息 25bp 概率,降息概率几乎为零。市场完全接受 Fed 的"Higher for longer"路径。</p>
+
+<h4>⚠ 收益率 vs 政策的背离</h4>
+<p><strong>政策端</strong>:按兵不动,无降息信号。<strong>收益率端</strong>:2Y 美债本月下行<strong>10bp</strong>,10Y 下行<strong>7bp</strong>,方向明显下行。</p>
+<div class="spark">
+  <div class="spark-meta">
+    <div class="spark-title">2 年期美债收益率 · 近60日</div>
+    <div class="spark-value">3.71%</div>
+    <div class="spark-note">本月 <span class="pos">−10bp</span> · 下行快于长端</div>
+  </div>
+  <div class="spark-chart"><svg viewBox="0 0 280 70" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto"><path d="M 8.0,40.0 L 12.5,42.9 L 16.9,45.0 L 21.4,42.9 L 25.9,45.0 L 30.4,45.7 L 34.8,42.2 L 39.3,42.2 L 43.8,42.2 L 48.3,49.3 L 52.7,47.2 L 57.2,48.6 L 61.7,50.8 L 66.2,45.7 L 70.6,49.3 L 75.1,54.3 L 79.6,52.2 L 84.1,49.3 L 88.5,49.3 L 93.0,48.6 L 97.5,52.2 L 102.0,52.2 L 106.4,50.8 L 110.9,52.9 L 115.4,55.8 L 119.9,49.3 L 124.3,46.5 L 128.8,44.3 L 133.3,42.2 L 137.8,42.9 L 142.2,42.9 L 146.7,42.2 L 151.2,37.1 L 155.7,28.6 L 160.1,30.7 L 164.6,34.3 L 169.1,34.3 L 173.6,28.6 L 178.0,26.4 L 182.5,20.0 L 187.0,23.5 L 191.5,18.5 L 195.9,22.8 L 200.4,14.2 L 204.9,20.0 L 209.4,24.3 L 213.8,26.4 L 218.3,25.0 L 222.8,26.4 L 227.3,22.8 L 231.7,22.8 L 236.2,25.0 L 240.7,26.4 L 245.2,27.1 L 249.6,25.0 L 254.1,27.1 L 258.6,28.6 L 263.1,28.6 L 267.5,27.1 L 272.0,32.1 L 272.0,62 L 8.0,62 Z" fill="rgba(240,185,11,0.12)" stroke="none"/><path d="M 8.0,40.0 L 12.5,42.9 L 16.9,45.0 L 21.4,42.9 L 25.9,45.0 L 30.4,45.7 L 34.8,42.2 L 39.3,42.2 L 43.8,42.2 L 48.3,49.3 L 52.7,47.2 L 57.2,48.6 L 61.7,50.8 L 66.2,45.7 L 70.6,49.3 L 75.1,54.3 L 79.6,52.2 L 84.1,49.3 L 88.5,49.3 L 93.0,48.6 L 97.5,52.2 L 102.0,52.2 L 106.4,50.8 L 110.9,52.9 L 115.4,55.8 L 119.9,49.3 L 124.3,46.5 L 128.8,44.3 L 133.3,42.2 L 137.8,42.9 L 142.2,42.9 L 146.7,42.2 L 151.2,37.1 L 155.7,28.6 L 160.1,30.7 L 164.6,34.3 L 169.1,34.3 L 173.6,28.6 L 178.0,26.4 L 182.5,20.0 L 187.0,23.5 L 191.5,18.5 L 195.9,22.8 L 200.4,14.2 L 204.9,20.0 L 209.4,24.3 L 213.8,26.4 L 218.3,25.0 L 222.8,26.4 L 227.3,22.8 L 231.7,22.8 L 236.2,25.0 L 240.7,26.4 L 245.2,27.1 L 249.6,25.0 L 254.1,27.1 L 258.6,28.6 L 263.1,28.6 L 267.5,27.1 L 272.0,32.1" fill="none" stroke="#f0b90b" stroke-width="1.3" stroke-linejoin="round"/><circle cx="272.0" cy="32.1" r="2.5" fill="#f0b90b" stroke="#0a0e14" stroke-width="1.5"/><text x="8" y="69" fill="#5a6578" font-family="JetBrains Mono" font-size="7">01/23</text><text x="272" y="69" fill="#5a6578" font-family="JetBrains Mono" font-size="7" text-anchor="end">04/17</text></svg></div>
+</div>
+<div class="spark">
+  <div class="spark-meta">
+    <div class="spark-title">10 年期美债收益率 · 近60日</div>
+    <div class="spark-value">4.26%</div>
+    <div class="spark-note">本月 <span class="pos">−7bp</span> · 温和下行</div>
+  </div>
+  <div class="spark-chart"><svg viewBox="0 0 280 70" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto"><path d="M 8.0,31.9 L 12.5,33.7 L 16.9,31.9 L 21.4,30.1 L 25.9,31.9 L 30.4,30.1 L 34.8,27.5 L 39.3,28.4 L 43.8,27.5 L 48.3,34.6 L 52.7,33.7 L 57.2,33.7 L 61.7,39.0 L 66.2,37.2 L 70.6,45.2 L 75.1,49.6 L 79.6,48.7 L 84.1,45.2 L 88.5,46.0 L 93.0,46.0 L 97.5,50.5 L 102.0,49.6 L 106.4,48.7 L 110.9,51.4 L 115.4,55.8 L 119.9,48.7 L 124.3,47.8 L 128.8,45.2 L 133.3,41.6 L 137.8,39.9 L 142.2,42.5 L 146.7,39.9 L 151.2,34.6 L 155.7,29.3 L 160.1,28.4 L 164.6,32.8 L 169.1,35.4 L 173.6,30.1 L 178.0,31.0 L 182.5,18.6 L 187.0,23.1 L 191.5,18.6 L 195.9,24.0 L 200.4,16.0 L 204.9,14.2 L 209.4,22.2 L 213.8,26.6 L 218.3,24.0 L 222.8,25.7 L 227.3,22.2 L 231.7,23.1 L 236.2,24.0 L 240.7,27.5 L 245.2,27.5 L 249.6,25.7 L 254.1,26.6 L 258.6,30.1 L 263.1,27.5 L 267.5,24.8 L 272.0,30.1 L 272.0,62 L 8.0,62 Z" fill="rgba(240,185,11,0.12)" stroke="none"/><path d="M 8.0,31.9 L 12.5,33.7 L 16.9,31.9 L 21.4,30.1 L 25.9,31.9 L 30.4,30.1 L 34.8,27.5 L 39.3,28.4 L 43.8,27.5 L 48.3,34.6 L 52.7,33.7 L 57.2,33.7 L 61.7,39.0 L 66.2,37.2 L 70.6,45.2 L 75.1,49.6 L 79.6,48.7 L 84.1,45.2 L 88.5,46.0 L 93.0,46.0 L 97.5,50.5 L 102.0,49.6 L 106.4,48.7 L 110.9,51.4 L 115.4,55.8 L 119.9,48.7 L 124.3,47.8 L 128.8,45.2 L 133.3,41.6 L 137.8,39.9 L 142.2,42.5 L 146.7,39.9 L 151.2,34.6 L 155.7,29.3 L 160.1,28.4 L 164.6,32.8 L 169.1,35.4 L 173.6,30.1 L 178.0,31.0 L 182.5,18.6 L 187.0,23.1 L 191.5,18.6 L 195.9,24.0 L 200.4,16.0 L 204.9,14.2 L 209.4,22.2 L 213.8,26.6 L 218.3,24.0 L 222.8,25.7 L 227.3,22.2 L 231.7,23.1 L 236.2,24.0 L 240.7,27.5 L 245.2,27.5 L 249.6,25.7 L 254.1,26.6 L 258.6,30.1 L 263.1,27.5 L 267.5,24.8 L 272.0,30.1" fill="none" stroke="#f0b90b" stroke-width="1.3" stroke-linejoin="round"/><circle cx="272.0" cy="30.1" r="2.5" fill="#f0b90b" stroke="#0a0e14" stroke-width="1.5"/><text x="8" y="69" fill="#5a6578" font-family="JetBrains Mono" font-size="7">01/23</text><text x="272" y="69" fill="#5a6578" font-family="JetBrains Mono" font-size="7" text-anchor="end">04/17</text></svg></div>
+</div>
+<p><strong>为什么收益率下行而政策不变?</strong></p>
+<p>这组合实际上反映了市场的"<strong>Relief Rally 但保留对冲</strong>"特征——据 CNBC 4 月 8 日报道,美伊停火带动<strong>风险资产与避险资产同时上涨</strong>:股票回暖、美债收益率下行、黄金继续走强。市场虽因地缘缓和回补风险仓位,但<strong>并未完全转向 risk-on,仍同时对冲不确定性</strong>。收益率下行是三层逻辑叠加:</p>
+<p>1. <strong>期限溢价下降</strong>:地缘紧张缓和(布伦特从 99.39 降至 90.38)降低美债风险溢价<br>
+2. <strong>远期降息预期</strong>:市场 Price-in 的是 Q3/Q4 首次降息,而非 5 月或 6 月<br>
+3. <strong>避险对冲需求</strong>:股债同步上涨,说明资金在回补风险资产同时仍留一部分仓位买入美债作为对冲</p>
+<p><strong>断点含义</strong>:<strong>短端(2Y)下行快于长端(10Y)</strong>,10Y-2Y 利差从 54bp 走阔至<strong>55bp</strong>,曲线进一步陡峭化。这是典型的"Bull Steepening"(降息预期驱动的牛陡)。</p>
+<div class="spark">
+  <div class="spark-meta">
+    <div class="spark-title">10Y-2Y 美债利差 · 近60日</div>
+    <div class="spark-value">55 bp</div>
+    <div class="spark-note">本月 <span class="pos">+1bp</span> · 曲线 <span class="pos">陡峭化</span></div>
+  </div>
+  <div class="spark-chart"><svg viewBox="0 0 280 70" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto"><path d="M 8.0,29.1 L 12.5,26.1 L 16.9,18.7 L 21.4,20.2 L 25.9,18.7 L 30.4,14.2 L 34.8,17.2 L 39.3,18.7 L 43.8,17.2 L 48.3,14.2 L 52.7,17.2 L 57.2,14.2 L 61.7,18.7 L 66.2,26.1 L 70.6,32.0 L 75.1,29.1 L 79.6,32.0 L 84.1,32.0 L 88.5,33.5 L 93.0,35.0 L 97.5,35.0 L 102.0,33.5 L 106.4,35.0 L 110.9,35.0 L 115.4,36.5 L 119.9,38.0 L 124.3,42.4 L 128.8,42.4 L 133.3,40.9 L 137.8,36.5 L 142.2,40.9 L 146.7,38.0 L 151.2,39.5 L 155.7,48.4 L 160.1,42.4 L 164.6,42.4 L 169.1,46.9 L 173.6,49.8 L 178.0,55.8 L 182.5,48.4 L 187.0,48.4 L 191.5,51.3 L 195.9,51.3 L 200.4,55.8 L 204.9,40.9 L 209.4,45.4 L 213.8,48.4 L 218.3,46.9 L 222.8,46.9 L 227.3,48.4 L 231.7,49.8 L 236.2,46.9 L 240.7,49.8 L 245.2,48.4 L 249.6,49.8 L 254.1,46.9 L 258.6,49.8 L 263.1,45.4 L 267.5,43.9 L 272.0,42.4 L 272.0,62 L 8.0,62 Z" fill="rgba(240,185,11,0.12)" stroke="none"/><path d="M 8.0,29.1 L 12.5,26.1 L 16.9,18.7 L 21.4,20.2 L 25.9,18.7 L 30.4,14.2 L 34.8,17.2 L 39.3,18.7 L 43.8,17.2 L 48.3,14.2 L 52.7,17.2 L 57.2,14.2 L 61.7,18.7 L 66.2,26.1 L 70.6,32.0 L 75.1,29.1 L 79.6,32.0 L 84.1,32.0 L 88.5,33.5 L 93.0,35.0 L 97.5,35.0 L 102.0,33.5 L 106.4,35.0 L 110.9,35.0 L 115.4,36.5 L 119.9,38.0 L 124.3,42.4 L 128.8,42.4 L 133.3,40.9 L 137.8,36.5 L 142.2,40.9 L 146.7,38.0 L 151.2,39.5 L 155.7,48.4 L 160.1,42.4 L 164.6,42.4 L 169.1,46.9 L 173.6,49.8 L 178.0,55.8 L 182.5,48.4 L 187.0,48.4 L 191.5,51.3 L 195.9,51.3 L 200.4,55.8 L 204.9,40.9 L 209.4,45.4 L 213.8,48.4 L 218.3,46.9 L 222.8,46.9 L 227.3,48.4 L 231.7,49.8 L 236.2,46.9 L 240.7,49.8 L 245.2,48.4 L 249.6,49.8 L 254.1,46.9 L 258.6,49.8 L 263.1,45.4 L 267.5,43.9 L 272.0,42.4" fill="none" stroke="#f0b90b" stroke-width="1.3" stroke-linejoin="round"/><circle cx="272.0" cy="42.4" r="2.5" fill="#f0b90b" stroke="#0a0e14" stroke-width="1.5"/><text x="8" y="69" fill="#5a6578" font-family="JetBrains Mono" font-size="7">01/23</text><text x="272" y="69" fill="#5a6578" font-family="JetBrains Mono" font-size="7" text-anchor="end">04/17</text></svg></div>
+</div>
+
+<h4>美债供需:拍卖倍数小幅回升,边际改善</h4>
+<p>2Y 拍卖倍数<strong>2.31 倍</strong>、10Y <strong>2.21 倍</strong>、5Y <strong>2.17 倍</strong>、30Y <strong>2.18 倍</strong>,整体在<strong>2.2-2.3 倍</strong>的正常区间小幅震荡。需求并未出现明显恶化,但距离历史高位仍有距离。</p>
+
+<h4>后续关注</h4>
+<p>一是 4 月 CPI 数据和核心 PCE,若继续回落可能推动降息预期提前;二是<strong>财政赤字扩张的供给端压力</strong>,可能压制超长端收益率下行空间;三是美元走势——美元若持续走弱,会吸引海外资金重新流入美债市场。</p>
+`
+  },
+  "黄金": {
+    score: "+0.512",
+    scoreClass: "pos",
+    flow: "实际利率⛅ 中性 → 美元☀ 偏弱 → 通胀⛅☀ 温和偏高 → 交易⛅☀ 温和偏多",
+    open: false,
+    body: `
+<div class="signal-flow-box">实际利率⛅ 中性 → 美元<strong>☀ 偏弱</strong> → 通胀⛅☀ 温和偏高 → 交易⛅☀ 温和偏多</div>
+<div class="panorama-box"><strong>全景判断</strong>:COMEX 黄金期货<strong>4,849 美元 / 盎司</strong>(本月累计上涨<strong>65 美元</strong>),4 个子节点 3 正 1 中性。本轮黄金上涨是<strong>结构性力量</strong>驱动——央行连续购金、美国财政赤字与美联储独立性担忧、去美元化趋势——而非单纯的"美元弱 + 实际利率低"。美元和利率因子仍有贡献但已非主导。</div>
+
+<h4>黄金价格走势</h4>
+<div class="spark">
+  <div class="spark-meta">
+    <div class="spark-title">COMEX 黄金 · 近60日</div>
+    <div class="spark-value">$4,849</div>
+    <div class="spark-note">本月 <span class="pos">+65 美元</span> · 持续上涨趋势</div>
+  </div>
+  <div class="spark-chart"><svg viewBox="0 0 280 70" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto"><path d="M 8.0,47.0 L 12.5,45.4 L 16.9,46.0 L 21.4,46.8 L 25.9,40.0 L 30.4,37.3 L 34.8,33.2 L 39.3,31.4 L 43.8,30.5 L 48.3,23.5 L 52.7,14.2 L 57.2,14.2 L 61.7,34.5 L 66.2,43.6 L 70.6,31.9 L 75.1,31.3 L 79.6,38.9 L 84.1,31.2 L 88.5,27.4 L 93.0,28.8 L 97.5,26.4 L 102.0,33.1 L 106.4,28.2 L 110.9,24.3 L 115.4,23.4 L 119.9,22.6 L 124.3,18.8 L 128.8,17.2 L 133.3,26.7 L 137.8,24.7 L 142.2,27.0 L 146.7,23.5 L 151.2,24.8 L 155.7,22.8 L 160.1,23.4 L 164.6,27.4 L 169.1,29.8 L 173.6,30.3 L 178.0,30.3 L 182.5,37.8 L 187.0,44.7 L 191.5,51.1 L 195.9,54.4 L 200.4,51.8 L 204.9,50.7 L 209.4,55.8 L 213.8,51.2 L 218.3,49.2 L 222.8,42.8 L 227.3,39.4 L 231.7,42.7 L 236.2,41.5 L 240.7,41.0 L 245.2,39.2 L 249.6,39.9 L 254.1,40.1 L 258.6,36.2 L 263.1,38.2 L 267.5,38.3 L 272.0,36.8 L 272.0,62 L 8.0,62 Z" fill="rgba(240,185,11,0.12)" stroke="none"/><path d="M 8.0,47.0 L 12.5,45.4 L 16.9,46.0 L 21.4,46.8 L 25.9,40.0 L 30.4,37.3 L 34.8,33.2 L 39.3,31.4 L 43.8,30.5 L 48.3,23.5 L 52.7,14.2 L 57.2,14.2 L 61.7,34.5 L 66.2,43.6 L 70.6,31.9 L 75.1,31.3 L 79.6,38.9 L 84.1,31.2 L 88.5,27.4 L 93.0,28.8 L 97.5,26.4 L 102.0,33.1 L 106.4,28.2 L 110.9,24.3 L 115.4,23.4 L 119.9,22.6 L 124.3,18.8 L 128.8,17.2 L 133.3,26.7 L 137.8,24.7 L 142.2,27.0 L 146.7,23.5 L 151.2,24.8 L 155.7,22.8 L 160.1,23.4 L 164.6,27.4 L 169.1,29.8 L 173.6,30.3 L 178.0,30.3 L 182.5,37.8 L 187.0,44.7 L 191.5,51.1 L 195.9,54.4 L 200.4,51.8 L 204.9,50.7 L 209.4,55.8 L 213.8,51.2 L 218.3,49.2 L 222.8,42.8 L 227.3,39.4 L 231.7,42.7 L 236.2,41.5 L 240.7,41.0 L 245.2,39.2 L 249.6,39.9 L 254.1,40.1 L 258.6,36.2 L 263.1,38.2 L 267.5,38.3 L 272.0,36.8" fill="none" stroke="#f0b90b" stroke-width="1.3" stroke-linejoin="round"/><circle cx="272.0" cy="36.8" r="2.5" fill="#f0b90b" stroke="#0a0e14" stroke-width="1.5"/><text x="8" y="69" fill="#5a6578" font-family="JetBrains Mono" font-size="7">01/13</text><text x="272" y="69" fill="#5a6578" font-family="JetBrains Mono" font-size="7" text-anchor="end">04/17</text></svg></div>
+</div>
+
+<h4>实际利率:中性,通胀保值国债与名义利率方向出现微妙分化</h4>
+<p><strong>名义利率端</strong>:2Y 美债<strong>3.71%</strong>、10Y 美债<strong>4.26%</strong>,本月以来均下行<strong>7-10bp</strong>,对黄金是利好。</p>
+<p><strong>实际利率端</strong>:<strong>10 年期通胀保值国债收益率 1.896%</strong>(前值 1.94%)。通胀保值国债的收益率扣除通胀补偿后 = <strong>实际利率</strong>,是黄金定价最经典的长期锚。该收益率下行但仍处偏高区间,且下行速度<strong>慢于名义美债</strong>,说明通胀补偿有所收窄——市场对未来实际通胀的预期在边际回落,这对黄金的支撑逻辑偏中性。</p>
+<div class="spark">
+  <div class="spark-meta">
+    <div class="spark-title">10 年期通胀保值国债收益率 · 近 8 月</div>
+    <div class="spark-value">1.896%</div>
+    <div class="spark-note">环比 <span class="pos">−0.04pct</span> · 下行 <span class="neg">慢于</span>名义</div>
+  </div>
+  <div class="spark-chart"><svg viewBox="0 0 280 70" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto"><path d="M 8.0,14.2 L 45.7,39.4 L 83.4,16.1 L 121.1,35.3 L 158.9,55.8 L 196.6,46.9 L 234.3,39.0 L 272.0,42.5 L 272.0,62 L 8.0,62 Z" fill="rgba(240,185,11,0.12)" stroke="none"/><path d="M 8.0,14.2 L 45.7,39.4 L 83.4,16.1 L 121.1,35.3 L 158.9,55.8 L 196.6,46.9 L 234.3,39.0 L 272.0,42.5" fill="none" stroke="#f0b90b" stroke-width="1.3" stroke-linejoin="round"/><circle cx="272.0" cy="42.5" r="2.5" fill="#f0b90b" stroke="#0a0e14" stroke-width="1.5"/><text x="8" y="69" fill="#5a6578" font-family="JetBrains Mono" font-size="7">01月</text><text x="272" y="69" fill="#5a6578" font-family="JetBrains Mono" font-size="7" text-anchor="end">03月</text></svg></div>
+</div>
+<p><strong>含义</strong>:黄金当前上涨不是由"实际利率大幅下行"驱动,而是其他因子综合作用。</p>
+
+<h4>美元走弱:黄金上涨的核心支撑</h4>
+<p>美元指数<strong>98.23</strong>本月累计下行<strong>1.3</strong>,处中性区间下沿。美元走弱降低了以美元计价的黄金的相对价格,是当前最直接的利多因子。</p>
+<div class="spark">
+  <div class="spark-meta">
+    <div class="spark-title">美元指数 · 近60日</div>
+    <div class="spark-value">98.23</div>
+    <div class="spark-note">本月 <span class="pos">−1.3</span> · 中性区间下沿</div>
+  </div>
+  <div class="spark-chart"><svg viewBox="0 0 280 70" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto"><path d="M 8.0,44.6 L 12.5,55.8 L 16.9,50.7 L 21.4,52.3 L 25.9,44.0 L 30.4,39.6 L 34.8,41.6 L 39.3,39.3 L 43.8,36.6 L 48.3,39.6 L 52.7,46.3 L 57.2,46.2 L 61.7,45.7 L 66.2,45.8 L 70.6,46.2 L 75.1,44.2 L 79.6,43.9 L 84.1,38.5 L 88.5,37.6 L 93.0,38.5 L 97.5,38.5 L 102.0,37.2 L 106.4,39.2 L 110.9,38.1 L 115.4,39.3 L 119.9,31.4 L 124.3,26.9 L 128.8,29.2 L 133.3,27.1 L 137.8,27.8 L 142.2,29.9 L 146.7,27.9 L 151.2,25.1 L 155.7,21.0 L 160.1,14.2 L 164.6,20.4 L 169.1,22.6 L 173.6,16.1 L 178.0,25.8 L 182.5,23.0 L 187.0,26.0 L 191.5,25.4 L 195.9,21.9 L 200.4,19.4 L 204.9,17.1 L 209.4,14.2 L 213.8,19.7 L 218.3,22.6 L 222.8,18.6 L 227.3,17.0 L 231.7,18.8 L 236.2,21.7 L 240.7,27.2 L 245.2,29.1 L 249.6,30.1 L 254.1,32.6 L 258.6,35.3 L 263.1,35.5 L 267.5,34.4 L 272.0,34.2 L 272.0,62 L 8.0,62 Z" fill="rgba(240,185,11,0.12)" stroke="none"/><path d="M 8.0,44.6 L 12.5,55.8 L 16.9,50.7 L 21.4,52.3 L 25.9,44.0 L 30.4,39.6 L 34.8,41.6 L 39.3,39.3 L 43.8,36.6 L 48.3,39.6 L 52.7,46.3 L 57.2,46.2 L 61.7,45.7 L 66.2,45.8 L 70.6,46.2 L 75.1,44.2 L 79.6,43.9 L 84.1,38.5 L 88.5,37.6 L 93.0,38.5 L 97.5,38.5 L 102.0,37.2 L 106.4,39.2 L 110.9,38.1 L 115.4,39.3 L 119.9,31.4 L 124.3,26.9 L 128.8,29.2 L 133.3,27.1 L 137.8,27.8 L 142.2,29.9 L 146.7,27.9 L 151.2,25.1 L 155.7,21.0 L 160.1,14.2 L 164.6,20.4 L 169.1,22.6 L 173.6,16.1 L 178.0,25.8 L 182.5,23.0 L 187.0,26.0 L 191.5,25.4 L 195.9,21.9 L 200.4,19.4 L 204.9,17.1 L 209.4,14.2 L 213.8,19.7 L 218.3,22.6 L 222.8,18.6 L 227.3,17.0 L 231.7,18.8 L 236.2,21.7 L 240.7,27.2 L 245.2,29.1 L 249.6,30.1 L 254.1,32.6 L 258.6,35.3 L 263.1,35.5 L 267.5,34.4 L 272.0,34.2" fill="none" stroke="#f0b90b" stroke-width="1.3" stroke-linejoin="round"/><circle cx="272.0" cy="34.2" r="2.5" fill="#f0b90b" stroke="#0a0e14" stroke-width="1.5"/><text x="8" y="69" fill="#5a6578" font-family="JetBrains Mono" font-size="7">01/26</text><text x="272" y="69" fill="#5a6578" font-family="JetBrains Mono" font-size="7" text-anchor="end">04/17</text></svg></div>
+</div>
+
+<h4>通胀预期:⛅☀ 温和偏高,内部信号混合</h4>
+<p>· <strong>美国 CPI</strong>同比<strong>3.3%</strong>(前值 2.4%)大幅上行,处"高通胀利好黄金"区间<br>
+· <strong>密歇根通胀预期(1 年)</strong> <strong>4.8%</strong>(前值 3.8%)上行——阈值模型把过高通胀预期视为"美联储可能加息的风险",反而打负分<br>
+· <strong>布伦特原油</strong>回落至<strong>90.38</strong>——油价回落降低输入性通胀压力,对黄金的"通胀对冲"逻辑有所削弱</p>
+
+<h4>本轮黄金上涨的真实驱动(对照 JPM / 世界黄金协会 2026 展望)</h4>
+<p>主流机构当前对黄金的定价框架已从"实际利率 + 美元"的<strong>传统模型</strong>,扩展为以下五层结构:</p>
+<p>· <strong>央行结构性购金(核心支撑)</strong>:世界黄金协会预期 2026 年官方部门购金 <strong>755-900 吨</strong>,连续 17 年净买入;95% 的央行预期未来 12 个月继续增持;<br>
+· <strong>对美国财政赤字与美联储独立性的担忧</strong>:美国国债突破 <strong>39 万亿美元</strong>,Warsh 被提名为下任美联储主席("Warsh Shock")引发政策不确定性;<br>
+· <strong>去美元化</strong>:Moody's 此前下调美国信用评级,多国加速增持黄金储备取代美元资产;<br>
+· <strong>美元走弱 + 名义利率回落</strong>:传统定价因子,仍有贡献但<strong>不再是主导</strong>;<br>
+· <strong>投资需求</strong>:ETF 预期 2026 年流入 250 吨,实物金条与金币需求仍在 1,200 吨以上。</p>
+<p>据世界黄金协会《Gold Outlook 2026》,2025 年黄金涨 60% 中,"高风险环境(地缘)"贡献约 <strong>12pct</strong>,"美元弱 + 利率回落"贡献约 <strong>10pct</strong>,剩余约 <strong>38pct</strong> 来自央行购金和投资需求等结构性因素。</p>
+<div style="background:var(--bg-elevated); border-left:2px solid var(--text-mute); padding:12px 16px; margin:12px 0 18px; font-size:12px; color:var(--text-dim);">
+  <strong style="color:var(--text-dim); font-family:var(--mono); font-size:10px; letter-spacing:0.1em;">— 供参考:金油比</strong> · <span style="color:var(--amber); font-family:var(--mono);">53.7</span> · 作为视角之一,本轮金油比走高更多是油价回落导致,不作为核心判断。
+</div>
+  <div class="spark-chart"><svg viewBox="0 0 280 70" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto"><path d="M 8.0,23.6 L 12.5,24.1 L 16.9,21.2 L 21.4,22.0 L 25.9,20.1 L 30.4,19.5 L 34.8,16.3 L 39.3,17.9 L 43.8,17.2 L 48.3,16.8 L 52.7,14.2 L 57.2,17.0 L 61.7,24.5 L 66.2,23.2 L 70.6,19.8 L 75.1,21.9 L 79.6,22.8 L 84.1,20.3 L 88.5,20.0 L 93.0,20.2 L 97.5,20.0 L 102.0,20.5 L 106.4,18.9 L 110.9,20.8 L 115.4,20.5 L 119.9,20.1 L 124.3,20.6 L 128.8,25.3 L 133.3,31.6 L 137.8,30.9 L 142.2,34.8 L 146.7,38.7 L 151.2,42.8 L 155.7,35.2 L 160.1,38.2 L 164.6,44.3 L 169.1,46.3 L 173.6,44.9 L 178.0,46.5 L 182.5,50.3 L 187.0,52.5 L 191.5,55.5 L 195.9,51.1 L 200.4,52.5 L 204.9,51.1 L 209.4,54.9 L 213.8,55.6 L 218.3,55.1 L 222.8,55.8 L 227.3,47.8 L 231.7,52.2 L 236.2,52.0 L 240.7,44.8 L 245.2,45.0 L 249.6,44.8 L 254.1,47.0 L 258.6,43.5 L 263.1,44.2 L 267.5,46.6 L 272.0,41.0 L 272.0,62 L 8.0,62 Z" fill="rgba(240,185,11,0.12)" stroke="none"/><path d="M 8.0,23.6 L 12.5,24.1 L 16.9,21.2 L 21.4,22.0 L 25.9,20.1 L 30.4,19.5 L 34.8,16.3 L 39.3,17.9 L 43.8,17.2 L 48.3,16.8 L 52.7,14.2 L 57.2,17.0 L 61.7,24.5 L 66.2,23.2 L 70.6,19.8 L 75.1,21.9 L 79.6,22.8 L 84.1,20.3 L 88.5,20.0 L 93.0,20.2 L 97.5,20.0 L 102.0,20.5 L 106.4,18.9 L 110.9,20.8 L 115.4,20.5 L 119.9,20.1 L 124.3,20.6 L 128.8,25.3 L 133.3,31.6 L 137.8,30.9 L 142.2,34.8 L 146.7,38.7 L 151.2,42.8 L 155.7,35.2 L 160.1,38.2 L 164.6,44.3 L 169.1,46.3 L 173.6,44.9 L 178.0,46.5 L 182.5,50.3 L 187.0,52.5 L 191.5,55.5 L 195.9,51.1 L 200.4,52.5 L 204.9,51.1 L 209.4,54.9 L 213.8,55.6 L 218.3,55.1 L 222.8,55.8 L 227.3,47.8 L 231.7,52.2 L 236.2,52.0 L 240.7,44.8 L 245.2,45.0 L 249.6,44.8 L 254.1,47.0 L 258.6,43.5 L 263.1,44.2 L 267.5,46.6 L 272.0,41.0" fill="none" stroke="#f0b90b" stroke-width="1.3" stroke-linejoin="round"/><circle cx="272.0" cy="41.0" r="2.5" fill="#f0b90b" stroke="#0a0e14" stroke-width="1.5"/><text x="8" y="69" fill="#5a6578" font-family="JetBrains Mono" font-size="7">01/13</text><text x="272" y="69" fill="#5a6578" font-family="JetBrains Mono" font-size="7" text-anchor="end">04/17</text></svg></div>
+</div>
+<p><strong>当前数据</strong>:全球官方黄金储备当月增加 <strong>19.4 吨</strong>(前值 48.4 吨);COMEX 黄金当日上涨 <strong>0.8%</strong> 至 <strong>4,849 美元 / 盎司</strong>,本月累计上涨 <strong>65 美元</strong>;黄金波动率(GVZ)<strong>29.0</strong> 仍处偏高位置。</p>
+<p><strong>核心观察</strong>:当前黄金上涨是<strong>央行购金 + 对美国财政 / 美联储独立性担忧 + 去美元化</strong>三股结构性力量驱动,美元走弱和名义利率回落是辅助因子。若央行购金速度显著放缓或美联储独立性疑虑消退,黄金可能面临阶段性调整;但短期内这些结构性因子仍有支撑力。</p>
+
+<h4>后续关注</h4>
+<p>一是央行购金节奏是否延续(2026 年预期 755-900 吨,若持续强于预期将是主要支撑);二是美联储独立性与财政赤字相关进展;三是美元指数能否跌破<strong>98</strong>确认走弱趋势;四是 10 年期通胀保值国债实际利率能否进一步下行。</p>
+`
+  }
+};
+
+const order = ["A股", "美股", "港股", "短债", "中长债", "美债", "黄金"];
+const container = document.getElementById('analyses');
+
+order.forEach(key => {
+  const a = analyses[key];
+  const card = document.createElement('div');
+  card.className = 'analysis';
+  card.dataset.open = a.open;
+  card.innerHTML = `
+    <div class="analysis-header">
+      <div class="analysis-toggle">▸</div>
+      <div class="analysis-asset">${key}</div>
+      <div class="analysis-score ${a.scoreClass}">${a.score}</div>
+      <div class="analysis-flow">${a.flow}</div>
+      <div class="analysis-expand-hint">${a.open ? '重点 · 已展开' : '点击展开'}</div>
+    </div>
+    <div class="analysis-body">
+      <div class="analysis-content">${a.body}</div>
+    </div>
+  `;
+  card.querySelector('.analysis-header').addEventListener('click', () => {
+    card.dataset.open = card.dataset.open === 'true' ? 'false' : 'true';
+    const hint = card.querySelector('.analysis-expand-hint');
+    hint.textContent = card.dataset.open === 'true' ? '已展开' : '点击展开';
+  });
+  container.appendChild(card);
+});
+</script>
+</body>
+</html>
