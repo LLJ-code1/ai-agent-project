@@ -27,6 +27,7 @@ snapshot_*.json
 # === 执行环境残留 ===
 /mnt/
 /tmp/
+/outputs/
 
 # === Python ===
 __pycache__/

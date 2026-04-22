@@ -23,6 +23,7 @@
 | `03_workflow.md` | 6 环节工作流详细说明 |
 | `04_scoring_logic.md` | 打分系统的设计哲学 |
 | `05_file_structure.md` | 本文件,仓库文件清单 |
+| `06_ppt_workflow.md` | 可选 PPT 展示工作流、设计语言和图表规则 |
 | `project_handoff_prompt.md` | 给新 AI 对话的项目介绍模板 |
 
 ### skills/(操作手册)
@@ -32,6 +33,14 @@
 | `excel_maintenance.md` | 修改 Excel 的操作手册 | Excel、公式、行号、打分、权重 |
 | `indicator_management.md` | 新增/调整指标的操作手册 | 加指标、新指标、Wind 代码、节点归属 |
 | `analysis_writing.md` | 分析写作规则、Prompt、搜索规则 | 分析、报告、Prompt、语气、信号流 |
+| `ppt_workflow.md` | PPT 制作操作手册 | PPT、汇报页、展示页、路演稿 |
+
+### templates/(模板规范)
+
+| 文件 | 作用 |
+|------|------|
+| `ppt/README.md` | PPT 模板目录说明 |
+| `ppt/a_share_economy_basic.md` | A 股经济基本面两页模板:总览页 + 证据拆解页 |
 
 ### changelog/(历史变更)
 
@@ -110,12 +119,14 @@
 | JSON 快照(精简版) | `snapshot_YYYY-MM-DD_lite.json` | 约 23k tokens,供 AI |
 | 分析报告 | `分析_<资产>_YYYY-MM-DD.md` | 每个资产一份,约 2KB |
 | HTML 展示 | `项目展示_YYYY-MM-DD.html` | 单文件,约 100KB |
+| PPT 展示 | `*.pptx` / 预览图 | 可选汇报产物,默认放本地 `outputs/` |
 
 **为什么每日产出不入仓库**:
 - Excel 是二进制文件,Git 管理体验差
 - 每次刷新数据都会变,commit 日志会爆炸
 - 大文件(如 full JSON 500KB)会拖累仓库 clone 速度
 - 产出物本身不是"知识",而是"某次运行的结果"
+- PPTX 和预览图通常是某次汇报的结果,默认不入库；稳定模板写入 `templates/ppt/`
 
 这些文件通过仓库根目录的 `.gitignore` 显式排除,确保 `git add .` 时不会误入。当前 `.gitignore` 对 `macro_final_v11.2.xlsx` 和 `samples/html/*.html` 做了例外放行。
 

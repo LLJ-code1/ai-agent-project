@@ -42,6 +42,7 @@
 - 要**修改 Excel**(加指标/改公式/调权重)→ `skills/excel_maintenance.md`
 - 要**写分析报告**或**改 Prompt** → `skills/analysis_writing.md`
 - 要**加新指标或调整指标体系** → `skills/indicator_management.md`
+- 要**制作 PPT/汇报页** → `skills/ppt_workflow.md`
 
 ### 第三优先级(需要背景时查)
 
@@ -50,6 +51,7 @@
 - `docs/03_workflow.md` — 6 环节工作流详细说明
 - `docs/04_scoring_logic.md` — 打分系统的设计哲学
 - `docs/05_file_structure.md` — 仓库文件清单和用途
+- `docs/06_ppt_workflow.md` — 可选 PPT 展示工作流和设计语言
 - `roadmap/pending_issues.md` — 未完成事项
 - `changelog/*.md` — 历史变更记录
 

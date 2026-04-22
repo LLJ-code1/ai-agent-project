@@ -59,12 +59,17 @@
 │   ├── 03_workflow.md            6 环节工作流
 │   ├── 04_scoring_logic.md       打分系统设计哲学
 │   ├── 05_file_structure.md      文件清单和用途
+│   ├── 06_ppt_workflow.md        可选 PPT 展示工作流
 │   └── project_handoff_prompt.md 新对话交接模板
 │
 ├── skills/                   ← 操作手册(按任务分类)
 │   ├── excel_maintenance.md
 │   ├── indicator_management.md
-│   └── analysis_writing.md
+│   ├── analysis_writing.md
+│   └── ppt_workflow.md
+│
+├── templates/                ← 可选展示模板
+│   └── ppt/                  PPT 页面结构和设计语言
 │
 ├── scripts/                  ← Python 脚本(版本化追踪)
 │   └── macro_snapshot_export.py
