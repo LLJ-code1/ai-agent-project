@@ -9,15 +9,17 @@
 | 文件 | 用途 |
 |------|------|
 | `a_share_economy_basic.md` | A 股经济基本面两页模板：总览页 + 证据拆解页 |
+| `juncheng_work_report_style.md` | 俊诚风格：工作汇报、机制建设、项目推进类 PPT |
 
 ---
 
 ## 使用原则
 
 1. 先按 `docs/06_ppt_workflow.md` 明确页面目标
-2. 再参考本目录模板组织页面
-3. 每轮生成的 PPTX 和预览 PNG 放本地 `outputs/`，默认不提交
-4. 只有沉淀成稳定复用模板的内容才放入本目录
+2. 再按 `docs/07_presentation_system.md` 判断页面风格
+3. 再参考本目录模板组织页面
+4. 每轮生成的 PPTX 和预览 PNG 放本地 `outputs/`，默认不提交
+5. 只有沉淀成稳定复用模板的内容才放入本目录
 
 ---
 

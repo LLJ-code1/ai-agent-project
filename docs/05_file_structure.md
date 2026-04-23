@@ -24,6 +24,7 @@
 | `04_scoring_logic.md` | 打分系统的设计哲学 |
 | `05_file_structure.md` | 本文件,仓库文件清单 |
 | `06_ppt_workflow.md` | 可选 PPT 展示工作流、设计语言和图表规则 |
+| `07_presentation_system.md` | PPT 输出风格体系:宏观投研风格 vs 俊诚风格 |
 | `project_handoff_prompt.md` | 给新 AI 对话的项目介绍模板 |
 
 ### skills/(操作手册)
@@ -41,6 +42,7 @@
 |------|------|
 | `ppt/README.md` | PPT 模板目录说明 |
 | `ppt/a_share_economy_basic.md` | A 股经济基本面两页模板:总览页 + 证据拆解页 |
+| `ppt/juncheng_work_report_style.md` | 俊诚风格:工作汇报、机制建设、项目推进类 PPT |
 
 ### changelog/(历史变更)
 

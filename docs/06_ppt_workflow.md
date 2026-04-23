@@ -41,6 +41,8 @@ PPT 的目标不是把 Excel 数据机械搬到页面上，而是把宏观数据
 
 ## 设计语言
 
+> PPT 设计风格先按 `docs/07_presentation_system.md` 判断。本文件默认描述"宏观投研风格";如果页面是工作汇报、项目推进或机制建设,应改用 `templates/ppt/juncheng_work_report_style.md`。
+
 ### 整体风格
 
 采用机构投研报告风格，而不是营销型路演风格：

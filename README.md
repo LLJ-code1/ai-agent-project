@@ -60,6 +60,7 @@
 │   ├── 04_scoring_logic.md       打分系统设计哲学
 │   ├── 05_file_structure.md      文件清单和用途
 │   ├── 06_ppt_workflow.md        可选 PPT 展示工作流
+│   ├── 07_presentation_system.md PPT 输出风格体系
 │   └── project_handoff_prompt.md 新对话交接模板
 │
 ├── skills/                   ← 操作手册(按任务分类)
