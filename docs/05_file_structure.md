@@ -87,6 +87,7 @@
 | `snapshot_2026-04-17_full.json` | JSON 完整版样例(HTML 用) |
 | `analyses/分析_<资产>_2026-04-19.md` × 7 | 7 份分析产出样例 |
 | `html/项目展示_fixed.html` | 首轮 HTML 展示样例,用于理解最终交付形态 |
+| `ppt/国内宏观传导框架V4_稳定样例.pptx` | 当前确认的首个稳定 PPT 样例,用于参考框架页版式 |
 
 ---
 
@@ -129,7 +130,7 @@
 - 每次刷新数据都会变,commit 日志会爆炸
 - 大文件(如 full JSON 500KB)会拖累仓库 clone 速度
 - 产出物本身不是"知识",而是"某次运行的结果"
-- PPTX 和预览图通常是某次汇报的结果,默认不入库；稳定模板写入 `templates/ppt/`
+- PPTX 和预览图通常是某次汇报的结果,默认不入库；稳定模板写入 `templates/ppt/`，确认后的稳定案例可放入 `samples/ppt/`
 
 这些文件通过仓库根目录的 `.gitignore` 显式排除,确保 `git add .` 时不会误入。当前 `.gitignore` 对 `macro_final_v11.2.xlsx` 和 `samples/html/*.html` 做了例外放行。
 
