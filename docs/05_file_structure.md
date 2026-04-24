@@ -42,6 +42,7 @@
 |------|------|
 | `ppt/README.md` | PPT 模板目录说明 |
 | `ppt/a_share_economy_basic.md` | A 股经济基本面两页模板:总览页 + 证据拆解页 |
+| `ppt/macro_asset_framework_page.md` | 宏观框架页模板:左侧传导、右侧资产观察与策略建议 |
 | `ppt/juncheng_work_report_style.md` | 俊诚风格:工作汇报、机制建设、项目推进类 PPT |
 
 ### changelog/(历史变更)
