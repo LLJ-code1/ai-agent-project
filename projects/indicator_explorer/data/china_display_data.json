@@ -1,0 +1,645 @@
+{
+  "meta": {
+    "project": "indicator_explorer",
+    "generatedAt": "2026-05-07",
+    "sourceFile": "/Users/a123/Downloads/github_repo/outputs/tree_macro_strategy_final_v2/tree_final_data.json",
+    "workbookFile": "projects/indicator_explorer/data/macro_final_v11.2_2_safe_formula_fix_2026-05-07.xlsx",
+    "displayBoundary": "展示数据包:保留中国侧经济、流动性、资产全部展示字段;不是 Excel 全量原始数据导出。",
+    "defaultCase": "中国 / 经济基本面 / 供给"
+  },
+  "region": {
+    "id": "china",
+    "label": "中国",
+    "title": "国内宏观至资产的传导框架",
+    "subtitle": "先看经济是否被需求接住，再看流动性是否能进入资产资金面；政策面是重要变量，资产端是最终结果。"
+  },
+  "navigation": {
+    "sections": [
+      {
+        "id": "economy",
+        "label": "经济基本面",
+        "groupCount": 4
+      },
+      {
+        "id": "liquidity",
+        "label": "流动性",
+        "groupCount": 3
+      },
+      {
+        "id": "assets",
+        "label": "资产",
+        "groupCount": 3
+      }
+    ]
+  },
+  "sections": {
+    "economy": {
+      "id": "economy",
+      "label": "经济基本面",
+      "groups": [
+        {
+          "id": "supply",
+          "title": "供给",
+          "subtitle": "生产端是否先修复",
+          "display": {
+            "defaultVisible": true,
+            "mode": "default"
+          },
+          "items": [
+            {
+              "label": "制造业PMI",
+              "name": "制造业PMI",
+              "current": "50.4",
+              "delta": "+1.4点",
+              "sign": "pos",
+              "points": 3,
+              "spark": "../data/sparklines/spark_013.png",
+              "role": "display"
+            },
+            {
+              "label": "生产PMI",
+              "name": "生产PMI",
+              "current": "51.4",
+              "delta": "+1.8点",
+              "sign": "pos",
+              "points": 3,
+              "spark": "../data/sparklines/spark_014.png",
+              "role": "display"
+            },
+            {
+              "label": "新订单PMI",
+              "name": "新订单PMI",
+              "current": "51.6",
+              "delta": "+3.0点",
+              "sign": "pos",
+              "points": 3,
+              "spark": "../data/sparklines/spark_015.png",
+              "role": "display"
+            },
+            {
+              "label": "新出口订单",
+              "name": "新出口订单",
+              "current": "49.1%",
+              "delta": "+4.1pct",
+              "sign": "pos",
+              "points": 3,
+              "spark": "../data/sparklines/spark_016.png",
+              "role": "display"
+            }
+          ]
+        },
+        {
+          "id": "demand",
+          "title": "需求",
+          "subtitle": "内外需能否接住",
+          "display": {
+            "defaultVisible": true,
+            "mode": "default"
+          },
+          "items": [
+            {
+              "label": "社零",
+              "name": "社会消费品零售总额",
+              "current": "1.7%",
+              "delta": "-1.1pct",
+              "sign": "neg",
+              "points": 3,
+              "spark": "../data/sparklines/spark_017.png",
+              "role": "display"
+            },
+            {
+              "label": "固定投资",
+              "name": "固定资产投资",
+              "current": "1.7%",
+              "delta": "-0.1pct",
+              "sign": "neg",
+              "points": 3,
+              "spark": "../data/sparklines/spark_018.png",
+              "role": "display"
+            },
+            {
+              "label": "房屋销售",
+              "name": "商品房销售面积:累计同比",
+              "current": "-10.4%",
+              "delta": "+3.1pct",
+              "sign": "pos",
+              "points": 3,
+              "spark": "../data/sparklines/spark_019.png",
+              "role": "display"
+            },
+            {
+              "label": "出口",
+              "name": "出口：美元计价",
+              "current": "2.5%",
+              "delta": "-37.1pct",
+              "sign": "neg",
+              "points": 3,
+              "spark": "../data/sparklines/spark_020.png",
+              "role": "display"
+            }
+          ]
+        },
+        {
+          "id": "price",
+          "title": "价格",
+          "subtitle": "价格能否传到利润",
+          "display": {
+            "defaultVisible": true,
+            "mode": "default"
+          },
+          "items": [
+            {
+              "label": "PPI",
+              "name": "PPI",
+              "current": "4.0%",
+              "delta": "+0.6pct",
+              "sign": "pos",
+              "points": 3,
+              "spark": "../data/sparklines/spark_021.png",
+              "role": "display"
+            },
+            {
+              "label": "CPI",
+              "name": "CPI",
+              "current": "3.3%",
+              "delta": "+0.9pct",
+              "sign": "pos",
+              "points": 3,
+              "spark": "../data/sparklines/spark_022.png",
+              "role": "display"
+            },
+            {
+              "label": "原材料购价",
+              "name": "PMI主要原材料购进价格",
+              "current": "63.9",
+              "delta": "+9.1点",
+              "sign": "pos",
+              "points": 3,
+              "spark": "../data/sparklines/spark_023.png",
+              "role": "display"
+            }
+          ]
+        },
+        {
+          "id": "industry",
+          "title": "产业面",
+          "subtitle": "利润与库存确认",
+          "display": {
+            "defaultVisible": false,
+            "mode": "optional"
+          },
+          "items": [
+            {
+              "label": "工业增加值",
+              "name": "工业增加值",
+              "current": "5.7%",
+              "delta": "-0.6pct",
+              "sign": "neg",
+              "points": 3,
+              "spark": "../data/sparklines/spark_024.png",
+              "role": "display"
+            },
+            {
+              "label": "沪深300利润",
+              "name": "沪深300一致预测净利润同比",
+              "current": "3.8%",
+              "delta": "+0.1pct",
+              "sign": "pos",
+              "points": 0,
+              "spark": "../data/sparklines/spark_025.png",
+              "role": "display"
+            },
+            {
+              "label": "创业板利润",
+              "name": "创业板指一致预测净利润同比",
+              "current": "28.7%",
+              "delta": "-1.0pct",
+              "sign": "neg",
+              "points": 0,
+              "spark": "../data/sparklines/spark_026.png",
+              "role": "display"
+            },
+            {
+              "label": "沪深300PE",
+              "name": "沪深300预测PE",
+              "current": "14.50倍",
+              "delta": "-0.04倍",
+              "sign": "neg",
+              "points": 0,
+              "spark": "../data/sparklines/spark_027.png",
+              "role": "display"
+            }
+          ]
+        }
+      ]
+    },
+    "liquidity": {
+      "id": "liquidity",
+      "label": "流动性",
+      "groups": [
+        {
+          "id": "central_bank_liquidity",
+          "title": "央行流动性",
+          "subtitle": "",
+          "display": {
+            "defaultVisible": true,
+            "mode": "default"
+          },
+          "items": [
+            {
+              "label": "7天逆回购",
+              "name": "7天逆回购利率",
+              "current": "1.40%",
+              "delta": "0.00bp",
+              "sign": "flat",
+              "points": 3,
+              "spark": "../data/sparklines/spark_001.png",
+              "role": "display"
+            },
+            {
+              "label": "存准率",
+              "name": "法定存款准备金率-大型国有银行",
+              "current": "9.0%",
+              "delta": "0.0pct",
+              "sign": "flat",
+              "points": 3,
+              "spark": "../data/sparklines/spark_002.png",
+              "role": "display"
+            },
+            {
+              "label": "MLF净投放",
+              "name": "中央银行贷款-中期借贷便利（MLF）净投放",
+              "current": "500亿",
+              "delta": "-2500亿",
+              "sign": "neg",
+              "points": 3,
+              "spark": "../data/sparklines/spark_003.png",
+              "role": "display"
+            },
+            {
+              "label": "其他工具",
+              "name": "中央银行贷款-其他政策工具净投放",
+              "current": "1728亿",
+              "delta": "+1804亿",
+              "sign": "pos",
+              "points": 3,
+              "spark": "../data/sparklines/spark_004.png",
+              "role": "display"
+            }
+          ]
+        },
+        {
+          "id": "interbank_liquidity",
+          "title": "银行间流动性",
+          "subtitle": "",
+          "display": {
+            "defaultVisible": true,
+            "mode": "default"
+          },
+          "items": [
+            {
+              "label": "DR001",
+              "name": "DR001",
+              "current": "1.22%",
+              "delta": "+0.17bp",
+              "sign": "pos",
+              "points": 60,
+              "spark": "../data/sparklines/spark_005.png",
+              "role": "display"
+            },
+            {
+              "label": "DR007",
+              "name": "DR007",
+              "current": "1.33%",
+              "delta": "+0.19bp",
+              "sign": "pos",
+              "points": 60,
+              "spark": "../data/sparklines/spark_006.png",
+              "role": "display"
+            },
+            {
+              "label": "R001",
+              "name": "R001",
+              "current": "1.29%",
+              "delta": "+0.09bp",
+              "sign": "pos",
+              "points": 60,
+              "spark": "../data/sparklines/spark_007.png",
+              "role": "display"
+            },
+            {
+              "label": "R007",
+              "name": "R007",
+              "current": "1.37%",
+              "delta": "-1.67bp",
+              "sign": "neg",
+              "points": 60,
+              "spark": "../data/sparklines/spark_008.png",
+              "role": "display"
+            }
+          ]
+        },
+        {
+          "id": "real_economy_liquidity",
+          "title": "实体流动性",
+          "subtitle": "",
+          "display": {
+            "defaultVisible": true,
+            "mode": "default"
+          },
+          "items": [
+            {
+              "label": "社融存量",
+              "name": "社会融资规模存量",
+              "current": "7.9%",
+              "delta": "-0.3pct",
+              "sign": "neg",
+              "points": 3,
+              "spark": "../data/sparklines/spark_009.png",
+              "role": "display"
+            },
+            {
+              "label": "企业债融资",
+              "name": "企业债券融资",
+              "current": "7.9%",
+              "delta": "+1.7pct",
+              "sign": "pos",
+              "points": 3,
+              "spark": "../data/sparklines/spark_010.png",
+              "role": "display"
+            },
+            {
+              "label": "M1",
+              "name": "M1",
+              "current": "5.1%",
+              "delta": "-0.8pct",
+              "sign": "neg",
+              "points": 3,
+              "spark": "../data/sparklines/spark_011.png",
+              "role": "display"
+            },
+            {
+              "label": "M2",
+              "name": "M2",
+              "current": "8.5%",
+              "delta": "-0.5pct",
+              "sign": "neg",
+              "points": 3,
+              "spark": "../data/sparklines/spark_012.png",
+              "role": "display"
+            }
+          ]
+        }
+      ]
+    },
+    "assets": {
+      "id": "assets",
+      "label": "资产",
+      "assets": [
+        {
+          "id": "a_share",
+          "label": "A股",
+          "strategyTitle": "A股策略",
+          "conclusion": "维持标配，控制仓位并预留风险应对仓位",
+          "action": "低配客户可逢跌定投；快速拉涨中以原有仓位为主，减少追高。",
+          "groups": [
+            {
+              "id": "fund_flow",
+              "title": "资金面",
+              "subtitle": "",
+              "display": {
+                "defaultVisible": true,
+                "mode": "default"
+              },
+              "items": [
+                {
+                  "label": "成交额",
+                  "name": "A股日度成交额",
+                  "current": "2.66万亿",
+                  "delta": "-1657亿",
+                  "sign": "neg",
+                  "points": 60,
+                  "spark": "../data/sparklines/spark_028.png",
+                  "role": "display"
+                },
+                {
+                  "label": "北向成交",
+                  "name": "北向资金成交额",
+                  "current": "3429亿",
+                  "delta": "-102亿",
+                  "sign": "neg",
+                  "points": 60,
+                  "spark": "../data/sparklines/spark_029.png",
+                  "role": "display"
+                },
+                {
+                  "label": "两融余额",
+                  "name": "融资融券余额",
+                  "current": "2.71万亿",
+                  "delta": "-115亿",
+                  "sign": "neg",
+                  "points": 60,
+                  "spark": "../data/sparklines/spark_030.png",
+                  "role": "display"
+                }
+              ]
+            },
+            {
+              "id": "sentiment",
+              "title": "情绪面",
+              "subtitle": "",
+              "display": {
+                "defaultVisible": true,
+                "mode": "default"
+              },
+              "items": [
+                {
+                  "label": "上证指数",
+                  "name": "上证指数",
+                  "current": "4,080",
+                  "delta": "-13.35点",
+                  "sign": "neg",
+                  "points": 60,
+                  "spark": "../data/sparklines/spark_031.png",
+                  "role": "display"
+                },
+                {
+                  "label": "沪深300",
+                  "name": "沪深300",
+                  "current": "4,769",
+                  "delta": "-16.96点",
+                  "sign": "neg",
+                  "points": 60,
+                  "spark": "../data/sparklines/spark_032.png",
+                  "role": "display"
+                },
+                {
+                  "label": "新开户",
+                  "name": "新开户数（个人）",
+                  "current": "459万户",
+                  "delta": "+207万户",
+                  "sign": "pos",
+                  "points": 3,
+                  "spark": "../data/sparklines/spark_033.png",
+                  "role": "display"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "china_bond",
+          "label": "中债",
+          "strategyTitle": "中债策略",
+          "conclusion": "维持标配，短期可观察波动，中期对冲价值提升。",
+          "action": "稳健客户可继续以期限匹配理财为主；有波动容忍度客户可关注固收+。",
+          "groups": [
+            {
+              "id": "fund_flow",
+              "title": "资金面",
+              "subtitle": "",
+              "display": {
+                "defaultVisible": true,
+                "mode": "default"
+              },
+              "items": [
+                {
+                  "label": "1Y国债",
+                  "name": "1年国债收益率",
+                  "current": "1.15%",
+                  "delta": "-0.61bp",
+                  "sign": "neg",
+                  "points": 60,
+                  "spark": "../data/sparklines/spark_034.png",
+                  "role": "display"
+                },
+                {
+                  "label": "10Y国债",
+                  "name": "10年国债收益率",
+                  "current": "1.76%",
+                  "delta": "+0.53bp",
+                  "sign": "pos",
+                  "points": 60,
+                  "spark": "../data/sparklines/spark_035.png",
+                  "role": "display"
+                },
+                {
+                  "label": "存单",
+                  "name": "1Y同业存单到期收益率(AAA)",
+                  "current": "1.45%",
+                  "delta": "-0.10bp",
+                  "sign": "neg",
+                  "points": 60,
+                  "spark": "../data/sparklines/spark_036.png",
+                  "role": "display"
+                }
+              ]
+            },
+            {
+              "id": "valuation",
+              "title": "估值面",
+              "subtitle": "",
+              "display": {
+                "defaultVisible": true,
+                "mode": "default"
+              },
+              "items": [
+                {
+                  "label": "10Y-1Y",
+                  "name": "期限利差：（国债）10Y-1Y",
+                  "current": "61.1bp",
+                  "delta": "+1.1bp",
+                  "sign": "pos",
+                  "points": 0,
+                  "spark": "../data/sparklines/spark_037.png",
+                  "role": "display"
+                },
+                {
+                  "label": "信用利差",
+                  "name": "信用利差：10Y（企业债-国开债）",
+                  "current": "31.1bp",
+                  "delta": "+0.4bp",
+                  "sign": "pos",
+                  "points": 0,
+                  "spark": "../data/sparklines/spark_038.png",
+                  "role": "display"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "hong_kong",
+          "label": "港股",
+          "strategyTitle": "港股策略",
+          "conclusion": "仓位防御优于结构防御，先预留风险应对仓位。",
+          "action": "低配客户仅考虑逢跌定投；坚持“小跌不买、大跌才买”，节奏克制。",
+          "groups": [
+            {
+              "id": "fund_flow",
+              "title": "资金面",
+              "subtitle": "",
+              "display": {
+                "defaultVisible": true,
+                "mode": "default"
+              },
+              "items": [
+                {
+                  "label": "南向资金",
+                  "name": "南向资金净流入",
+                  "current": "30.2亿",
+                  "delta": "-44.9亿",
+                  "sign": "neg",
+                  "points": 60,
+                  "spark": "../data/sparklines/spark_039.png",
+                  "role": "display"
+                }
+              ]
+            },
+            {
+              "id": "sentiment",
+              "title": "情绪面",
+              "subtitle": "",
+              "display": {
+                "defaultVisible": true,
+                "mode": "default"
+              },
+              "items": [
+                {
+                  "label": "恒生指数",
+                  "name": "恒生指数",
+                  "current": "25,978",
+                  "delta": "+62.87点",
+                  "sign": "pos",
+                  "points": 58,
+                  "spark": "../data/sparklines/spark_040.png",
+                  "role": "display"
+                },
+                {
+                  "label": "恒生科技",
+                  "name": "恒生科技指数",
+                  "current": "4,902",
+                  "delta": "+36.68点",
+                  "sign": "pos",
+                  "points": 58,
+                  "spark": "../data/sparklines/spark_041.png",
+                  "role": "display"
+                },
+                {
+                  "label": "CFETS",
+                  "name": "CFETS人民币汇率指数",
+                  "current": "100.08",
+                  "delta": "+0.20点",
+                  "sign": "pos",
+                  "points": 14,
+                  "spark": "../data/sparklines/spark_042.png",
+                  "role": "display"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

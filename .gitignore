@@ -12,10 +12,14 @@
 *.html
 !samples/*.html
 !samples/html/*.html
+!projects/indicator_explorer/demo/*.html
 
 # 每日 JSON 快照(但 samples/ 里的样例保留)
 snapshot_*.json
 !samples/snapshot_*.json
+
+# 指标展示实验台的固定测试快照
+!projects/indicator_explorer/data/*.xlsx
 
 # 每日分析 md(但 samples/ 里的样例保留)
 分析_*.md

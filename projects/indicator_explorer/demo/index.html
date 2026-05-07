@@ -1,0 +1,610 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>指标展示实验台</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #0f1115;
+      --panel: #171a20;
+      --panel-2: #1f242c;
+      --line: #2d3440;
+      --line-strong: #475160;
+      --text: #edf0f4;
+      --muted: #9ba5b4;
+      --soft: #687385;
+      --accent: #d8a339;
+      --blue: #61a6ff;
+      --green: #53c58b;
+      --red: #f06b61;
+      --flat: #aab2bd;
+      --shadow: rgba(0, 0, 0, 0.28);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans SC", sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    button,
+    input {
+      font: inherit;
+    }
+
+    .app {
+      display: grid;
+      grid-template-columns: 280px minmax(0, 1fr);
+      min-height: 100vh;
+    }
+
+    .sidebar {
+      border-right: 1px solid var(--line);
+      background: #12151a;
+      padding: 24px 18px;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow-y: auto;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 24px;
+    }
+
+    .brand-mark {
+      width: 28px;
+      height: 28px;
+      border-radius: 7px;
+      background: linear-gradient(135deg, var(--accent), var(--blue));
+      box-shadow: 0 10px 24px rgba(97, 166, 255, 0.18);
+    }
+
+    .brand h1 {
+      font-size: 17px;
+      line-height: 1.2;
+      margin: 0;
+      letter-spacing: 0;
+    }
+
+    .meta {
+      color: var(--soft);
+      font-size: 12px;
+      margin-top: 3px;
+    }
+
+    .control-block {
+      border-top: 1px solid var(--line);
+      padding-top: 18px;
+      margin-top: 18px;
+    }
+
+    .control-title {
+      color: var(--muted);
+      font-size: 12px;
+      margin-bottom: 10px;
+    }
+
+    .segmented {
+      display: grid;
+      gap: 8px;
+    }
+
+    .segmented.two {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .segmented button,
+    .chip {
+      border: 1px solid var(--line);
+      background: var(--panel);
+      color: var(--muted);
+      border-radius: 8px;
+      padding: 10px 12px;
+      cursor: pointer;
+      text-align: left;
+      min-height: 40px;
+    }
+
+    .segmented button[aria-selected="true"],
+    .chip[aria-selected="true"] {
+      color: var(--text);
+      border-color: var(--accent);
+      background: rgba(216, 163, 57, 0.12);
+    }
+
+    .segmented button:disabled {
+      cursor: default;
+      opacity: 0.45;
+    }
+
+    .indicator-list {
+      display: grid;
+      gap: 9px;
+      margin-top: 10px;
+    }
+
+    .check-row {
+      display: grid;
+      grid-template-columns: 18px minmax(0, 1fr);
+      gap: 10px;
+      align-items: start;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.35;
+    }
+
+    .check-row input {
+      width: 16px;
+      height: 16px;
+      accent-color: var(--accent);
+      margin: 1px 0 0;
+    }
+
+    .main {
+      min-width: 0;
+      padding: 28px 32px 48px;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 18px;
+      margin-bottom: 24px;
+    }
+
+    .eyebrow {
+      color: var(--accent);
+      font-size: 12px;
+      letter-spacing: 0;
+      margin-bottom: 5px;
+    }
+
+    h2 {
+      margin: 0;
+      font-size: 26px;
+      line-height: 1.25;
+      letter-spacing: 0;
+    }
+
+    .summary {
+      color: var(--muted);
+      max-width: 680px;
+      margin-top: 8px;
+      font-size: 14px;
+    }
+
+    .status-pill {
+      border: 1px solid var(--line);
+      color: var(--muted);
+      border-radius: 999px;
+      padding: 7px 11px;
+      font-size: 12px;
+      white-space: nowrap;
+      background: var(--panel);
+    }
+
+    .toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 18px;
+    }
+
+    .content-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(220px, 1fr));
+      gap: 14px;
+      align-items: stretch;
+    }
+
+    .card {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--panel);
+      min-height: 240px;
+      box-shadow: 0 16px 40px var(--shadow);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .card-header {
+      padding: 16px 16px 12px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .item-label {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 8px;
+    }
+
+    .item-label h3 {
+      margin: 0;
+      font-size: 17px;
+      line-height: 1.25;
+      letter-spacing: 0;
+    }
+
+    .points {
+      color: var(--soft);
+      font-size: 12px;
+      white-space: nowrap;
+    }
+
+    .item-name {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.35;
+      min-height: 32px;
+    }
+
+    .metric-row {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 14px 16px 0;
+    }
+
+    .current {
+      font-size: 30px;
+      font-weight: 650;
+      line-height: 1;
+      word-break: break-word;
+    }
+
+    .delta {
+      font-size: 13px;
+      white-space: nowrap;
+    }
+
+    .delta.pos { color: var(--green); }
+    .delta.neg { color: var(--red); }
+    .delta.flat { color: var(--flat); }
+
+    .spark {
+      margin-top: auto;
+      padding: 12px 14px 14px;
+      min-height: 96px;
+      display: flex;
+      align-items: center;
+    }
+
+    .spark img {
+      display: block;
+      width: 100%;
+      max-height: 96px;
+      object-fit: contain;
+      border-radius: 6px;
+      background: #11151b;
+    }
+
+    .empty {
+      border: 1px dashed var(--line-strong);
+      border-radius: 8px;
+      padding: 28px;
+      color: var(--muted);
+      background: var(--panel);
+    }
+
+    .asset-note {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--panel-2);
+      padding: 14px 16px;
+      margin-bottom: 14px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .asset-note strong {
+      color: var(--text);
+      font-weight: 650;
+    }
+
+    @media (max-width: 980px) {
+      .app { grid-template-columns: 1fr; }
+      .sidebar {
+        position: relative;
+        height: auto;
+        border-right: 0;
+        border-bottom: 1px solid var(--line);
+      }
+      .content-grid { grid-template-columns: repeat(2, minmax(220px, 1fr)); }
+    }
+
+    @media (max-width: 640px) {
+      .main { padding: 22px 16px 36px; }
+      .topbar { display: block; }
+      .status-pill { display: inline-flex; margin-top: 12px; }
+      .content-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-mark"></div>
+        <div>
+          <h1>指标展示实验台</h1>
+          <div class="meta" id="dataMeta">DATA</div>
+        </div>
+      </div>
+
+      <div class="control-block">
+        <div class="control-title">方向</div>
+        <div class="segmented two" id="regionTabs">
+          <button type="button" aria-selected="true">中国</button>
+          <button type="button" disabled>美国</button>
+        </div>
+      </div>
+
+      <div class="control-block">
+        <div class="control-title">大类</div>
+        <div class="segmented" id="sectionTabs"></div>
+      </div>
+
+      <div class="control-block" id="assetBlock" hidden>
+        <div class="control-title">资产</div>
+        <div class="segmented" id="assetTabs"></div>
+      </div>
+
+      <div class="control-block">
+        <div class="control-title">指标</div>
+        <div class="indicator-list" id="indicatorList"></div>
+      </div>
+    </aside>
+
+    <main class="main">
+      <div class="topbar">
+        <div>
+          <div class="eyebrow" id="breadcrumb">中国 / 经济基本面 / 供给</div>
+          <h2 id="viewTitle">供给</h2>
+          <div class="summary" id="viewSummary"></div>
+        </div>
+        <div class="status-pill" id="countPill">0 个指标</div>
+      </div>
+
+      <div class="toolbar" id="groupTabs"></div>
+      <div id="assetNote" class="asset-note" hidden></div>
+      <div class="content-grid" id="cards"></div>
+    </main>
+  </div>
+
+  <script>
+    const state = {
+      data: null,
+      sectionId: 'economy',
+      groupId: 'supply',
+      assetId: 'a_share',
+      selected: new Map()
+    };
+
+    const sectionTabs = document.getElementById('sectionTabs');
+    const groupTabs = document.getElementById('groupTabs');
+    const assetTabs = document.getElementById('assetTabs');
+    const assetBlock = document.getElementById('assetBlock');
+    const indicatorList = document.getElementById('indicatorList');
+    const cards = document.getElementById('cards');
+    const breadcrumb = document.getElementById('breadcrumb');
+    const viewTitle = document.getElementById('viewTitle');
+    const viewSummary = document.getElementById('viewSummary');
+    const countPill = document.getElementById('countPill');
+    const dataMeta = document.getElementById('dataMeta');
+    const assetNote = document.getElementById('assetNote');
+
+    function keyForCurrent() {
+      return `${state.sectionId}:${state.assetId}:${state.groupId}`;
+    }
+
+    function getCurrentGroups() {
+      const { sections } = state.data;
+      if (state.sectionId === 'assets') {
+        const asset = sections.assets.assets.find((item) => item.id === state.assetId) || sections.assets.assets[0];
+        return asset.groups;
+      }
+      return sections[state.sectionId].groups;
+    }
+
+    function getCurrentGroup() {
+      return getCurrentGroups().find((group) => group.id === state.groupId) || getCurrentGroups()[0];
+    }
+
+    function getCurrentAsset() {
+      return state.data.sections.assets.assets.find((asset) => asset.id === state.assetId) || state.data.sections.assets.assets[0];
+    }
+
+    function ensureSelection(group) {
+      const key = keyForCurrent();
+      if (!state.selected.has(key)) {
+        state.selected.set(key, new Set(group.items.map((item) => item.name)));
+      }
+      return state.selected.get(key);
+    }
+
+    function setSelectedButton(container, activeId) {
+      [...container.querySelectorAll('button')].forEach((button) => {
+        button.setAttribute('aria-selected', String(button.dataset.id === activeId));
+      });
+    }
+
+    function renderSectionTabs() {
+      sectionTabs.innerHTML = '';
+      state.data.navigation.sections.forEach((section) => {
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.dataset.id = section.id;
+        button.textContent = section.label;
+        button.setAttribute('aria-selected', String(section.id === state.sectionId));
+        button.addEventListener('click', () => {
+          state.sectionId = section.id;
+          if (section.id === 'assets') {
+            const asset = getCurrentAsset();
+            state.groupId = asset.groups[0]?.id;
+          } else {
+            state.groupId = state.data.sections[section.id].groups[0]?.id;
+          }
+          render();
+        });
+        sectionTabs.appendChild(button);
+      });
+    }
+
+    function renderAssetTabs() {
+      assetBlock.hidden = state.sectionId !== 'assets';
+      assetTabs.innerHTML = '';
+      if (state.sectionId !== 'assets') return;
+      state.data.sections.assets.assets.forEach((asset) => {
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.dataset.id = asset.id;
+        button.textContent = asset.label;
+        button.setAttribute('aria-selected', String(asset.id === state.assetId));
+        button.addEventListener('click', () => {
+          state.assetId = asset.id;
+          state.groupId = asset.groups[0]?.id;
+          render();
+        });
+        assetTabs.appendChild(button);
+      });
+    }
+
+    function renderGroupTabs() {
+      const groups = getCurrentGroups();
+      groupTabs.innerHTML = '';
+      groups.forEach((group) => {
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.className = 'chip';
+        button.dataset.id = group.id;
+        button.textContent = group.title;
+        button.setAttribute('aria-selected', String(group.id === state.groupId));
+        button.addEventListener('click', () => {
+          state.groupId = group.id;
+          render();
+        });
+        groupTabs.appendChild(button);
+      });
+    }
+
+    function renderIndicatorList(group, selection) {
+      indicatorList.innerHTML = '';
+      group.items.forEach((item) => {
+        const row = document.createElement('label');
+        row.className = 'check-row';
+        const input = document.createElement('input');
+        input.type = 'checkbox';
+        input.checked = selection.has(item.name);
+        input.addEventListener('change', () => {
+          if (input.checked) selection.add(item.name);
+          else selection.delete(item.name);
+          renderCards(group, selection);
+        });
+        const span = document.createElement('span');
+        span.textContent = item.label;
+        row.append(input, span);
+        indicatorList.appendChild(row);
+      });
+    }
+
+    function signClass(sign) {
+      if (sign === 'pos') return 'pos';
+      if (sign === 'neg') return 'neg';
+      return 'flat';
+    }
+
+    function renderCards(group, selection) {
+      const selectedItems = group.items.filter((item) => selection.has(item.name));
+      cards.innerHTML = '';
+      countPill.textContent = `${selectedItems.length} 个指标`;
+
+      if (selectedItems.length === 0) {
+        const empty = document.createElement('div');
+        empty.className = 'empty';
+        empty.textContent = '当前未选择指标';
+        cards.appendChild(empty);
+        return;
+      }
+
+      selectedItems.forEach((item) => {
+        const card = document.createElement('article');
+        card.className = 'card';
+        card.innerHTML = `
+          <div class="card-header">
+            <div class="item-label">
+              <h3>${item.label}</h3>
+              <span class="points">${item.points}期</span>
+            </div>
+            <div class="item-name">${item.name}</div>
+          </div>
+          <div class="metric-row">
+            <div class="current">${item.current}</div>
+            <div class="delta ${signClass(item.sign)}">${item.delta || '持平'}</div>
+          </div>
+          <div class="spark">${item.spark ? `<img src="${item.spark}" alt="">` : ''}</div>
+        `;
+        cards.appendChild(card);
+      });
+    }
+
+    function renderTitle(group) {
+      const section = state.data.navigation.sections.find((item) => item.id === state.sectionId);
+      const asset = state.sectionId === 'assets' ? getCurrentAsset() : null;
+      const middle = asset ? `${section.label} / ${asset.label}` : section.label;
+      breadcrumb.textContent = `${state.data.region.label} / ${middle} / ${group.title}`;
+      viewTitle.textContent = group.title;
+      viewSummary.textContent = group.subtitle || state.data.region.subtitle || '';
+
+      if (asset) {
+        assetNote.hidden = false;
+        assetNote.innerHTML = `<strong>${asset.strategyTitle}</strong> ${asset.conclusion}<br>${asset.action}`;
+      } else {
+        assetNote.hidden = true;
+        assetNote.innerHTML = '';
+      }
+    }
+
+    function render() {
+      const group = getCurrentGroup();
+      const selection = ensureSelection(group);
+      renderSectionTabs();
+      renderAssetTabs();
+      renderGroupTabs();
+      renderIndicatorList(group, selection);
+      renderTitle(group);
+      renderCards(group, selection);
+      setSelectedButton(sectionTabs, state.sectionId);
+      setSelectedButton(assetTabs, state.assetId);
+    }
+
+    fetch('../data/china_display_data.json')
+      .then((response) => {
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        return response.json();
+      })
+      .then((data) => {
+        state.data = data;
+        dataMeta.textContent = data.meta.generatedAt;
+        render();
+      })
+      .catch((error) => {
+        cards.innerHTML = `<div class="empty">数据加载失败: ${error.message}</div>`;
+      });
+  </script>
+</body>
+</html>
