@@ -4,8 +4,9 @@
 
 当前第一版目标很窄:
 
-- 先复刻最新 PPT 的内容框架。
-- 页面结构先覆盖 `中国` 和 `美国` 两页。
+- 先严格复刻最新 PPT 的中国页排版。
+- 页面结构先只覆盖 `中国` 一页。
+- 折线图先使用 PPT 内嵌的趋势图图片,不能省略。
 - 先提供 HTML 页面和 `导出 PDF` 按钮。
 - 暂不做复杂自动选指标,后续再接日报编辑器。
 
@@ -34,6 +35,9 @@ projects/macro_daily_html/
 ├── workflow.md
 ├── CHANGELOG.md
 ├── demo/
+│   ├── assets/
+│   │   └── china/
+│   │       └── image*.png
 │   └── index.html
 └── test/
     └── daily_html_structure.test.mjs
@@ -51,14 +55,14 @@ http://localhost:5175/projects/macro_daily_html/demo/index.html
 
 - 顶部工具条
 - `导出 PDF` 按钮
-- 中国日报页
-- 美国日报页
+- 中国 PPT 复刻页
+- PPT 内嵌趋势折线图
 - 打印/PDF 专用样式
 
 ## 后续目标
 
 后续分三步推进:
 
-1. **框架复刻**:先把 PPT 的日报结构稳定迁到 HTML。
+1. **框架复刻**:先把 PPT 中国页的日报排版稳定迁到 HTML。
 2. **数据绑定**:接入 Excel/JSON 和 `indicator_explorer` 已整理的历史序列。
 3. **日报编辑器**:从指标观察台选择“今天要讲的指标”,自动进入日报 HTML,再导出 PDF。

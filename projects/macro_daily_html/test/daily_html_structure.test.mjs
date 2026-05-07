@@ -1,35 +1,43 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { readFile } from 'node:fs/promises';
+import { access, readFile } from 'node:fs/promises';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const testDir = dirname(fileURLToPath(import.meta.url));
 const demoFile = resolve(testDir, '../demo/index.html');
 
-test('daily HTML demo mirrors the two-page PPT report framework', async () => {
+test('daily HTML demo mirrors the China PPT layout and keeps trend charts', async () => {
   const html = await readFile(demoFile, 'utf8');
 
   assert.match(html, /id="exportPdf"/);
   assert.match(html, /window\.print\(\)/);
   assert.match(html, /data-region="china"/);
-  assert.match(html, /data-region="us"/);
   assert.match(html, /国内宏观至资产的传导框架/);
-  assert.match(html, /美国宏观至资产的传导框架/);
+  assert.doesNotMatch(html, /data-region="us"/);
+  assert.doesNotMatch(html, /美国宏观至资产的传导框架/);
+  assert.match(html, /class="ppt-page"/);
+  assert.match(html, /assets\/china\/image15\.png/);
+  await access(resolve(testDir, '../demo/assets/china/image15.png'));
+
+  const trendChartCount = (html.match(/class="sparkline"/g) || []).length;
+  assert.ok(trendChartCount >= 16, `expected at least 16 trend charts, got ${trendChartCount}`);
 
   const requiredSections = [
     '货币政策',
     '财政政策',
-    '经济面',
-    '流动性',
-    '资产配置',
+    '流动性：',
+    '央行流动性',
+    '银行间',
+    '实体流动性',
+    '需求',
+    '供给',
+    '价格',
+    '产业面',
     'A股策略',
     '中债策略',
     '港股策略',
-    '美股策略',
-    '美债策略',
-    '黄金策略',
-    '数据更新'
+    '数据截至'
   ];
 
   requiredSections.forEach((section) => {
