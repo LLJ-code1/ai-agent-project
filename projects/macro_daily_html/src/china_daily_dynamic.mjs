@@ -8,12 +8,35 @@ export const CHINA_DAILY_SLOTS = [
   { slot: 'supply.industrial_production', label: '工业增加值', candidates: ['工业增加值'] },
   { slot: 'price.ppi', label: 'PPI', candidates: ['PPI'] },
   { slot: 'price.cpi', label: 'CPI', candidates: ['CPI'] },
-  { slot: 'price.raw_material_purchase_price', label: '原材料购价', candidates: ['原材料购价', 'PMI主要原材料购进价格'] }
+  { slot: 'price.raw_material_purchase_price', label: '原材料购价', candidates: ['原材料购价', 'PMI主要原材料购进价格'] },
+  { slot: 'liquidity.central_bank.reverse_repo_7d', label: '7天逆回购', candidates: ['7天逆回购', '7天逆回购利率'] },
+  { slot: 'liquidity.central_bank.reserve_ratio', label: '法定存准率', candidates: ['存准率', '法定存款准备金率-大型国有银行'] },
+  { slot: 'liquidity.interbank.dr001', label: 'DR001', candidates: ['DR001'] },
+  { slot: 'liquidity.interbank.dr007', label: 'DR007', candidates: ['DR007'] },
+  { slot: 'liquidity.interbank.r001', label: 'R001', candidates: ['R001'] },
+  { slot: 'liquidity.interbank.r007', label: 'R007', candidates: ['R007'] },
+  { slot: 'liquidity.real_economy.social_financing_stock', label: '社融存量', candidates: ['社融存量', '社会融资规模存量'] },
+  { slot: 'liquidity.real_economy.m1', label: 'M1', candidates: ['M1'] },
+  { slot: 'liquidity.real_economy.m2', label: 'M2', candidates: ['M2'] },
+  { slot: 'assets.a_share.shanghai_composite', label: '上证指数', candidates: ['上证指数'] },
+  { slot: 'assets.a_share.csi300', label: '沪深300', candidates: ['沪深300'] },
+  { slot: 'assets.a_share.northbound_turnover', label: '北向成交', candidates: ['北向成交', '北向资金成交额'] },
+  { slot: 'assets.a_share.turnover', label: '成交额', candidates: ['A股日度成交额'] },
+  { slot: 'assets.a_share.margin_balance', label: '两融余额', candidates: ['两融余额', '融资融券余额'] },
+  { slot: 'assets.china_bond.one_year_treasury', label: '1Y国债', candidates: ['1Y国债', '1年国债收益率'] },
+  { slot: 'assets.china_bond.ten_year_treasury', label: '10Y国债', candidates: ['10Y国债', '10年国债收益率'] },
+  { slot: 'assets.china_bond.term_spread', label: '期限利差', candidates: ['10Y-1Y', '期限利差：（国债）10Y-1Y'] },
+  { slot: 'assets.china_bond.credit_spread', label: '信用利差', candidates: ['信用利差', '信用利差：10Y（企业债-国开债）'] },
+  { slot: 'assets.hong_kong.hang_seng', label: '恒生指数', candidates: ['恒生指数'] },
+  { slot: 'assets.hong_kong.hang_seng_tech', label: '恒生科技', candidates: ['恒生科技', '恒生科技指数'] },
+  { slot: 'assets.hong_kong.southbound_flow', label: '南向资金', candidates: ['南向资金', '南向资金净流入'] }
 ];
 
 function collectItems(data) {
-  const groups = data?.sections?.economy?.groups ?? [];
-  return groups.flatMap((group) => group.items ?? []);
+  const sections = data?.sections ?? {};
+  const sectionGroups = Object.values(sections).flatMap((section) => section.groups ?? []);
+  const assetGroups = (sections.assets?.assets ?? []).flatMap((asset) => asset.groups ?? []);
+  return [...sectionGroups, ...assetGroups].flatMap((group) => group.items ?? []);
 }
 
 function indexItems(items) {

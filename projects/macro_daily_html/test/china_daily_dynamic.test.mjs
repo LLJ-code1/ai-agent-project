@@ -17,7 +17,7 @@ test('builds demand, supply, and price model from China display JSON', async () 
   const data = JSON.parse(await readFile(dataFile, 'utf8'));
   const model = buildChinaDailyModel(data);
 
-  assert.equal(CHINA_DAILY_SLOTS.length, 10);
+  assert.equal(CHINA_DAILY_SLOTS.length, 31);
   assert.equal(model.get('demand.retail_sales').label, '社零');
   assert.equal(model.get('demand.retail_sales').current, '1.7%');
   assert.equal(model.get('demand.retail_sales').delta, '-1.1pct');
@@ -27,6 +27,19 @@ test('builds demand, supply, and price model from China display JSON', async () 
   assert.ok(model.get('supply.industrial_production').series.length >= 10);
   assert.equal(model.get('price.ppi').current, '0.5%');
   assert.equal(model.get('price.raw_material_purchase_price').current, '63.7');
+});
+
+test('builds available liquidity and asset slots from China display JSON', async () => {
+  const data = JSON.parse(await readFile(dataFile, 'utf8'));
+  const model = buildChinaDailyModel(data);
+
+  assert.equal(model.get('liquidity.central_bank.reverse_repo_7d').current, '1.4%');
+  assert.ok(model.get('liquidity.interbank.dr007').series.length >= 10);
+  assert.equal(model.get('liquidity.real_economy.m1').current, '5.1%');
+
+  assert.equal(model.get('assets.a_share.shanghai_composite').current, '4112.2');
+  assert.equal(model.get('assets.china_bond.ten_year_treasury').current, '1.75%');
+  assert.equal(model.get('assets.hong_kong.hang_seng').current, '25776.5');
 });
 
 test('marks missing JSON indicators so the PPT fallback can remain visible', async () => {

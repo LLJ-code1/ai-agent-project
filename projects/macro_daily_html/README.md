@@ -6,7 +6,7 @@
 
 - 先严格复刻最新 PPT 的中国页排版。
 - 页面结构先只覆盖 `中国` 一页。
-- 折线图先使用 PPT 内嵌的趋势图图片,不能省略。
+- 趋势图采用 A 版方案:有 JSON 历史序列时替换为紧凑 SVG 小折线;缺数据时保留 PPT 内嵌图片兜底。
 - 先提供 HTML 页面和 `导出 PDF` 按钮。
 - 暂不做复杂自动选指标,后续再接日报编辑器。
 
@@ -39,7 +39,10 @@ projects/macro_daily_html/
 │   │   └── china/
 │   │       └── image*.png
 │   └── index.html
+├── src/
+│   └── china_daily_dynamic.mjs
 └── test/
+    ├── china_daily_dynamic.test.mjs
     └── daily_html_structure.test.mjs
 ```
 
@@ -57,7 +60,8 @@ http://localhost:5175/projects/macro_daily_html/demo/index.html
 - `导出 PDF` 按钮
 - 中国 PPT 复刻页
 - PPT 内嵌趋势折线图兜底
-- `需求 / 供给 / 价格` 三块动态读取中国展示 JSON
+- `需求 / 供给 / 价格`、流动性、部分资产指标动态读取中国展示 JSON
+- A 版自动趋势图:表格内紧凑 SVG 小折线,不加入坐标轴和大图表
 - 打印/PDF 专用样式
 
 当前动态数据来源:
@@ -66,12 +70,12 @@ http://localhost:5175/projects/macro_daily_html/demo/index.html
 projects/indicator_explorer/data/china_display_data.json
 ```
 
-当前仍需注意:`非制造业PMI` 暂未出现在该 JSON 中,页面保留 PPT 静态兜底。
+当前仍需注意:`非制造业PMI`、`新增人民币贷款`、`深成指数`、`创业板指`、`交易总金额`、`换手率` 等暂未出现在该 JSON 中或口径不完全一致,页面保留 PPT 静态兜底。
 
 ## 后续目标
 
 后续分三步推进:
 
 1. **框架复刻**:先把 PPT 中国页的日报排版稳定迁到 HTML。
-2. **数据绑定**:接入 Excel/JSON 和 `indicator_explorer` 已整理的历史序列。当前先完成中国页 `需求 / 供给 / 价格`。
+2. **数据绑定**:接入 Excel/JSON 和 `indicator_explorer` 已整理的历史序列。当前先完成中国页已有 JSON 序列的紧凑小折线替换。
 3. **日报编辑器**:从指标观察台选择“今天要讲的指标”,自动进入日报 HTML,再导出 PDF。
