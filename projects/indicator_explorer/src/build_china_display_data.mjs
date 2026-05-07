@@ -44,11 +44,29 @@ const MACRO_DATA_ROWS = new Map([
   ['M2', 41],
   ['1年国债收益率', 43],
   ['10年国债收益率', 52],
+  ['中债国开债到期收益率:10年', 54],
+  ['中债企业债到期收益率(AAA):10年', 55],
+  ['DR001', 81],
+  ['DR007', 82],
+  ['R001', 83],
+  ['R007', 84],
+  ['7天逆回购利率', 85],
+  ['新开户数（个人）', 86],
   ['商品房销售面积:累计同比', 105],
   ['1Y同业存单到期收益率(AAA)', 106],
   ['PMI主要原材料购进价格', 107],
   ['CFETS人民币汇率指数', 109]
 ]);
+
+const INDEX_SHEET_SERIES = [
+  { name: '恒生科技指数', row: 3, headerRow: 1 },
+  { name: '沪深300', row: 6, headerRow: 1 },
+  { name: '上证指数', row: 7, headerRow: 1 },
+  { name: '恒生指数', row: 8, headerRow: 1 },
+  { name: '创业板指一致预测净利润同比', row: 13, headerRow: 10 },
+  { name: '沪深300一致预测净利润同比', row: 15, headerRow: 10 },
+  { name: '沪深300预测PE', row: 24, headerRow: 19 }
+];
 
 function toId(label, fallbackPrefix = 'group') {
   if (GROUP_IDS.has(label)) return GROUP_IDS.get(label);
@@ -76,6 +94,17 @@ function excelSerialToDate(serial) {
   return new Date(timestamp).toISOString().slice(0, 10);
 }
 
+function parseDateValue(value) {
+  if (value === undefined || value === '') return '';
+  const text = String(value).trim();
+  if (/^\d{4}-\d{2}-\d{2}$/.test(text)) return text;
+  const numericValue = Number(text);
+  if (Number.isFinite(numericValue) && numericValue >= 30000) {
+    return excelSerialToDate(numericValue);
+  }
+  return '';
+}
+
 function getRowXml(sheetXml, rowNumber) {
   const match = sheetXml.match(new RegExp(`<row[^>]* r="${rowNumber}"[\\s\\S]*?<\\/row>`));
   return match?.[0] ?? '';
@@ -95,29 +124,133 @@ function extractNumericCells(rowXml) {
   return cells;
 }
 
-export function extractMacroSeriesFromWorkbook(workbookPath) {
-  const sheetXml = execFileSync('unzip', ['-p', workbookPath, 'xl/worksheets/sheet3.xml'], {
-    encoding: 'utf8',
-    maxBuffer: 30 * 1024 * 1024
-  });
+function extractCellTexts(rowXml) {
+  const cells = new Map();
+  const cellPattern = /<c\b[^>]*\br="([A-Z]+[0-9]+)"[^>]*>([\s\S]*?)<\/c>/g;
+  for (const match of rowXml.matchAll(cellPattern)) {
+    const inlineText = match[2].match(/<t[^>]*>([\s\S]*?)<\/t>/)?.[1];
+    const value = inlineText ?? match[2].match(/<v>([^<]*)<\/v>/)?.[1] ?? '';
+    cells.set(columnLetters(match[1]), value);
+  }
+  return cells;
+}
 
-  const dateCells = extractNumericCells(getRowXml(sheetXml, 1));
+function readSheetXml(workbookPath, sheetNumber, maxBuffer = 30 * 1024 * 1024) {
+  return execFileSync('unzip', ['-p', workbookPath, `xl/worksheets/sheet${sheetNumber}.xml`], {
+    encoding: 'utf8',
+    maxBuffer
+  });
+}
+
+function normalizeSeries(series) {
+  return series
+    .filter((point) => point.date && Number.isFinite(point.value))
+    .sort((left, right) => left.date.localeCompare(right.date));
+}
+
+function extractHorizontalSeries(sheetXml, rowNumber, headerRow = 1, transform = (value) => value) {
+  const dateCells = extractNumericCells(getRowXml(sheetXml, headerRow));
   const columnDates = new Map(
     [...dateCells.entries()]
       .filter(([, serial]) => serial >= 30000)
       .map(([column, serial]) => [column, excelSerialToDate(serial)])
   );
+  const valueCells = extractNumericCells(getRowXml(sheetXml, rowNumber));
+  return normalizeSeries(
+    [...valueCells.entries()]
+      .filter(([column]) => columnDates.has(column))
+      .map(([column, value]) => ({ date: columnDates.get(column), value: Number(transform(value).toFixed(4)) }))
+  );
+}
+
+function extractRows(sheetXml) {
+  return [...sheetXml.matchAll(/<row\b[^>]*\br="(\d+)"[\s\S]*?<\/row>/g)].map((match) => ({
+    number: Number(match[1]),
+    cells: extractCellTexts(match[0])
+  }));
+}
+
+function cellNumber(cells, column) {
+  const value = Number(cells.get(column));
+  return Number.isFinite(value) ? value : undefined;
+}
+
+function cellDate(cells, column) {
+  return parseDateValue(cells.get(column));
+}
+
+function extractVerticalSeries(sheetXml, { dateColumn, valueColumn, startRow = 9, transform = (value) => value }) {
+  return normalizeSeries(
+    extractRows(sheetXml)
+      .filter((row) => row.number >= startRow)
+      .map((row) => {
+        const date = cellDate(row.cells, dateColumn);
+        const value = cellNumber(row.cells, valueColumn);
+        if (!date || value === undefined) return null;
+        return { date, value: Number(transform(value).toFixed(4)) };
+      })
+      .filter(Boolean)
+  );
+}
+
+function sumSeriesByDate(...seriesList) {
+  const byDate = new Map();
+  seriesList.flat().forEach((point) => {
+    byDate.set(point.date, (byDate.get(point.date) ?? 0) + point.value);
+  });
+  return normalizeSeries([...byDate.entries()].map(([date, value]) => ({ date, value: Number(value.toFixed(4)) })));
+}
+
+function spreadSeries(longSeries, shortSeries) {
+  const shortByDate = new Map(shortSeries.map((point) => [point.date, point.value]));
+  return normalizeSeries(
+    longSeries
+      .filter((point) => shortByDate.has(point.date))
+      .map((point) => ({ date: point.date, value: Number(((point.value - shortByDate.get(point.date)) * 100).toFixed(2)) }))
+  );
+}
+
+export function extractMacroSeriesFromWorkbook(workbookPath) {
+  const macroSheetXml = readSheetXml(workbookPath, 3);
+  const indexSheetXml = readSheetXml(workbookPath, 4, 10 * 1024 * 1024);
+  const dailyFlowSheetXml = readSheetXml(workbookPath, 5, 10 * 1024 * 1024);
   const seriesByName = new Map();
 
   MACRO_DATA_ROWS.forEach((rowNumber, name) => {
-    const valueCells = extractNumericCells(getRowXml(sheetXml, rowNumber));
-    const series = [...valueCells.entries()]
-      .filter(([column]) => columnDates.has(column))
-      .map(([column, value]) => ({ date: columnDates.get(column), value: Number(value.toFixed(4)) }))
-      .sort((left, right) => left.date.localeCompare(right.date));
-
-    seriesByName.set(name, series);
+    seriesByName.set(name, extractHorizontalSeries(macroSheetXml, rowNumber));
   });
+
+  INDEX_SHEET_SERIES.forEach(({ name, row, headerRow }) => {
+    seriesByName.set(name, extractHorizontalSeries(indexSheetXml, row, headerRow));
+  });
+
+  seriesByName.set('A股日度成交额', extractVerticalSeries(dailyFlowSheetXml, {
+    dateColumn: 'A',
+    valueColumn: 'B',
+    transform: (value) => value / 10000
+  }));
+  seriesByName.set('融资融券余额', extractVerticalSeries(dailyFlowSheetXml, {
+    dateColumn: 'E',
+    valueColumn: 'F',
+    transform: (value) => value / 1_000_000_000_000
+  }));
+
+  const northboundShanghai = extractVerticalSeries(dailyFlowSheetXml, { dateColumn: 'H', valueColumn: 'I' });
+  const northboundShenzhen = extractVerticalSeries(dailyFlowSheetXml, { dateColumn: 'K', valueColumn: 'L' });
+  seriesByName.set('北向资金成交额', sumSeriesByDate(northboundShanghai, northboundShenzhen));
+
+  const southboundShanghai = extractVerticalSeries(dailyFlowSheetXml, { dateColumn: 'O', valueColumn: 'P' });
+  const southboundShenzhen = extractVerticalSeries(dailyFlowSheetXml, { dateColumn: 'R', valueColumn: 'S' });
+  seriesByName.set('南向资金净流入', sumSeriesByDate(southboundShanghai, southboundShenzhen));
+
+  seriesByName.set('期限利差：（国债）10Y-1Y', spreadSeries(
+    seriesByName.get('10年国债收益率') ?? [],
+    seriesByName.get('1年国债收益率') ?? []
+  ));
+  seriesByName.set('信用利差：10Y（企业债-国开债）', spreadSeries(
+    seriesByName.get('中债企业债到期收益率(AAA):10年') ?? [],
+    seriesByName.get('中债国开债到期收益率:10年') ?? []
+  ));
 
   return seriesByName;
 }
@@ -127,6 +260,10 @@ function findSeries(item, seriesByName = new Map()) {
 }
 
 function formatNumber(value) {
+  const abs = Math.abs(value);
+  if (abs > 0 && abs < 0.01) return Number(value.toFixed(4)).toString();
+  if (abs > 0 && abs < 0.1) return Number(value.toFixed(3)).toString();
+  if (abs >= 1000) return Number(value.toFixed(1)).toString();
   return Number(value.toFixed(2)).toString();
 }
 
@@ -138,9 +275,16 @@ function hasPercentUnit(item) {
   return String(item.current ?? '').includes('%');
 }
 
+function unitSuffixFromItem(item) {
+  const current = String(item.current ?? '');
+  if (hasPercentUnit(item)) return '%';
+  const suffixMatch = current.match(/(万亿|万户|亿元|亿|bp|倍)$/);
+  return suffixMatch?.[1] ?? '';
+}
+
 function currentFromSeries(item, series) {
   if (series.length === 0) return item.current ?? '';
-  const suffix = hasPercentUnit(item) ? '%' : '';
+  const suffix = unitSuffixFromItem(item);
   return `${formatNumber(series.at(-1).value)}${suffix}`;
 }
 
@@ -150,7 +294,8 @@ function deltaFromSeries(item, series) {
   const previous = series.at(-2).value;
   const delta = latest - previous;
   const prefix = delta > 0 ? '+' : '';
-  const suffix = hasPercentUnit(item) ? 'pct' : '点';
+  const unitSuffix = unitSuffixFromItem(item);
+  const suffix = unitSuffix === '%' ? 'pct' : (unitSuffix || '点');
   return `${prefix}${formatNumber(delta)}${suffix}`;
 }
 
@@ -252,7 +397,7 @@ export function normalizeChinaDisplayData(source, meta = {}) {
       workbookFile: meta.workbookFile ?? '',
       displayBoundary: '展示数据包:保留中国侧经济、流动性、资产全部展示字段;不是 Excel 全量原始数据导出。',
       defaultCase: '中国 / 经济基本面 / 供给',
-      historySource: '宏观数据 sheet:按指标行号抽取真实历史序列'
+      historySource: '宏观数据、指数走势、A股成交额换手率测试1:按不同 Sheet 结构抽取真实历史序列'
     },
     region: {
       id: 'china',

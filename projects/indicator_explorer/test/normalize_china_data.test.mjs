@@ -1,7 +1,12 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import { dirname, resolve } from 'node:path';
+import { fileURLToPath } from 'node:url';
 
-import { normalizeChinaDisplayData } from '../src/build_china_display_data.mjs';
+import { extractMacroSeriesFromWorkbook, normalizeChinaDisplayData } from '../src/build_china_display_data.mjs';
+
+const testDir = dirname(fileURLToPath(import.meta.url));
+const workbookPath = resolve(testDir, '../data/macro_final_v11.2_2_safe_formula_fix_2026-05-07.xlsx');
 
 const fakeTreeData = {
   slides: [
@@ -95,4 +100,30 @@ test('normalizes the China display payload and keeps industry optional', () => {
   assert.equal(result.sections.liquidity.groups[0].id, 'central_bank_liquidity');
   assert.equal(result.sections.assets.assets[0].id, 'a_share');
   assert.equal(result.sections.assets.assets[0].groups[0].items[0].label, '成交额');
+});
+
+test('extracts daily series from workbook sheets with different layouts', () => {
+  const seriesByName = extractMacroSeriesFromWorkbook(workbookPath);
+
+  const dailyNames = [
+    'DR007',
+    '7天逆回购利率',
+    'A股日度成交额',
+    '北向资金成交额',
+    '融资融券余额',
+    '南向资金净流入',
+    '上证指数',
+    '沪深300',
+    '恒生指数',
+    '恒生科技指数',
+    '沪深300预测PE',
+    '信用利差：10Y（企业债-国开债）'
+  ];
+
+  dailyNames.forEach((name) => {
+    const series = seriesByName.get(name) ?? [];
+    assert.ok(series.length >= 10, `${name} should expose at least 10 historical points`);
+    assert.match(series.at(-1).date, /^\d{4}-\d{2}-\d{2}$/);
+    assert.equal(typeof series.at(-1).value, 'number');
+  });
 });
