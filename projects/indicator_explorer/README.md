@@ -37,7 +37,8 @@ projects/indicator_explorer/
 
 - 方向:只含 `中国`
 - 大类:含 `经济基本面`、`流动性`、`资产`
-- 经济基本面:含 `供给`、`需求`、`价格`、`产业面`
+- 经济基本面:含 `供给`、`需求`、`产业面`
+- `价格` 指标并入 `需求`,页面上不再单独显示“需求与价格”或“价格”大组
 - 资产:含 `A股`、`中债`、`港股`
 
 其中 `产业面` 保留为可选展示,默认不作为中国经济基本面的首屏展示。
@@ -46,8 +47,15 @@ projects/indicator_explorer/
 
 - 测试 Excel 快照:`data/macro_final_v11.2_2_safe_formula_fix_2026-05-07.xlsx`
 - 展示 JSON 来源:`outputs/tree_macro_strategy_final_v2/tree_final_data.json`
-- 趋势小图来源:`outputs/tree_macro_strategy_final_v2/sparklines/`,已复制到 `data/sparklines/`
+- 历史序列来源:测试 Excel 的 `宏观数据` Sheet,按指标行号抽取真实历史点
 - 生成脚本:`src/build_china_display_data.mjs`
+
+## Demo 功能
+
+- 左侧选择大类、分组和指标。
+- 指标卡片使用 SVG 折线图展示历史序列。
+- 时间区间支持 `近3期`、`近6期`、`近12期`、`全部`。
+- 图表含横轴、纵轴、网格线、点位和最新值标注。
 
 ## 本地查看
 

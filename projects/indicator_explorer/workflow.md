@@ -22,7 +22,6 @@ node projects/indicator_explorer/src/build_china_display_data.mjs
 
 ```text
 projects/indicator_explorer/data/china_display_data.json
-projects/indicator_explorer/data/sparklines/*.png
 ```
 
 当前 JSON 从 `outputs/tree_macro_strategy_final_v2/tree_final_data.json` 读取中国侧数据,整理成:
@@ -32,7 +31,6 @@ projects/indicator_explorer/data/sparklines/*.png
 ├── 经济基本面
 │   ├── 供给
 │   ├── 需求
-│   ├── 价格
 │   └── 产业面(可选)
 ├── 流动性
 │   ├── 央行流动性
@@ -43,6 +41,14 @@ projects/indicator_explorer/data/sparklines/*.png
     ├── 中债
     └── 港股
 ```
+
+历史点位从测试 Excel 的 `宏观数据` Sheet 抽取:
+
+- `供给`:PMI、生产、新订单、新出口订单
+- `需求`:社零、固定投资、房屋销售、出口、PPI、CPI、原材料购价
+- `产业面`:工业增加值等已有行号可识别指标
+
+其中 `价格` 不再作为页面单独大组,而是合并进 `需求`。页面展示名称仍然只叫 `需求`。
 
 ## 3. HTML 展示
 
@@ -60,9 +66,16 @@ http://localhost:5175/projects/indicator_explorer/demo/index.html
 
 可切换:
 
-- `经济基本面`:供给、需求、价格、产业面
+- `经济基本面`:供给、需求、产业面
 - `流动性`:央行流动性、银行间流动性、实体流动性
 - `资产`:A股、中债、港股
+
+指标卡片的折线图支持:
+
+- `近3期`
+- `近6期`
+- `近12期`
+- `全部`
 
 ## 4. 后续扩展
 

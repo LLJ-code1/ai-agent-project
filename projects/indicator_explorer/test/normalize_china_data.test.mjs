@@ -17,6 +17,16 @@ const fakeTreeData = {
           items: [{ label: '制造业PMI', name: '制造业PMI', current: '50.4', delta: '+1.4点', sign: 'pos', points: 3 }]
         },
         {
+          title: '需求',
+          subtitle: '内外需能否接住',
+          items: [{ label: '社零', name: '社会消费品零售总额', current: '1.7%', delta: '-1.1pct', sign: 'neg', points: 3 }]
+        },
+        {
+          title: '价格',
+          subtitle: '价格能否传到利润',
+          items: [{ label: 'PPI', name: 'PPI', current: '4.0%', delta: '+0.6pct', sign: 'pos', points: 3 }]
+        },
+        {
           title: '产业面',
           subtitle: '利润与库存确认',
           items: [{ label: '工业增加值', name: '工业增加值', current: '5.7%', delta: '-0.6pct', sign: 'neg', points: 3 }]
@@ -59,7 +69,12 @@ test('normalizes the China display payload and keeps industry optional', () => {
   const result = normalizeChinaDisplayData(fakeTreeData, {
     generatedAt: '2026-05-07',
     sourceFile: 'outputs/tree_macro_strategy_final_v2/tree_final_data.json',
-    workbookFile: 'data/macro_final_v11.2_2_safe_formula_fix_2026-05-07.xlsx'
+    workbookFile: 'data/macro_final_v11.2_2_safe_formula_fix_2026-05-07.xlsx',
+    seriesByName: new Map([
+      ['制造业PMI', [{ date: '2026-03-31', value: 50.4 }]],
+      ['社会消费品零售总额', [{ date: '2026-03-31', value: 1.7 }]],
+      ['PPI', [{ date: '2026-03-31', value: 4.0 }]]
+    ])
   });
 
   assert.equal(result.meta.generatedAt, '2026-05-07');
@@ -67,11 +82,15 @@ test('normalizes the China display payload and keeps industry optional', () => {
   assert.equal(result.region.label, '中国');
   assert.deepEqual(result.navigation.sections.map((section) => section.id), ['economy', 'liquidity', 'assets']);
 
-  assert.equal(result.sections.economy.groups.length, 2);
+  assert.equal(result.sections.economy.groups.length, 3);
   assert.equal(result.sections.economy.groups[0].id, 'supply');
   assert.equal(result.sections.economy.groups[0].display.defaultVisible, true);
-  assert.equal(result.sections.economy.groups[1].id, 'industry');
-  assert.equal(result.sections.economy.groups[1].display.defaultVisible, false);
+  assert.equal(result.sections.economy.groups[1].id, 'demand');
+  assert.equal(result.sections.economy.groups[1].title, '需求');
+  assert.deepEqual(result.sections.economy.groups[1].items.map((item) => item.label), ['社零', 'PPI']);
+  assert.deepEqual(result.sections.economy.groups[1].items[1].series, [{ date: '2026-03-31', value: 4.0 }]);
+  assert.equal(result.sections.economy.groups[2].id, 'industry');
+  assert.equal(result.sections.economy.groups[2].display.defaultVisible, false);
 
   assert.equal(result.sections.liquidity.groups[0].id, 'central_bank_liquidity');
   assert.equal(result.sections.assets.assets[0].id, 'a_share');
