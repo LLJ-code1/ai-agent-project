@@ -13,6 +13,7 @@
 !samples/*.html
 !samples/html/*.html
 !projects/indicator_explorer/demo/*.html
+!projects/macro_daily_html/demo/*.html
 
 # 每日 JSON 快照(但 samples/ 里的样例保留)
 snapshot_*.json

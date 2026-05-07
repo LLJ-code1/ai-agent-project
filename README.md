@@ -73,7 +73,8 @@
 │   └── analysis_prompt_v2.2.md
 │
 ├── projects/                 ← 独立子项目/实验模块
-│   └── indicator_explorer/   指标可选展示实验台
+│   ├── indicator_explorer/   指标可选展示实验台
+│   └── macro_daily_html/     日报 HTML/PDF 替代层
 │
 ├── samples/                  ← 产出样例(供 AI 参考"正常输出什么样")
 │   ├── README.md

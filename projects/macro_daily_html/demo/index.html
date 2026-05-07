@@ -1,0 +1,597 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>宏观日报 HTML/PDF</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --paper: #f6f7f9;
+      --page: #ffffff;
+      --ink: #141820;
+      --muted: #657083;
+      --line: #d8dde6;
+      --soft: #eef1f5;
+      --accent: #b88718;
+      --accent-soft: #fff4d8;
+      --china: #a8372d;
+      --us: #264f8f;
+      --green: #16845b;
+      --red: #b7433c;
+      --shadow: rgba(20, 24, 32, 0.12);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans SC", sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+    }
+
+    button {
+      font: inherit;
+    }
+
+    .toolbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      padding: 12px 18px;
+      background: rgba(246, 247, 249, 0.92);
+      border-bottom: 1px solid var(--line);
+      backdrop-filter: blur(12px);
+    }
+
+    .toolbar-title {
+      font-weight: 700;
+      font-size: 15px;
+    }
+
+    .toolbar-meta {
+      color: var(--muted);
+      font-size: 12px;
+      margin-top: 2px;
+    }
+
+    .toolbar-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .toolbar a,
+    .toolbar button {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--page);
+      color: var(--ink);
+      min-height: 34px;
+      padding: 7px 11px;
+      cursor: pointer;
+      text-decoration: none;
+      font-size: 13px;
+    }
+
+    .toolbar button.primary {
+      border-color: var(--accent);
+      background: var(--accent);
+      color: #fff;
+      font-weight: 650;
+    }
+
+    .workspace {
+      padding: 24px;
+      display: grid;
+      gap: 24px;
+      justify-items: center;
+    }
+
+    .report-page {
+      width: min(1280px, calc(100vw - 48px));
+      aspect-ratio: 16 / 9;
+      background: var(--page);
+      box-shadow: 0 18px 50px var(--shadow);
+      border: 1px solid var(--line);
+      padding: 26px;
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      gap: 14px;
+      page-break-after: always;
+    }
+
+    .page-header {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: start;
+      gap: 20px;
+      border-bottom: 2px solid var(--ink);
+      padding-bottom: 10px;
+    }
+
+    .eyebrow {
+      color: var(--accent);
+      font-size: 12px;
+      font-weight: 700;
+      margin-bottom: 5px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 28px;
+      letter-spacing: 0;
+      line-height: 1.1;
+    }
+
+    .date-badge {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 8px 10px;
+      text-align: right;
+      color: var(--muted);
+      font-size: 12px;
+      min-width: 150px;
+    }
+
+    .date-badge strong {
+      display: block;
+      color: var(--ink);
+      font-size: 18px;
+      margin-bottom: 2px;
+    }
+
+    .page-grid {
+      display: grid;
+      grid-template-columns: 1.08fr 1fr 1.1fr;
+      gap: 12px;
+      min-height: 0;
+    }
+
+    .column {
+      display: grid;
+      gap: 12px;
+      min-height: 0;
+    }
+
+    .panel {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--page);
+      overflow: hidden;
+      min-height: 0;
+    }
+
+    .panel-title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 9px 10px;
+      border-bottom: 1px solid var(--line);
+      background: var(--soft);
+      font-size: 13px;
+      font-weight: 750;
+    }
+
+    .tag {
+      border-radius: 999px;
+      background: var(--accent-soft);
+      color: #7b540e;
+      padding: 3px 7px;
+      font-size: 11px;
+      font-weight: 650;
+      white-space: nowrap;
+    }
+
+    .panel-body {
+      padding: 10px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.52;
+    }
+
+    .claim {
+      color: var(--ink);
+      font-size: 13px;
+      line-height: 1.55;
+      margin: 0;
+    }
+
+    .metric-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 11px;
+      line-height: 1.25;
+    }
+
+    .metric-table th,
+    .metric-table td {
+      border-bottom: 1px solid var(--line);
+      padding: 6px 5px;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    .metric-table th {
+      color: var(--muted);
+      font-weight: 650;
+      background: #fafbfc;
+    }
+
+    .metric-table td:nth-child(2),
+    .metric-table td:nth-child(3) {
+      text-align: right;
+      white-space: nowrap;
+      color: var(--ink);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .delta-pos { color: var(--green) !important; }
+    .delta-neg { color: var(--red) !important; }
+
+    .strategy {
+      display: grid;
+      gap: 8px;
+    }
+
+    .strategy-item {
+      border-left: 3px solid var(--accent);
+      padding-left: 8px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.45;
+    }
+
+    .strategy-item strong {
+      display: block;
+      color: var(--ink);
+      margin-bottom: 2px;
+    }
+
+    .update-row {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 8px;
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    .update-row span {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 7px 8px;
+      background: #fafbfc;
+    }
+
+    .page-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      color: var(--muted);
+      font-size: 11px;
+      border-top: 1px solid var(--line);
+      padding-top: 8px;
+    }
+
+    [data-region="china"] .eyebrow { color: var(--china); }
+    [data-region="us"] .eyebrow { color: var(--us); }
+
+    @media print {
+      @page {
+        size: A4 landscape;
+        margin: 8mm;
+      }
+
+      body {
+        background: #fff;
+      }
+
+      .toolbar {
+        display: none;
+      }
+
+      .workspace {
+        padding: 0;
+        display: block;
+      }
+
+      .report-page {
+        width: 100%;
+        height: calc(100vh - 16mm);
+        box-shadow: none;
+        border: 0;
+        break-after: page;
+        page-break-after: always;
+      }
+    }
+
+    @media (max-width: 900px) {
+      .report-page {
+        width: calc(100vw - 24px);
+        aspect-ratio: auto;
+      }
+      .page-grid {
+        grid-template-columns: 1fr;
+      }
+      .toolbar {
+        position: static;
+        align-items: flex-start;
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="toolbar">
+    <div>
+      <div class="toolbar-title">宏观日报 HTML/PDF</div>
+      <div class="toolbar-meta">第一版:复刻 PPT 内容框架,后续接入数据绑定和日报编辑器</div>
+    </div>
+    <div class="toolbar-actions">
+      <a href="#china">中国页</a>
+      <a href="#us">美国页</a>
+      <button type="button" class="primary" id="exportPdf">导出 PDF</button>
+    </div>
+  </header>
+
+  <main class="workspace">
+    <section class="report-page" id="china" data-region="china" aria-label="中国日报页">
+      <div class="page-header">
+        <div>
+          <div class="eyebrow">中国 · 宏观到资产</div>
+          <h1>国内宏观至资产的传导框架</h1>
+        </div>
+        <div class="date-badge">
+          <strong>日报成品页</strong>
+          数据截至 2026-04-30
+        </div>
+      </div>
+
+      <div class="page-grid">
+        <div class="column">
+          <section class="panel">
+            <div class="panel-title">货币政策 <span class="tag">政策变量</span></div>
+            <div class="panel-body">
+              <p class="claim">保持流动性充裕,但边际更偏削峰填谷;观察银行间宽松能否继续向实体信用传导。</p>
+            </div>
+          </section>
+          <section class="panel">
+            <div class="panel-title">财政政策 <span class="tag">政策变量</span></div>
+            <div class="panel-body">
+              <p class="claim">继续实施更加积极的财政政策,重点观察支出节奏、项目落地和宏观政策一致性。</p>
+            </div>
+          </section>
+          <section class="panel">
+            <div class="panel-title">经济面 <span class="tag">供给 / 需求 / 价格</span></div>
+            <div class="panel-body">
+              <p class="claim">经济更接近弱修复:供给端先改善,需求端仍待确认,价格改善需区分成本推动和需求改善。</p>
+              <table class="metric-table" aria-label="中国经济指标">
+                <thead><tr><th>指标</th><th>当前值</th><th>较上期</th></tr></thead>
+                <tbody>
+                  <tr><td>制造业PMI</td><td>50.4</td><td class="delta-pos">+1.4点</td></tr>
+                  <tr><td>社零</td><td>1.7%</td><td class="delta-neg">-1.1pct</td></tr>
+                  <tr><td>PPI</td><td>0.5%</td><td class="delta-pos">+1.4pct</td></tr>
+                  <tr><td>原材料购价</td><td>63.9</td><td class="delta-pos">+9.1点</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+        </div>
+
+        <div class="column">
+          <section class="panel">
+            <div class="panel-title">流动性 <span class="tag">央行 / 银行间 / 实体</span></div>
+            <div class="panel-body">
+              <p class="claim">银行间仍处低位,实体信用传导偏弱;日报中优先说明“宽货币到宽信用”的断点。</p>
+              <table class="metric-table" aria-label="中国流动性指标">
+                <thead><tr><th>指标</th><th>当前值</th><th>较上期</th></tr></thead>
+                <tbody>
+                  <tr><td>7天逆回购</td><td>1.40%</td><td>0bp</td></tr>
+                  <tr><td>DR007</td><td>1.37%</td><td class="delta-neg">-1.9bp</td></tr>
+                  <tr><td>社融存量</td><td>7.9%</td><td class="delta-neg">-0.3pct</td></tr>
+                  <tr><td>M2</td><td>8.5%</td><td class="delta-neg">-0.5pct</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+          <section class="panel">
+            <div class="panel-title">产业政策 <span class="tag">结构变量</span></div>
+            <div class="panel-body">
+              <p class="claim">关注全国统一大市场、反内卷、人工智能+等政策主线,用于解释结构性资产机会。</p>
+            </div>
+          </section>
+          <section class="panel">
+            <div class="panel-title">数据更新 <span class="tag">频率</span></div>
+            <div class="panel-body">
+              <div class="update-row">
+                <span>日度:资金面/指数</span>
+                <span>周度:部分流动性</span>
+                <span>月度:经济指标</span>
+                <span>季度:盈利数据</span>
+              </div>
+            </div>
+          </section>
+        </div>
+
+        <div class="column">
+          <section class="panel">
+            <div class="panel-title">资产配置 <span class="tag">中国资产</span></div>
+            <div class="panel-body strategy">
+              <div class="strategy-item">
+                <strong>A股策略</strong>
+                维持标配,控制仓位并预留风险应对仓位;低配客户可逢跌定投,不追高。
+              </div>
+              <div class="strategy-item">
+                <strong>中债策略</strong>
+                维持标配,短期观察波动,中期对冲价值仍在;稳健客户以期限匹配理财为主。
+              </div>
+              <div class="strategy-item">
+                <strong>港股策略</strong>
+                仓位防御优于结构防御;仅对显著低配客户考虑逢跌定投。
+              </div>
+            </div>
+          </section>
+          <section class="panel">
+            <div class="panel-title">资产指标 <span class="tag">市场验证</span></div>
+            <div class="panel-body">
+              <table class="metric-table" aria-label="中国资产指标">
+                <thead><tr><th>指标</th><th>当前值</th><th>较上期</th></tr></thead>
+                <tbody>
+                  <tr><td>A股成交额</td><td>3.23万亿</td><td class="delta-pos">+17.73%</td></tr>
+                  <tr><td>沪深300</td><td>4877</td><td class="delta-pos">+1.45%</td></tr>
+                  <tr><td>10Y国债</td><td>1.77%</td><td class="delta-neg">-0.43bp</td></tr>
+                  <tr><td>南向资金</td><td>-85.7亿</td><td class="delta-neg">-207亿</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+        </div>
+      </div>
+
+      <footer class="page-footer">
+        <span>macro_daily_html · 中国页</span>
+        <span>数据观察来源后续接 indicator_explorer</span>
+      </footer>
+    </section>
+
+    <section class="report-page" id="us" data-region="us" aria-label="美国日报页">
+      <div class="page-header">
+        <div>
+          <div class="eyebrow">美国 · 宏观到资产</div>
+          <h1>美国宏观至资产的传导框架</h1>
+        </div>
+        <div class="date-badge">
+          <strong>日报成品页</strong>
+          数据截至 2026-05-06
+        </div>
+      </div>
+
+      <div class="page-grid">
+        <div class="column">
+          <section class="panel">
+            <div class="panel-title">货币政策 <span class="tag">联储</span></div>
+            <div class="panel-body">
+              <p class="claim">暂停降息并维持限制性利率环境;重点观察通胀粘性和就业边际变化。</p>
+            </div>
+          </section>
+          <section class="panel">
+            <div class="panel-title">财政政策 <span class="tag">债务约束</span></div>
+            <div class="panel-body">
+              <p class="claim">减税与扩张倾向仍在,但高债务和利息支出约束财政空间。</p>
+            </div>
+          </section>
+          <section class="panel">
+            <div class="panel-title">经济面 <span class="tag">增长 / 通胀 / 就业</span></div>
+            <div class="panel-body">
+              <p class="claim">美国经济更接近增长放缓叠加通胀粘性:制造业和服务仍在扩张区间,但价格指标同步上行。</p>
+              <table class="metric-table" aria-label="美国经济指标">
+                <thead><tr><th>指标</th><th>当前值</th><th>较上期</th></tr></thead>
+                <tbody>
+                  <tr><td>制造业ISM</td><td>52.7</td><td>0点</td></tr>
+                  <tr><td>服务新单</td><td>54.1</td><td class="delta-pos">+0.6点</td></tr>
+                  <tr><td>CPI</td><td>3.3%</td><td class="delta-pos">+0.9pct</td></tr>
+                  <tr><td>失业率</td><td>4.3%</td><td class="delta-neg">-0.1pct</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+        </div>
+
+        <div class="column">
+          <section class="panel">
+            <div class="panel-title">流动性 <span class="tag">联储 / 银行间 / 实体</span></div>
+            <div class="panel-body">
+              <p class="claim">总体无流动性危机,但内部结构分化;银行间压力较小,实体信贷需求更需观察。</p>
+              <table class="metric-table" aria-label="美国流动性指标">
+                <thead><tr><th>指标</th><th>当前值</th><th>较上期</th></tr></thead>
+                <tbody>
+                  <tr><td>联邦基金</td><td>3.50%-3.75%</td><td>0bp</td></tr>
+                  <tr><td>SOFR</td><td>3.62%</td><td>0bp</td></tr>
+                  <tr><td>IORB</td><td>3.65%</td><td class="delta-neg">-1bp</td></tr>
+                  <tr><td>银行贷款</td><td>6.2%</td><td class="delta-neg">-0.12pct</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+          <section class="panel">
+            <div class="panel-title">美债 <span class="tag">利率与拍卖</span></div>
+            <div class="panel-body">
+              <table class="metric-table" aria-label="美债指标">
+                <thead><tr><th>指标</th><th>当前值</th><th>较上期</th></tr></thead>
+                <tbody>
+                  <tr><td>2Y美债</td><td>3.87%</td><td class="delta-neg">-6bp</td></tr>
+                  <tr><td>10Y美债</td><td>4.36%</td><td class="delta-neg">-7bp</td></tr>
+                  <tr><td>10Y-2Y</td><td>49bp</td><td class="delta-neg">-1bp</td></tr>
+                  <tr><td>10Y拍卖</td><td>2.21</td><td class="delta-neg">-0.24</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+          <section class="panel">
+            <div class="panel-title">数据更新 <span class="tag">频率</span></div>
+            <div class="panel-body">
+              <div class="update-row">
+                <span>日度:资产价格</span>
+                <span>周度:流动性</span>
+                <span>月度:经济数据</span>
+                <span>事件:联储/拍卖</span>
+              </div>
+            </div>
+          </section>
+        </div>
+
+        <div class="column">
+          <section class="panel">
+            <div class="panel-title">资产配置 <span class="tag">美股 / 美债 / 黄金</span></div>
+            <div class="panel-body strategy">
+              <div class="strategy-item">
+                <strong>美股策略</strong>
+                维持中性偏标配;经济暂未失速但估值偏高,更适合逢回调分批,不宜追高。
+              </div>
+              <div class="strategy-item">
+                <strong>美债策略</strong>
+                维持标配;短期平稳但胜率和赔率仍需观察,以固收定位看配置性价比仍不高。
+              </div>
+              <div class="strategy-item">
+                <strong>黄金策略</strong>
+                维持中性;显著低配客户可逢跌介入,避免高买低卖。
+              </div>
+            </div>
+          </section>
+          <section class="panel">
+            <div class="panel-title">资产指标 <span class="tag">市场验证</span></div>
+            <div class="panel-body">
+              <table class="metric-table" aria-label="美国资产指标">
+                <thead><tr><th>指标</th><th>当前值</th><th>较上期</th></tr></thead>
+                <tbody>
+                  <tr><td>标普500</td><td>7138.8</td><td class="delta-neg">-35.11</td></tr>
+                  <tr><td>纳斯达克</td><td>24663.8</td><td class="delta-neg">-223.3</td></tr>
+                  <tr><td>COMEX黄金</td><td>4266.9</td><td class="delta-pos">+0.52%</td></tr>
+                  <tr><td>ICE布油</td><td>111.36</td><td class="delta-pos">+2.8%</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+        </div>
+      </div>
+
+      <footer class="page-footer">
+        <span>macro_daily_html · 美国页</span>
+        <span>下一步:接入美国侧指标观察数据包</span>
+      </footer>
+    </section>
+  </main>
+
+  <script>
+    document.getElementById('exportPdf').addEventListener('click', () => {
+      window.print();
+    });
+  </script>
+</body>
+</html>
