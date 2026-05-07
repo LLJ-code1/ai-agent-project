@@ -18,6 +18,12 @@ test('daily HTML demo mirrors the China PPT layout and keeps trend charts', asyn
   assert.doesNotMatch(html, /美国宏观至资产的传导框架/);
   assert.match(html, /class="ppt-page"/);
   assert.match(html, /assets\/china\/image15\.png/);
+  assert.match(html, /type="module"/);
+  assert.match(html, /\.\.\/src\/china_daily_dynamic\.mjs/);
+  assert.match(html, /\.\.\/\.\.\/indicator_explorer\/data\/china_display_data\.json/);
+  assert.match(html, /data-slot="demand\.retail_sales"/);
+  assert.match(html, /data-slot-spark="demand\.retail_sales"/);
+  assert.match(html, /data-slot-current="price\.ppi"/);
   await access(resolve(testDir, '../demo/assets/china/image15.png'));
 
   const trendChartCount = (html.match(/class="sparkline"/g) || []).length;

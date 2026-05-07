@@ -56,13 +56,22 @@ http://localhost:5175/projects/macro_daily_html/demo/index.html
 - 顶部工具条
 - `导出 PDF` 按钮
 - 中国 PPT 复刻页
-- PPT 内嵌趋势折线图
+- PPT 内嵌趋势折线图兜底
+- `需求 / 供给 / 价格` 三块动态读取中国展示 JSON
 - 打印/PDF 专用样式
+
+当前动态数据来源:
+
+```text
+projects/indicator_explorer/data/china_display_data.json
+```
+
+当前仍需注意:`非制造业PMI` 暂未出现在该 JSON 中,页面保留 PPT 静态兜底。
 
 ## 后续目标
 
 后续分三步推进:
 
 1. **框架复刻**:先把 PPT 中国页的日报排版稳定迁到 HTML。
-2. **数据绑定**:接入 Excel/JSON 和 `indicator_explorer` 已整理的历史序列。
+2. **数据绑定**:接入 Excel/JSON 和 `indicator_explorer` 已整理的历史序列。当前先完成中国页 `需求 / 供给 / 价格`。
 3. **日报编辑器**:从指标观察台选择“今天要讲的指标”,自动进入日报 HTML,再导出 PDF。

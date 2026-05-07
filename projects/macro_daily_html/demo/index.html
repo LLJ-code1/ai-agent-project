@@ -308,6 +308,10 @@
       display: inline-block;
     }
 
+    svg.sparkline {
+      max-width: 64px;
+    }
+
     .positive { color: var(--red); }
     .negative { color: var(--green); }
     .neutral { color: #111; }
@@ -468,7 +472,7 @@
   <header class="toolbar">
     <div>
       <div class="toolbar-title">宏观日报 HTML/PDF · 中国 PPT 复刻页</div>
-      <div class="toolbar-note">当前只复刻已敲定 PPT 中国页版式，折线图先使用 PPT 内嵌图资产。</div>
+      <div class="toolbar-note">当前保持 PPT 中国页版式，需求/供给/价格读取 JSON；缺失时保留 PPT 静态兜底。</div>
     </div>
     <button type="button" class="primary" id="exportPdf">导出 PDF</button>
   </header>
@@ -555,10 +559,10 @@
               <tr><th style="width:31%">名称</th><th style="width:24%">趋势</th><th style="width:23%">当前值</th><th style="width:22%">较上期</th></tr>
             </thead>
             <tbody>
-              <tr><td class="name">社零<span class="update">4月16日更新</span></td><td class="trend"><img class="sparkline" src="assets/china/image11.png" alt="社零趋势"></td><td class="value">1.7%</td><td class="delta negative">-1.1%</td></tr>
-              <tr><td class="name">固定投资<span class="update">4月16日更新</span></td><td class="trend"><img class="sparkline" src="assets/china/image12.png" alt="固定投资趋势"></td><td class="value">1.7%</td><td class="delta negative">-0.1%</td></tr>
-              <tr><td class="name">房屋销售<span class="update">4月16日更新</span></td><td class="trend"><img class="sparkline" src="assets/china/image13.png" alt="房屋销售趋势"></td><td class="value">-10.4%</td><td class="delta positive">3.1%</td></tr>
-              <tr><td class="name">出口<span class="update">4月16日更新</span></td><td class="trend"><img class="sparkline" src="assets/china/image14.png" alt="出口趋势"></td><td class="value">2.5%</td><td class="delta negative">-37.1%</td></tr>
+              <tr data-slot="demand.retail_sales"><td class="name">社零<span class="update">4月16日更新</span></td><td class="trend" data-slot-spark="demand.retail_sales"><img class="sparkline" src="assets/china/image11.png" alt="社零趋势"></td><td class="value" data-slot-current="demand.retail_sales">1.7%</td><td class="delta negative" data-slot-delta="demand.retail_sales">-1.1%</td></tr>
+              <tr data-slot="demand.fixed_asset_investment"><td class="name">固定投资<span class="update">4月16日更新</span></td><td class="trend" data-slot-spark="demand.fixed_asset_investment"><img class="sparkline" src="assets/china/image12.png" alt="固定投资趋势"></td><td class="value" data-slot-current="demand.fixed_asset_investment">1.7%</td><td class="delta negative" data-slot-delta="demand.fixed_asset_investment">-0.1%</td></tr>
+              <tr data-slot="demand.property_sales"><td class="name">房屋销售<span class="update">4月16日更新</span></td><td class="trend" data-slot-spark="demand.property_sales"><img class="sparkline" src="assets/china/image13.png" alt="房屋销售趋势"></td><td class="value" data-slot-current="demand.property_sales">-10.4%</td><td class="delta positive" data-slot-delta="demand.property_sales">3.1%</td></tr>
+              <tr data-slot="demand.export"><td class="name">出口<span class="update">4月16日更新</span></td><td class="trend" data-slot-spark="demand.export"><img class="sparkline" src="assets/china/image14.png" alt="出口趋势"></td><td class="value" data-slot-current="demand.export">2.5%</td><td class="delta negative" data-slot-delta="demand.export">-37.1%</td></tr>
             </tbody>
           </table>
         </section>
@@ -570,9 +574,9 @@
               <tr><th style="width:35%">名称</th><th style="width:24%">趋势</th><th style="width:21%">当前值</th><th style="width:20%">较上期</th></tr>
             </thead>
             <tbody>
-              <tr><td class="name">制造业PMI<span class="update">4月30日更新</span></td><td class="trend"><img class="sparkline" src="assets/china/image9.png" alt="制造业PMI趋势"></td><td class="value">50.4</td><td class="delta positive">1.4%</td></tr>
-              <tr><td class="name">非制造业PMI<span class="update">4月30日更新</span></td><td class="trend"><img class="sparkline" src="assets/china/image10.png" alt="非制造业PMI趋势"></td><td class="value">50.2</td><td class="delta positive">0.5%</td></tr>
-              <tr><td class="name">工业增加值<span class="update">4月16日更新</span></td><td class="trend"><img class="sparkline" src="assets/china/image16.png" alt="工业增加值趋势"></td><td class="value">5.7%</td><td class="delta negative">-0.6%</td></tr>
+              <tr data-slot="supply.manufacturing_pmi"><td class="name">制造业PMI<span class="update">4月30日更新</span></td><td class="trend" data-slot-spark="supply.manufacturing_pmi"><img class="sparkline" src="assets/china/image9.png" alt="制造业PMI趋势"></td><td class="value" data-slot-current="supply.manufacturing_pmi">50.4</td><td class="delta positive" data-slot-delta="supply.manufacturing_pmi">1.4%</td></tr>
+              <tr data-slot="supply.non_manufacturing_pmi"><td class="name">非制造业PMI<span class="update">4月30日更新</span></td><td class="trend" data-slot-spark="supply.non_manufacturing_pmi"><img class="sparkline" src="assets/china/image10.png" alt="非制造业PMI趋势"></td><td class="value" data-slot-current="supply.non_manufacturing_pmi">50.2</td><td class="delta positive" data-slot-delta="supply.non_manufacturing_pmi">0.5%</td></tr>
+              <tr data-slot="supply.industrial_production"><td class="name">工业增加值<span class="update">4月16日更新</span></td><td class="trend" data-slot-spark="supply.industrial_production"><img class="sparkline" src="assets/china/image16.png" alt="工业增加值趋势"></td><td class="value" data-slot-current="supply.industrial_production">5.7%</td><td class="delta negative" data-slot-delta="supply.industrial_production">-0.6%</td></tr>
               <tr><td class="name">&nbsp;</td><td class="trend"></td><td class="value"></td><td class="delta"></td></tr>
             </tbody>
           </table>
@@ -585,9 +589,9 @@
               <tr><th style="width:31%">名称</th><th style="width:24%">趋势</th><th style="width:23%">当前值</th><th style="width:22%">较上期</th></tr>
             </thead>
             <tbody>
-              <tr><td class="name">PPI<span class="update">4月10日更新</span></td><td class="trend"><img class="sparkline" src="assets/china/image5.png" alt="PPI趋势"></td><td class="value">0.5%</td><td class="delta positive">1.4%</td></tr>
-              <tr><td class="name">CPI<span class="update">4月10日更新</span></td><td class="trend"><img class="sparkline" src="assets/china/image6.png" alt="CPI趋势"></td><td class="value">1%</td><td class="delta negative">-0.3%</td></tr>
-              <tr><td class="name">原材料购价<span class="update">4月10日更新</span></td><td class="trend"><img class="sparkline" src="assets/china/image7.png" alt="原材料购价趋势"></td><td class="value">63.9</td><td class="delta positive">9.1点</td></tr>
+              <tr data-slot="price.ppi"><td class="name">PPI<span class="update">4月10日更新</span></td><td class="trend" data-slot-spark="price.ppi"><img class="sparkline" src="assets/china/image5.png" alt="PPI趋势"></td><td class="value" data-slot-current="price.ppi">0.5%</td><td class="delta positive" data-slot-delta="price.ppi">1.4%</td></tr>
+              <tr data-slot="price.cpi"><td class="name">CPI<span class="update">4月10日更新</span></td><td class="trend" data-slot-spark="price.cpi"><img class="sparkline" src="assets/china/image6.png" alt="CPI趋势"></td><td class="value" data-slot-current="price.cpi">1%</td><td class="delta negative" data-slot-delta="price.cpi">-0.3%</td></tr>
+              <tr data-slot="price.raw_material_purchase_price"><td class="name">原材料购价<span class="update">4月10日更新</span></td><td class="trend" data-slot-spark="price.raw_material_purchase_price"><img class="sparkline" src="assets/china/image7.png" alt="原材料购价趋势"></td><td class="value" data-slot-current="price.raw_material_purchase_price">63.9</td><td class="delta positive" data-slot-delta="price.raw_material_purchase_price">9.1点</td></tr>
               <tr><td class="name">&nbsp;</td><td class="trend"></td><td class="value"></td><td class="delta"></td></tr>
             </tbody>
           </table>
@@ -711,10 +715,26 @@
     </section>
   </main>
 
-  <script>
+  <script type="module">
+    import { applyChinaDailyModel, buildChinaDailyModel } from '../src/china_daily_dynamic.mjs';
+
+    const CHINA_DATA_URL = '../../indicator_explorer/data/china_display_data.json';
+
+    async function hydrateChinaDaily() {
+      try {
+        const response = await fetch(CHINA_DATA_URL);
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        const data = await response.json();
+        applyChinaDailyModel(document, buildChinaDailyModel(data));
+      } catch (error) {
+        console.warn('China daily dynamic data unavailable; keeping PPT fallback values.', error);
+      }
+    }
+
     document.getElementById('exportPdf').addEventListener('click', () => {
       window.print();
     });
+    hydrateChinaDaily();
   </script>
 </body>
 </html>
