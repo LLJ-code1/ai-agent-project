@@ -8,9 +8,11 @@
 
 这是**投研团队的宏观仪表盘项目**,目标是把中美宏观数据转化为半自动化的投研报告。
 
+当前项目已经从单一仪表盘,扩展为三层:宏观数据底座、指标观察台、日报 HTML/PDF 交付层。新接手的 Agent 不能只按旧的 Excel/Python/Prompt 三件套理解项目。
+
 **核心使用者是一位非开发者**——他使用 Wind 终端拉数据,需要 Claude/Agent 帮他完成所有涉及代码、公式、文档的工作。和他沟通时**先讲方案、确认、再动手**,禁止先斩后奏。
 
-**项目的完整工作流(6 个环节,5 个已自动化)**:
+**项目主流程(6 个环节,第 5 环节正在产品化)**:
 
 ```
 ① Wind 终端刷新数据 (人工)
@@ -21,7 +23,7 @@
     ↓
 ④ AI 基于 Prompt 生成分析报告 (7 条传导链路) — 全自动
     ↓
-⑤ HTML 研报模板渲染成页面 — 半自动(当前由 AI 手工编排)
+⑤ 展示与日报交付层:指标观察台 + 日报 HTML/PDF — 进行中
     ↓
 ⑥ 飞书推送给团队 (⬜ 未开发)
 ```
@@ -42,6 +44,9 @@
 - 要**修改 Excel**(加指标/改公式/调权重)→ `skills/excel_maintenance.md`
 - 要**写分析报告**或**改 Prompt** → `skills/analysis_writing.md`
 - 要**加新指标或调整指标体系** → `skills/indicator_management.md`
+- 要**做指标观察/展示数据包/选指标** → `projects/indicator_explorer/README.md` + `projects/indicator_explorer/workflow.md`
+- 要**做日报 HTML/PDF/PPT 替代层** → `projects/macro_daily_html/README.md` + `projects/macro_daily_html/workflow.md`
+- 要**做客户经理可转述版或日报总结句** → 先读 `skills/analysis_writing.md`,再读对应日报子项目 workflow
 
 ### 第三优先级(需要背景时查)
 
@@ -105,6 +110,22 @@
 
 **R5.1 分阶段交付**:多产物任务(如 Excel + Python + JSON + HTML + 文档)**不要一口气打包发用户**。先发核心源文件(通常 Excel),等用户确认,再做下游产物。避免用户检查源文件要改时下游全部返工。
 
+### R6 子项目与展示层规则(2026-05-08 新增)
+
+**R6.1 `projects/` 是可复用子项目区**:新建或扩展子项目时,默认要同步维护 `README.md`、`workflow.md`、`CHANGELOG.md`;如果有代码,必须配套最小测试。
+
+**R6.2 根目录 Excel 是共享数据源**:不要为每个子项目拆第二套 Excel。确实需要测试快照时,必须标明它只是子项目测试数据,不是主流程唯一数据源。
+
+**R6.3 区分观察台和成品层**:`indicator_explorer` 解决"数据原来怎么变";`macro_daily_html` 解决"今天日报怎么讲、怎么发"。不要把观察台做成日报成品页,也不要让日报页承担全量指标浏览功能。
+
+**R6.4 HTML/PDF 交付先复刻 PPT**:当前阶段优先保持已定稿 PPT 的版式、16:9 单页结构、表格和紧凑趋势图。不要自由网页化改版。
+
+**R6.5 动态数据缺失时保留兜底**:日报 HTML 只接入同口径 JSON 历史序列。缺数据或口径不一致时保留 PPT 静态值/图片,不要编造动态数据。
+
+**R6.6 分清分析分组和展示分组**:中国经济页分析按 `需求 / 供给 / 价格` 组织;`indicator_explorer` 当前展示口径中,`价格` 可合并进 `需求`。写分析和做页面时不要混用两个层级。
+
+**R6.7 客户经理可转述层不能省**:面向客户或客户经理的日报输出,必须先写"客户经理可转述版",回答"经济怎么样 / 为什么 / 对市场有什么影响",再压缩成 90 字左右 PPT/日报总结句。
+
 ---
 
 ## 项目当前版本
@@ -113,7 +134,9 @@
 - **Python 脚本**:`macro_snapshot_export.py` v2.2
 - **Prompt**:`analysis_prompt_v2.2.md`
 - **HTML 展示样例**:`samples/html/项目展示_fixed.html`
-- **知识库**:v1.3 (2026-04-20 重构至 GitHub 体系)
+- **指标观察台**:`projects/indicator_explorer/`
+- **日报 HTML/PDF 交付层**:`projects/macro_daily_html/`
+- **知识库**:v1.4 (2026-05-08 补充子项目和展示层规则)
 
 ---
 
@@ -128,6 +151,8 @@
 - ✅ HTML 展示页面(单文件,含 21 个趋势图)
 - ✅ 协议迭代:B.1 分阶段交付 + C.2.1 changelog 命名 + R2.5 数值比较硬规则
 - ✅ 知识库 GitHub 化重构(2026-04-20)
+- ✅ 指标观察实验台 `indicator_explorer` 首版(中国侧展示 JSON + HTML demo)
+- ✅ 日报 HTML/PDF 子项目 `macro_daily_html` 首版(中国 PPT 复刻 + A 版自动小折线)
 
 ### 未完成
 
@@ -144,3 +169,4 @@
 5. **保持简洁**。用户时间有限,不要输出冗长废话。
 6. **分阶段交付**:多产物任务先发核心文件,等确认再做下游。
 7. **用 Claude Code 时**:每次 commit 前检查是否更新了 `changelog/`。
+8. **动手前检查分支和工作区**:`git status --short --branch`;不要误提交 `outputs/` 等运行产物,也不要覆盖用户已有改动。
