@@ -14,6 +14,15 @@
 | `macro_final_v11.2.xlsx` | 当前核心 Excel 样例,含真实 Sheet、公式、节点权重和链路信号 | 人 + AI |
 | `.gitignore` | Git 忽略规则(Excel/HTML/每日 JSON 等) | Git |
 
+### projects/(产品层和实验模块)
+
+| 目录 | 定位 | 说明 |
+|------|------|------|
+| `projects/macro_daily_html/` | 日报 HTML/PDF 成品层 | 面向每天交付,复刻日报 PPT 版式,逐步接入动态数据和 PDF 导出 |
+| `projects/indicator_explorer/` | 日报观察台/选指标测试工具 | 服务于日报层,用于观察指标历史变化、辅助选择进入日报的指标 |
+
+**注意**:`indicator_explorer` 不是最终产品层;当前项目的最终展示/交付产品分为"全量展示层"和"日报层"两条线。
+
 ### docs/(知识库)
 
 | 文件 | 作用 |
@@ -41,6 +50,15 @@
 | `YYYY-MM-DD_<主题>.md` | 每轮变更的独立文件 |
 
 **已有条目**(按时间倒序):
+- `2026-05-08_project_map_update.md` — 项目地图校正:全量展示层 / 日报层 / 日报观察台
+- `2026-05-08_agent_entry_update.md` — Agent 入口补充子项目和展示层规则
+- `2026-05-07_macro_daily_auto_sparklines.md` — 日报 HTML A 版自动小折线扩展
+- `2026-05-07_macro_daily_china_dynamic.md` — 日报中国页动态化试验
+- `2026-05-07_macro_daily_html_china_ppt_replica.md` — 日报中国 PPT 复刻修正
+- `2026-05-07_macro_daily_html.md` — 日报 HTML/PDF 子项目
+- `2026-05-07_indicator_explorer_daily_series.md` — 观察台接入日度历史序列
+- `2026-05-07_indicator_explorer_ui.md` — 观察台 UI 和展示口径调整
+- `2026-05-07_indicator_explorer.md` — 日报观察台/选指标测试工具首版
 - `2026-04-20_doc_restructure.md` — 知识库 GitHub 化重构
 - `2026-04-19_html_presentation.md` — HTML 展示页面首版
 - `2026-04-17_protocol_update.md` — 协议加入 B.1 分阶段交付 + C.2.1 changelog 命名
@@ -74,7 +92,7 @@
 | `snapshot_2026-04-17_lite.json` | JSON 精简版样例(AI 用) |
 | `snapshot_2026-04-17_full.json` | JSON 完整版样例(HTML 用) |
 | `analyses/分析_<资产>_2026-04-19.md` × 7 | 7 份分析产出样例 |
-| `html/项目展示_fixed.html` | 首轮 HTML 展示样例,用于理解最终交付形态 |
+| `html/项目展示_fixed.html` | 首轮全量 HTML 展示样例,用于理解 Excel/JSON 优化展示形态;不是日报层 |
 
 ---
 
@@ -85,7 +103,7 @@
 | 文件 | 格式 | 用途 |
 |------|------|------|
 | `macro_final_v11.2.xlsx` | Excel | 当前核心 Excel 样例,用于新接手者理解真实结构、公式、节点权重和 7 条链路信号流 |
-| `samples/html/项目展示_fixed.html` | HTML | 首轮展示样例,用于参考最终交付页面长什么样 |
+| `samples/html/项目展示_fixed.html` | HTML | 首轮全量展示层样例,用于参考完整仪表盘形态 |
 
 **为什么这两个文件入库**:
 - 新接手者没有 Excel 原文件时,只能读文档,很难理解真实 Sheet 和公式如何连接
@@ -120,6 +138,16 @@
 这些文件通过仓库根目录的 `.gitignore` 显式排除,确保 `git add .` 时不会误入。当前 `.gitignore` 对 `macro_final_v11.2.xlsx` 和 `samples/html/*.html` 做了例外放行。
 
 **例外**:`samples/` 目录里保留了**一份产出样例**(2026-04-19 版),根目录保留一份核心 Excel 样例。这些样例不跟随每日产出自动更新。
+
+### outputs/(本地运行产物)
+
+`outputs/` 目前用于存放 PPT、JSON、图片等运行产物和阶段性试验结果。默认应视为临时输出区,不要把它当作长期产品目录。
+
+需要长期复用的内容应沉淀到:
+
+- `samples/`:少量正式样例
+- `projects/*/demo/`:对应产品或工具的 demo
+- `projects/*/README.md` / `workflow.md`:对应产品或工具的说明
 
 ---
 

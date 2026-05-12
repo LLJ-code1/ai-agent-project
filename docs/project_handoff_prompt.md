@@ -25,6 +25,9 @@
 - 要**修改 Excel** → `skills/excel_maintenance.md`
 - 要**写分析报告**或**改 Prompt** → `skills/analysis_writing.md`
 - 要**加指标或调整指标体系** → `skills/indicator_management.md`
+- 要**做全量 HTML 展示/Excel 优化展示** → 先参考 `samples/html/项目展示_fixed.html`
+- 要**做日报 HTML/PDF** → `projects/macro_daily_html/README.md` + `projects/macro_daily_html/workflow.md`
+- 要**做日报观察台/选指标测试** → `projects/indicator_explorer/README.md` + `projects/indicator_explorer/workflow.md`
 
 如果需要背景理解,读 `docs/` 里的专题文档。
 
@@ -36,10 +39,16 @@
 
 **使用者**:投研团队一位分析师(非开发者),其他同事看最终产出。
 
-**6 个环节,5 个已自动化**:
+**主链路**:
 ```
-① Wind 刷新 → ② Excel 打分 → ③ 导出 JSON → ④ AI 分析 → ⑤ HTML 展示 → ⑥ 飞书推送(未开发)
+① Wind 刷新 → ② Excel 打分 → ③ 导出 JSON → ④ AI 分析 → ⑤ 产品化展示/交付 → ⑥ 飞书推送(未开发)
 ```
+
+第 5 环节现在拆成两条产品线:
+
+- **全量展示层**:`samples/html/项目展示_fixed.html` 是历史样例,目标是完整展示 Excel/JSON、7 条链路、指标趋势和跨链路洞察。
+- **日报层**:`projects/macro_daily_html/` 是日报 HTML/PDF 成品层,目标是每天精选指标和结论,形成客户经理可用的交付物。
+- **日报观察台**:`projects/indicator_explorer/` 服务于日报层,用于观察指标历史变化、辅助选择进入日报的指标,不是最终产品层。
 
 **四层金字塔**:
 ```
@@ -54,7 +63,7 @@ L3 指标:118 个
 
 ---
 
-## 第三步:了解当前状态(2026-04-20)
+## 第三步:了解当前状态(2026-05-08)
 
 ### 已完成
 
@@ -62,15 +71,18 @@ L3 指标:118 个
 - Python 脚本 v2.2 适配
 - 议题 1 权重重构(5 节点,"主项留权重、子项=0"原则)
 - 首轮 7 链路完整分析(2026-04-19)
-- HTML 展示页(单文件,21 个趋势图)
+- 全量 HTML 展示页历史样例(单文件,21 个趋势图)
 - 知识库 GitHub 化
+- 日报 HTML/PDF 子项目 `projects/macro_daily_html/` 首版
+- 日报观察台/选指标测试工具 `projects/indicator_explorer/` 首版
 
 ### 未完成(按优先级,详见 roadmap/)
 
 1. **议题 2**:AI 替代公式打分,让 JSON 的 `auto_view` 字段从"数据陈述"变成"因果判断"
-2. **HTML 模板化**:把手工编排的 HTML 抽象为 Python 脚本直出
-3. **飞书推送**(第 6 环节)
-4. 知识库文档的可读性优化
+2. **全量展示层产品化**:把历史 HTML 样例从 `samples/html/` 演进为可复用的完整展示层
+3. **日报层产品化**:稳定 `macro_daily_html` 的 PPT 复刻、动态数据绑定、客户经理可转述版和 PDF 导出
+4. **飞书推送**(第 6 环节)
+5. 知识库文档的可读性优化
 
 ---
 
@@ -161,6 +173,15 @@ macro-dashboard/
 │   ├── indicator_management.md
 │   └── analysis_writing.md
 │
+├── projects/                     ← 产品层和实验模块
+│   ├── indicator_explorer/       日报观察台/选指标测试工具
+│   └── macro_daily_html/         日报 HTML/PDF 成品层
+│
+├── samples/                      ← 历史样例
+│   ├── analyses/                 7 份样例分析
+│   ├── html/项目展示_fixed.html  全量 HTML 展示层历史样例
+│   └── snapshot_*.json           JSON 样例
+│
 ├── changelog/                    ← 历史变更(每轮独立文件)
 │   ├── README.md
 │   └── YYYY-MM-DD_*.md
@@ -174,6 +195,9 @@ macro-dashboard/
 - `macro_final_v11.2.xlsx`(Excel 核心样例文件,已入库;每日工作副本由用户本地管理)
 - `macro_snapshot_export.py`(Python 导出脚本)
 - `analysis_prompt_v2.2.md`(Prompt)
+- `samples/html/项目展示_fixed.html`(全量 HTML 展示层历史样例)
+- `projects/macro_daily_html/`(日报 HTML/PDF 成品层)
+- `projects/indicator_explorer/`(日报观察台/选指标测试工具)
 
 不在仓库里但项目每日会产出的:
 

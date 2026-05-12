@@ -6,9 +6,9 @@
 
 ## 这是什么
 
-投研团队的日常工作中,每天要从 Wind 拉海量宏观数据,人工整理成对资产的判断。这套系统把其中 5 个环节自动化,**从数据刷新到分析产出,压缩到 5 分钟之内**。
+投研团队的日常工作中,每天要从 Wind 拉海量宏观数据,人工整理成对资产的判断。这套系统把其中的机械整理和结构化分析部分自动化,**从数据刷新到分析产出,压缩到 5 分钟之内**。
 
-**6 个环节(5 个已自动化)**:
+**主链路**:
 
 ```
 ① Wind 数据刷新(人工)
@@ -20,10 +20,26 @@
   ↓
 ④ AI 生成分析报告(全自动)
   ↓
-⑤ HTML 展示页面(半自动,当前由 AI 手工编排)
+⑤ 产品化展示/交付(进行中)
+  ├─ 全量展示层:完整 HTML 仪表盘
+  └─ 日报层:日报 HTML/PDF,由观察台辅助选指标
   ↓
 ⑥ 飞书推送(⬜ 未开发)
 ```
+
+## 项目地图
+
+当前项目按 4 层理解:
+
+| 层级 | 模块 | 定位 |
+|------|------|------|
+| 基础层 | `macro_final_v11.2.xlsx` + `scripts/macro_snapshot_export.py` | Wind 数据刷新、Excel 打分、导出结构化 JSON |
+| 分析层 | `prompts/` + `skills/` | 生成 7 条链路分析、客户经理可转述版和总结句 |
+| 产品层 A:全量展示 | `samples/html/项目展示_fixed.html`(历史样例,后续建议拆为独立子项目) | Excel/JSON 的完整优化展示,用于内部复盘、领导汇报、项目展示 |
+| 产品层 B:日报交付 | `projects/macro_daily_html/` | 每日精选指标和结论,生成客户经理可用的 HTML/PDF 日报 |
+| 日报辅助工具 | `projects/indicator_explorer/` | 观察指标历史变化,辅助判断哪些指标进入日报 |
+
+注意:`indicator_explorer` 不是最终产品层,而是日报层下面的观察台/选指标测试工具。
 
 ## 覆盖的资产
 
@@ -72,9 +88,9 @@
 ├── prompts/                  ← AI 分析的 System Prompt
 │   └── analysis_prompt_v2.2.md
 │
-├── projects/                 ← 独立子项目/实验模块
-│   ├── indicator_explorer/   指标可选展示实验台
-│   └── macro_daily_html/     日报 HTML/PDF 替代层
+├── projects/                 ← 产品层和实验模块
+│   ├── indicator_explorer/   日报观察台/选指标测试工具
+│   └── macro_daily_html/     日报 HTML/PDF 成品层
 │
 ├── samples/                  ← 产出样例(供 AI 参考"正常输出什么样")
 │   ├── README.md
@@ -103,7 +119,7 @@
 当前仓库保留一份核心 Excel 样例和一份 HTML 展示样例,方便新接手者理解真实结构:
 
 - `macro_final_v11.2.xlsx`:当前核心 Excel 样例,包含真实 Sheet 结构、公式、节点权重和链路信号
-- `samples/html/项目展示_fixed.html`:首轮 HTML 展示样例,用于参考最终展示形态
+- `samples/html/项目展示_fixed.html`:首轮全量 HTML 展示样例,用于参考 Excel/JSON 优化展示形态。它是全量展示层的历史样例,不是日报层。
 
 以下文件仍由使用者本地管理,不随每日运行自动入库:
 
