@@ -18,11 +18,11 @@
   ↓
 ③ Python 导出 JSON(全自动)
   ↓
-④ AI 生成分析报告(全自动)
+④ 内容观点生成层(全自动)
   ↓
 ⑤ 产品化展示/交付(进行中)
-  ├─ 全量展示层:完整 HTML 仪表盘
-  └─ 日报层:日报 HTML/PDF,由观察台辅助选指标
+  ├─ 展示 HTML 产品线:全量展示 + 观察台/选指标
+  └─ 日报 PPT 产品线:后续直接构建 PPT
   ↓
 ⑥ 飞书推送(⬜ 未开发)
 ```
@@ -34,12 +34,13 @@
 | 层级 | 模块 | 定位 |
 |------|------|------|
 | 基础层 | `macro_final_v11.2.xlsx` + `scripts/macro_snapshot_export.py` | Wind 数据刷新、Excel 打分、导出结构化 JSON |
-| 分析层 | `prompts/` + `skills/` | 生成 7 条链路分析、客户经理可转述版和总结句 |
-| 产品层 A:全量展示 | `samples/html/项目展示_fixed.html`(历史样例,后续建议拆为独立子项目) | Excel/JSON 的完整优化展示,用于内部复盘、领导汇报、项目展示 |
-| 产品层 B:日报交付 | `projects/macro_daily_html/` | 每日精选指标和结论,生成客户经理可用的 HTML/PDF 日报 |
-| 日报辅助工具 | `projects/indicator_explorer/` | 观察指标历史变化,辅助判断哪些指标进入日报 |
+| 分析层 / 内容观点生成层 | `products/content_viewpoint/` + `prompts/` + `skills/` | 从 JSON 生成结构化观点包、客户经理可转述版和 PPT 短句 |
+| 产品线 A:展示 HTML | `products/display_html/` | 包含全量展示 HTML 和观察台/选指标 HTML |
+| ├─ 全量展示 | `products/display_html/full_dashboard/项目展示_fixed.html` | Excel/JSON 的完整优化展示,用于内部复盘、领导汇报、项目展示 |
+| └─ 观察台 / 选指标 | `products/display_html/indicator_explorer/` | 观察指标历史变化,辅助判断哪些指标进入日报 PPT |
+| 产品线 B:日报 PPT | `products/daily_ppt/` | 每日精选指标和结论,生成客户经理可用的日报 PPT |
 
-注意:`indicator_explorer` 不是最终产品层,而是日报层下面的观察台/选指标测试工具。
+注意:观察台属于展示 HTML 产品线,但它不是最终交付物;日报最终交付回到 PPT。
 
 ## 覆盖的资产
 
@@ -55,8 +56,9 @@
 - **Excel**:`macro_final_v11.2.xlsx`(v11 + 议题 1 权重重构后,当前核心样例文件)
 - **Python 脚本**:`macro_snapshot_export.py` v2.2
 - **Prompt**:`analysis_prompt_v2.2.md`
+- **内容观点生成层**:`products/content_viewpoint/`
 - **首轮完整观点**:2026-04-19,7 份 markdown 分析
-- **HTML 展示样例**:`samples/html/项目展示_fixed.html`(单文件,含 21 个趋势图)
+- **全量展示 HTML**:`products/display_html/full_dashboard/项目展示_fixed.html`(单文件,含 21 个趋势图)
 
 ## 仓库结构
 
@@ -85,19 +87,21 @@
 ├── scripts/                  ← Python 脚本(版本化追踪)
 │   └── macro_snapshot_export.py
 │
-├── prompts/                  ← AI 分析的 System Prompt
+├── prompts/                  ← AI 分析/观点生成的 Prompt
 │   └── analysis_prompt_v2.2.md
 │
-├── projects/                 ← 产品层和实验模块
-│   ├── indicator_explorer/   日报观察台/选指标测试工具
-│   └── macro_daily_html/     日报 HTML/PDF 成品层
+├── products/                 ← 产品线
+│   ├── content_viewpoint/    内容观点生成层
+│   ├── display_html/         展示 HTML 产品线
+│   │   ├── full_dashboard/   全量展示 HTML
+│   │   └── indicator_explorer/ 观察台/选指标 HTML
+│   └── daily_ppt/            日报 PPT 产品线
 │
 ├── samples/                  ← 产出样例(供 AI 参考"正常输出什么样")
 │   ├── README.md
 │   ├── snapshot_2026-04-17_lite.json
 │   ├── snapshot_2026-04-17_full.json
-│   ├── analyses/             7 份样例分析 md
-│   └── html/                 HTML 展示样例
+│   └── analyses/             7 份样例分析 md
 │
 ├── changelog/                ← 历史变更日志(每轮独立文件)
 │   ├── README.md             命名规范
@@ -119,14 +123,15 @@
 当前仓库保留一份核心 Excel 样例和一份 HTML 展示样例,方便新接手者理解真实结构:
 
 - `macro_final_v11.2.xlsx`:当前核心 Excel 样例,包含真实 Sheet 结构、公式、节点权重和链路信号
-- `samples/html/项目展示_fixed.html`:首轮全量 HTML 展示样例,用于参考 Excel/JSON 优化展示形态。它是全量展示层的历史样例,不是日报层。
+- `products/display_html/full_dashboard/项目展示_fixed.html`:首轮全量 HTML 展示样例,用于参考 Excel/JSON 优化展示形态。它是展示 HTML 产品线的全量展示模块,不是日报层。
 
 以下文件仍由使用者本地管理,不随每日运行自动入库:
 
 - 每日刷新后的 Excel 工作副本(`*.xlsx`):如果只是日常 Wind 刷新,不建议每次提交
 - 每轮产出的 JSON 快照(`snapshot_YYYY-MM-DD*.json`):每日产出
 - 每日生成的 HTML 展示页(`项目展示_*.html`):每日产出
-- 每轮的 markdown 分析报告(`分析_<资产>_*.md`):每日产出
+- 每轮的观点包(`viewpoint_pack_*.json` / `.md`):每日内容中间产物
+- 每轮的 markdown 分析报告(`分析_<资产>_*.md`):历史长文分析形态,需要时产出
 
 本仓库管理以下内容:
 

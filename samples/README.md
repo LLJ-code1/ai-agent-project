@@ -8,14 +8,14 @@
 
 ### JSON 快照样例
 
-- `snapshot_2026-04-17_lite.json` — 精简版 JSON,约 23k tokens,供 AI 分析时使用。结构示例:
+- `snapshot_2026-04-17_lite.json` — 精简版 JSON,约 23k tokens,供 AI 分析/观点生成时使用。结构示例:
   - `meta`: 元数据(导出日期、版本)
   - `chains`: 7 条链路,每条含 nodes、节点得分、亮点/拖累、underlying 指标
   - `indicators`: 每个指标的 current、unit、frequency、history(月度 12 月/日度 60 天)
   
 - `snapshot_2026-04-17_full.json` — 完整版 JSON,含全部 history(12+ 月度 / 全部日度),用于 HTML 展示画图。
 
-### 分析 markdown 样例(2026-04-19)
+### 历史分析 markdown 样例(2026-04-19)
 
 7 份样例,基于 2026-04-17 Wind 数据产出:
 
@@ -29,17 +29,18 @@
 
 ### HTML 展示样例
 
-- `html/项目展示_fixed.html` — 首轮完整 HTML 展示页样例,含流程图、方法论说明、7 类资产一屏总览、展开式分析和趋势图。用于理解最终交付页面长什么样,不是每日自动更新文件。
+全量展示 HTML 已迁入 `products/display_html/full_dashboard/项目展示_fixed.html`。观点包结构样例在 `products/content_viewpoint/samples/viewpoint_pack_sample.json`。`samples/` 当前保留 JSON 快照和 7 份历史分析样例。
 
 ## 用途
 
 **给 AI 接手时参考**:
-- 我写分析要照什么结构?→ 看 `analyses/分析_A股_*.md`
+- 我写长文分析要照什么结构?→ 看 `analyses/分析_A股_*.md`
+- 我写观点包要照什么结构?→ 看 `products/content_viewpoint/samples/viewpoint_pack_sample.json`
 - JSON 里每条链路有什么字段?→ 看 `snapshot_*_lite.json`
 - 分析里如何引用数据、如何加搜索补充?→ 看 `分析_美股_*.md`(里面有 CME FedWatch 搜索引用)
 - 黄金新框架怎么写?→ 看 `分析_黄金_*.md`
 - 港股盈利预期搜索怎么引用?→ 看 `分析_港股_*.md`
-- 最终 HTML 展示页长什么样?→ 看 `html/项目展示_fixed.html`
+- 最终 HTML 展示页长什么样?→ 看 `products/display_html/full_dashboard/项目展示_fixed.html`
 
 **给使用者参考**:
 - 每轮大概能产出多长的分析?→ 每份约 600-800 字

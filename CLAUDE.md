@@ -8,7 +8,7 @@
 
 这是**投研团队的宏观仪表盘项目**,目标是把中美宏观数据转化为半自动化的投研报告。
 
-当前项目已经从单一仪表盘,扩展为四层:基础数据层、分析层、全量展示层、日报交付层。`indicator_explorer` 是日报层下面的观察台/选指标测试工具,不是和日报并列的最终产品层。
+当前项目已经从单一仪表盘,扩展为四层:基础数据层、内容观点生成层(分析层)、展示 HTML 产品线、日报 PPT 产品线。`content_viewpoint` 是 JSON 到观点包的中间层;`indicator_explorer` 是展示 HTML 产品线下面的观察台/选指标测试工具,不是和日报 PPT 并列的最终产品线。
 
 **核心使用者是一位非开发者**——他使用 Wind 终端拉数据,需要 Claude/Agent 帮他完成所有涉及代码、公式、文档的工作。和他沟通时**先讲方案、确认、再动手**,禁止先斩后奏。
 
@@ -21,9 +21,9 @@
     ↓
 ③ Python 脚本导出 JSON 快照 (完整版 + AI 用精简版) — 全自动
     ↓
-④ AI 基于 Prompt 生成分析报告 (7 条传导链路) — 全自动
+④ 内容观点生成层基于 JSON 生成观点包 — 全自动
     ↓
-⑤ 产品化展示/交付:全量展示层 + 日报 HTML/PDF — 进行中
+⑤ 产品化展示/交付:展示 HTML + 日报 PPT — 进行中
     ↓
 ⑥ 飞书推送给团队 (⬜ 未开发)
 ```
@@ -43,11 +43,13 @@
 
 - 要**修改 Excel**(加指标/改公式/调权重)→ `skills/excel_maintenance.md`
 - 要**写分析报告**或**改 Prompt** → `skills/analysis_writing.md`
+- 要**做内容观点生成层 / 观点包** → `products/content_viewpoint/README.md` + `products/content_viewpoint/workflow.md` + `skills/analysis_writing.md`
 - 要**加新指标或调整指标体系** → `skills/indicator_management.md`
-- 要**做全量 HTML 展示/Excel 优化展示** → 先参考 `samples/html/项目展示_fixed.html`,后续再拆独立子项目
-- 要**做日报观察/展示数据包/选指标测试** → `projects/indicator_explorer/README.md` + `projects/indicator_explorer/workflow.md`
-- 要**做日报 HTML/PDF/PPT 替代层** → `projects/macro_daily_html/README.md` + `projects/macro_daily_html/workflow.md`
-- 要**做客户经理可转述版或日报总结句** → 先读 `skills/analysis_writing.md`,再读对应日报子项目 workflow
+- 要**做展示 HTML 产品线** → 先读 `products/display_html/README.md`
+- 要**做全量 HTML 展示/Excel 优化展示** → 先参考 `products/display_html/full_dashboard/项目展示_fixed.html`
+- 要**做观察台/展示数据包/选指标测试** → `products/display_html/indicator_explorer/README.md` + `products/display_html/indicator_explorer/workflow.md`
+- 要**做日报 PPT 构建/版式优化** → 先读 `skills/analysis_writing.md`,再参考历史 PPT 产物和用户确认的版式方向
+- 要**做客户经理可转述版或日报总结句** → 先读 `skills/analysis_writing.md`,再读 `products/daily_ppt/workflow.md`
 
 ### 第三优先级(需要背景时查)
 
@@ -111,23 +113,25 @@
 
 **R5.1 分阶段交付**:多产物任务(如 Excel + Python + JSON + HTML + 文档)**不要一口气打包发用户**。先发核心源文件(通常 Excel),等用户确认,再做下游产物。避免用户检查源文件要改时下游全部返工。
 
-### R6 子项目与展示层规则(2026-05-08 新增)
+### R6 产品线与展示层规则(2026-05-08 新增,2026-06-01 更新)
 
-**R6.1 `projects/` 是可复用子项目区**:新建或扩展子项目时,默认要同步维护 `README.md`、`workflow.md`、`CHANGELOG.md`;如果有代码,必须配套最小测试。
+**R6.1 `products/` 是可复用产品线区**:新建或扩展产品线/模块时,默认要同步维护 `README.md`、`workflow.md`、`CHANGELOG.md`;如果有代码,必须配套最小测试。
 
 **R6.2 根目录 Excel 是共享数据源**:不要为每个子项目拆第二套 Excel。确实需要测试快照时,必须标明它只是子项目测试数据,不是主流程唯一数据源。
 
-**R6.3 区分两条产品线**:全量展示层解决"Excel/JSON 全貌怎么展示";日报层解决"今天日报怎么讲、怎么发"。不要把日报页做成全量仪表盘,也不要把全量展示页压缩成日报。
+**R6.3 区分两条产品线**:展示 HTML 产品线解决"Excel/JSON 全貌怎么展示、指标怎么观察";日报 PPT 产品线解决"今天日报怎么讲、怎么发"。不要把日报 PPT 做成全量仪表盘,也不要把全量展示页压缩成日报。
 
-**R6.4 `indicator_explorer` 是日报辅助工具**:`indicator_explorer` 用来观察指标历史变化、辅助选择进入日报的指标,不是最终产品层。它的数据包和交互设计要服务于日报层。
+**R6.4 `indicator_explorer` 属于展示 HTML 产品线**:`indicator_explorer` 用来观察指标历史变化、辅助选择进入日报 PPT 的指标。它不是最终日报交付物,但应和全量展示 HTML 放在同一产品线下维护。
 
-**R6.5 日报 HTML/PDF 交付先复刻 PPT**:当前日报层优先保持已定稿 PPT 的版式、16:9 单页结构、表格和紧凑趋势图。不要自由网页化改版。
+**R6.5 日报交付回到 PPT 构建**:当前日报层后续直接构建 PPT,优先保持已定稿 PPT 的版式、16:9 单页结构、表格和紧凑趋势图。不要自由网页化改版。
 
-**R6.6 动态数据缺失时保留兜底**:日报 HTML 只接入同口径 JSON 历史序列。缺数据或口径不一致时保留 PPT 静态值/图片,不要编造动态数据。
+**R6.6 动态数据缺失时保留兜底**:日报 PPT 只接入同口径 JSON 历史序列。缺数据或口径不一致时保留静态值/图片,不要编造动态数据。
 
 **R6.7 分清分析分组和展示分组**:中国经济页分析按 `需求 / 供给 / 价格` 组织;`indicator_explorer` 当前展示口径中,`价格` 可合并进 `需求`。写分析和做页面时不要混用两个层级。
 
 **R6.8 客户经理可转述层不能省**:面向客户或客户经理的日报输出,必须先写"客户经理可转述版",回答"经济怎么样 / 为什么 / 对市场有什么影响",再压缩成 90 字左右 PPT/日报总结句。
+
+**R6.9 `content_viewpoint` 是分析层中间件**:`content_viewpoint` 负责从 JSON 生成结构化观点包,供 HTML、PPT、飞书摘要复用。下游产品线不应重新发明观点,而应读取观点包。
 
 ---
 
@@ -136,10 +140,12 @@
 - **Excel**:`macro_final_v11.2.xlsx`(v11 + 议题 1 权重重构后,当前核心样例文件)
 - **Python 脚本**:`macro_snapshot_export.py` v2.2
 - **Prompt**:`analysis_prompt_v2.2.md`
-- **全量 HTML 展示样例**:`samples/html/项目展示_fixed.html`
-- **日报 HTML/PDF 交付层**:`projects/macro_daily_html/`
-- **日报观察台/选指标测试工具**:`projects/indicator_explorer/`
-- **知识库**:v1.4 (2026-05-08 补充子项目和展示层规则)
+- **内容观点生成层**:`products/content_viewpoint/`
+- **展示 HTML 产品线**:`products/display_html/`
+- **全量 HTML 展示样例**:`products/display_html/full_dashboard/项目展示_fixed.html`
+- **观察台/选指标测试工具**:`products/display_html/indicator_explorer/`
+- **日报 PPT 交付层**:`products/daily_ppt/`
+- **知识库**:v1.6 (2026-06-02 新增内容观点生成层)
 
 ---
 
@@ -154,8 +160,9 @@
 - ✅ 全量 HTML 展示页面(单文件,含 21 个趋势图)
 - ✅ 协议迭代:B.1 分阶段交付 + C.2.1 changelog 命名 + R2.5 数值比较硬规则
 - ✅ 知识库 GitHub 化重构(2026-04-20)
-- ✅ 日报 HTML/PDF 子项目 `macro_daily_html` 首版(中国 PPT 复刻 + A 版自动小折线)
-- ✅ 日报观察台 `indicator_explorer` 首版(中国侧展示 JSON + HTML demo)
+- ✅ 日报 HTML/PDF 子项目 `macro_daily_html` 已试验并于 2026-06-01 下线,后续日报回到直接构建 PPT
+- ✅ 观察台 `products/display_html/indicator_explorer/` 首版(中国侧展示 JSON + HTML demo)
+- ✅ 内容观点生成层 `products/content_viewpoint/` 框架首版(观点包 schema + prompt 草案)
 
 ### 未完成
 

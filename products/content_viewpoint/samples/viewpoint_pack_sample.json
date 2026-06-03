@@ -1,0 +1,103 @@
+{
+  "schema_version": "content_viewpoint_pack.v1",
+  "meta": {
+    "report_date": "2026-06-02",
+    "source_snapshot": "snapshot_YYYY-MM-DD_lite.json",
+    "data_date": "sample",
+    "generated_at": "2026-06-02T00:00:00+08:00",
+    "status": "draft",
+    "scope": ["china_macro", "asset_view", "daily_ppt"]
+  },
+  "daily_core": {
+    "headline": "增长分化、价格利润修复,资产端以稳健表达为主",
+    "one_sentence": "中国经济仍处弱复苏观察期,出口形成支撑,价格和利润端边际修复。",
+    "key_changes": [
+      {
+        "topic": "增长分化",
+        "summary": "社零和固定投资偏弱,出口形成支撑。",
+        "evidence": [
+          {
+            "indicator": "社零",
+            "value": "0.2%",
+            "change": "-1.5pct",
+            "period": "sample",
+            "source_path": "samples/from_v6_layout",
+            "note": "示例字段,用于说明观点包结构"
+          },
+          {
+            "indicator": "出口",
+            "value": "14.1%",
+            "change": "+11.6pct",
+            "period": "sample",
+            "source_path": "samples/from_v6_layout"
+          }
+        ]
+      }
+    ],
+    "risk_flags": ["示例观点包不代表正式日报结论"]
+  },
+  "macro_sections": [
+    {
+      "id": "china_macro",
+      "title": "中国宏观",
+      "stance": "弱复苏观察",
+      "summary": "增长端分化,出口相对强,价格和利润端有修复线索,但仍需要继续观察内需改善程度。",
+      "evidence": [
+        {
+          "indicator": "固定投资",
+          "value": "-1.6%",
+          "change": "-3.3pct",
+          "period": "sample",
+          "source_path": "samples/from_v6_layout"
+        },
+        {
+          "indicator": "PPI",
+          "value": "2.8%",
+          "change": "+2.3pct",
+          "period": "sample",
+          "source_path": "samples/from_v6_layout"
+        }
+      ],
+      "cannot_conclude": ["不能仅凭总量数据拆分企业或居民融资意愿"]
+    }
+  ],
+  "asset_views": [
+    {
+      "asset": "A股",
+      "view": "维持标配,控制仓位并预留风险应对仓位。",
+      "allocation_hint": "标配",
+      "evidence": [
+        {
+          "indicator": "成交额",
+          "value": "3.34万亿",
+          "change": "+3535亿",
+          "period": "sample",
+          "source_path": "samples/from_v6_layout"
+        }
+      ],
+      "client_manager_version": "经济还在修复,但节奏不均衡。出口和价格利润有支撑,内需仍需观察,权益配置更适合保持标配和分批参与。",
+      "ppt_sentence": "弱复苏下出口与价格利润支撑,权益维持标配更稳妥。",
+      "confidence": "medium"
+    }
+  ],
+  "client_manager_brief": {
+    "what_happened": "经济仍在修复,但内需和外需表现不一致。",
+    "why": "出口相对强,价格和利润端改善,但社零和投资仍偏弱。",
+    "market_impact": "权益可保持标配,等待更清晰的内需改善信号。",
+    "talk_track": "目前经济不是单边走强,更像弱复苏观察期。出口和价格利润有支撑,但内需仍需跟踪,所以权益上保持标配更合适。"
+  },
+  "ppt_digest": [
+    {
+      "target": "daily_ppt",
+      "section": "经济面",
+      "sentence": "经济处于弱复苏观察期,出口支撑但内需仍需跟踪。",
+      "evidence_refs": ["社零", "固定投资", "出口"]
+    }
+  ],
+  "source_checks": {
+    "data_boundary_checked": true,
+    "number_comparison_checked": true,
+    "external_search_needed": false,
+    "notes": ["本文件是结构样例,不是正式观点输出"]
+  }
+}

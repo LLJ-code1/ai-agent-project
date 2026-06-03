@@ -50,58 +50,51 @@ python3 .../scripts/macro_snapshot_export.py macro_final_v11.2.xlsx \
 - `KeyError: '汇总'` → Excel 文件不是 v11,确认文件名
 - `ModuleNotFoundError: openpyxl` → 跑 `pip install openpyxl`
 
-### 步骤 3 · AI 生成分析(约 2-5 分钟)
+### 步骤 3 · 生成内容观点包(约 2-5 分钟)
 
-有三种方式让 AI 生成分析,选一种顺手的:
+当前建议先生成统一观点包,再给 HTML、PPT 或飞书摘要使用。
 
-**方式 A · 在 Claude / GPT 对话里按资产逐条生成(推荐给新手)**
+参考文件:
+
+- `products/content_viewpoint/workflow.md`
+- `products/content_viewpoint/prompts/viewpoint_prompt.md`
+- `products/content_viewpoint/schemas/viewpoint_pack.schema.json`
+
+有两种方式让 AI 生成观点包,选一种顺手的:
+
+**方式 A · 在 Claude / GPT 对话里生成观点包(推荐给新手)**
 
 1. 新开一个 AI 对话
-2. 把 `prompts/analysis_prompt_v2.2.md` 全部内容粘贴进去,作为开场 System Prompt
-3. 输入:"请分析 A 股链路",同时粘贴对应 JSON 片段(lite 版的 chains.A 股部分)
-4. AI 按 Prompt 规则产出分析
-5. 重复 7 次覆盖所有链路
+2. 把 `products/content_viewpoint/prompts/viewpoint_prompt.md` 全部内容粘贴进去
+3. 粘贴 `snapshot_YYYY-MM-DD_lite.json`
+4. 要求 AI 按 schema 输出 `viewpoint_pack`
 
 **方式 B · 让 Claude Code 在本地跑(推荐给熟练者)**
 
 在 Claude Code 里直接说:
 ```
-请基于 <lite JSON 路径> 和 prompts/analysis_prompt_v2.2.md,
-产出 7 份完整分析到 ./分析_<资产>_<日期>.md。
-搜索补充 Bloomberg 港股盈利、CME FedWatch、美联储最新讲话等 JSON 没有的数据。
-先跑 2 条(A 股 + 美股)我确认,再补剩余 5 条。
+请基于 <lite JSON 路径> 和 products/content_viewpoint/prompts/viewpoint_prompt.md,
+按 products/content_viewpoint/schemas/viewpoint_pack.schema.json
+生成 viewpoint_pack_<日期>.json 和 Markdown 审阅版。
+先产出草稿,我确认字段后再做下游 HTML/PPT。
 ```
-
-**方式 C · 一次性投喂,全部 7 份一起出**
-
-把 System Prompt + 完整 lite JSON 一起给 AI,说:
-
-```
-请为以下资产产出分析:A股 / 港股 / 短债 / 中长债 / 美股 / 美债 / 黄金
-
-每个资产一份完整的 markdown 分析,按 Prompt 里的结构写:
-信号流 + 全景判断 + 断点展开 + 其余节点 + 后续关注
-
-每份 600-800 字。对于数据搜索补充,参考 Prompt 里的"AI 搜索补充规则"。
-```
-
-AI 会一次性产出 7 份 markdown。
 
 **质量检查**(对照 `skills/analysis_writing.md` 的 Checklist):
-- 信号流是否带节点名
-- 全景判断是否在 100 字以内
+- 每条观点是否有 evidence
+- 客户经理可转述版是否回答"经济怎么样 / 为什么 / 对市场有什么影响"
+- PPT 短句是否能放入日报版式
 - TIPS 是否改用"通胀保值国债"
 - 数值比较是否显式写出两边数值
-- 是否提到投资建议(不该有)
+- 是否超出 JSON 做归因
 
 ### 步骤 4 · HTML 展示(当前人工约 10-20 分钟)
 
 > **注:这一步未来要做成 Python 脚本(见 roadmap 的 P2)。当前仍是人工用 AI 编排。**
 
-把 7 份 markdown + `snapshot_YYYY-MM-DD.json`(完整版,含 history)再投给 AI,让它生成 HTML:
+把 `viewpoint_pack_YYYY-MM-DD.json` + `snapshot_YYYY-MM-DD.json`(完整版,含 history)再投给 AI,让它生成 HTML:
 
 ```
-请参考 samples/html/项目展示_fixed.html 的结构,产出本轮的 HTML 展示页。
+请参考 products/display_html/full_dashboard/项目展示_fixed.html 的结构,产出本轮的 HTML 展示页。
 包含:Hero + 流程图 + 方法论 + 仪表盘 + 7 链路分析 + 跨链路洞察 + 路线图
 
 每条链路嵌入 3-6 个 sparkline(用 history 字段的数据画)。
@@ -113,7 +106,7 @@ A 股默认展开,其他折叠。
 ### 步骤 5 · 分发(约 30 秒)
 
 - 把 HTML 发到投研群(目前手动)
-- 或者复制 7 份 markdown 到你平时用的报告工具
+- 或者复制 `viewpoint_pack` 里的客户经理可转述版 / PPT 短句到你平时用的报告工具
 
 ---
 
@@ -124,7 +117,8 @@ A 股默认展开,其他折叠。
 | `macro_final_v11.2.xlsx` | ✅ 刷新+保存 | 你本地 |
 | `snapshot_YYYY-MM-DD.json` | ✅ 脚本生成 | 你本地/输出目录 |
 | `snapshot_YYYY-MM-DD_lite.json` | ✅ 脚本生成 | 你本地/输出目录 |
-| `分析_<资产>_YYYY-MM-DD.md` × 7 | ✅ AI 生成 | 你本地 |
+| `viewpoint_pack_YYYY-MM-DD.json` | ✅ AI 生成 | 你本地 |
+| `viewpoint_pack_YYYY-MM-DD.md` | ✅ AI 生成 | 你本地 |
 | `项目展示_YYYY-MM-DD.html` | ✅ AI 生成 | 你本地 |
 | 本仓库文档 | ❌ 只在改项目时动 | GitHub |
 
@@ -175,13 +169,13 @@ AI 就知道怎么工作了。
 ```
 ☐ 1. Wind 刷新 → Ctrl+S 保存
 ☐ 2. 跑 Python 脚本,确认两份 JSON 生成
-☐ 3. 把 lite JSON + Prompt 投喂 AI,让它产出 7 份分析
-☐ 4. 对照 Checklist 检查分析质量
-   ☐ 信号流带节点名
+☐ 3. 把 lite JSON + Prompt 投喂 AI,让它产出观点包
+☐ 4. 对照 Checklist 检查观点质量
+   ☐ 每条观点绑定证据
    ☐ 全景判断 ≤ 100 字
    ☐ TIPS → 通胀保值国债
    ☐ 数值比较两边都写
-   ☐ 无投资建议
+   ☐ 不使用绝对化配置建议
 ☐ 5. 让 AI 产出 HTML 展示页
 ☐ 6. 发到投研群
 ```

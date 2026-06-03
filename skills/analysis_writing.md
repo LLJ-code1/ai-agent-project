@@ -11,6 +11,33 @@ description: 撰写宏观传导链路分析报告、修改 Prompt、调整写作
 
 本文档记录**写作规则和硬规则**,供 Agent 改 Prompt 时参考。
 
+## 内容观点生成层
+
+2026-06-02 起,分析层开始产品化为:
+
+```text
+products/content_viewpoint/
+```
+
+定位:
+
+- 从 JSON 快照生成结构化 `viewpoint_pack`。
+- 先形成投研观点,再交给全量展示 HTML、日报 PPT、飞书/日报摘要使用。
+- 客户经理可转述版和 PPT 短句属于观点包字段,不应散落在各个下游产品线里。
+
+相关文件:
+
+- `products/content_viewpoint/workflow.md`
+- `products/content_viewpoint/prompts/viewpoint_prompt.md`
+- `products/content_viewpoint/schemas/viewpoint_pack.schema.json`
+- `products/content_viewpoint/samples/viewpoint_pack_sample.json`
+
+边界:
+
+- `content_viewpoint` 不直接生成 PPT 或 HTML。
+- 下游产品线读取观点包,不重新发明观点。
+- 仍必须遵守本文档的数据边界、数值比较、术语解释和语气规则。
+
 ---
 
 ## 排版样式(硬性要求)

@@ -3,8 +3,8 @@
 ## 概览
 
 ```
-① Wind 刷新 → ② Excel 打分 → ③ 导出 JSON → ④ AI 分析 → ⑤ HTML 展示 → ⑥ 飞书推送
-   (人工)     (全自动)      (全自动)       (全自动)     (半自动)     (未开发)
+① Wind 刷新 → ② Excel 打分 → ③ 导出 JSON → ④ 内容观点生成 → ⑤ 展示/日报交付 → ⑥ 飞书推送
+   (人工)     (全自动)      (全自动)       (全自动)     (进行中)       (未开发)
 ```
 
 每次跑完一轮约 5 分钟,相比过去人工整理节省 2-4 小时。
@@ -77,18 +77,22 @@
 
 ---
 
-## 环节 ④:AI 生成分析(全自动)
+## 环节 ④:内容观点生成层(全自动)
 
-**做什么**:把精简版 JSON + `analysis_prompt_v2.2.md` 投喂给大模型(Claude/GPT/Gemini 等),让其产出 7 份分析。
+目录:`products/content_viewpoint/`
+
+**做什么**:把精简版 JSON + 观点生成 Prompt 投喂给大模型,先生成统一的结构化观点包,再供 HTML、PPT 和飞书摘要复用。
 
 **背后发生什么**:
 
-1. **Prompt 告诉 AI 写作框架**:
+1. **Prompt 告诉 AI 观点结构**:
    - 信号流(带节点名)开头
    - 全景判断(不超 100 字)
    - 断点/堵点展开
-   - 节点补充
-   - 后续关注
+   - 宏观分区观点
+   - 资产观点
+   - 客户经理可转述版
+   - PPT 可压缩短句
 
 2. **Prompt 告诉 AI 硬规则**:
    - 数据边界、日度数据表述、语气规范、术语通俗化、价格指标溯因、数值比较
@@ -99,19 +103,40 @@
    - CME FedWatch 降息概率(Wind 没这个数据)
    - 地缘新闻、美联储讲话
 
-4. **产出 7 份 markdown**,每份 600-800 字,覆盖 A 股 / 港股 / 短债 / 中长债 / 美股 / 美债 / 黄金。
+4. **产出结构化观点包**,至少包含:
+   - `daily_core`:今日核心判断
+   - `macro_sections`:中国宏观、海外宏观等分区观点
+   - `asset_views`:A 股 / 港股 / 短债 / 中长债 / 美股 / 美债 / 黄金
+   - `client_manager_brief`:客户经理可转述版
+   - `ppt_digest`:PPT 短句
+   - `source_checks`:数据边界和数值比较检查
 
-**产出**:7 份 `分析_<资产>_YYYY-MM-DD.md`
+**产出**:
+- `viewpoint_pack_YYYY-MM-DD.json`
+- `viewpoint_pack_YYYY-MM-DD.md`
 
 **用时**:视模型和搜索复杂度,约 2-5 分钟。
 
-**质量校验规则**:详见 `skills/analysis_writing.md`。
+**质量校验规则**:详见 `skills/analysis_writing.md` 和 `products/content_viewpoint/workflow.md`。
 
 ---
 
-## 环节 ⑤:HTML 展示(半自动)
+## 环节 ⑤:产品化展示/交付(进行中)
 
-**做什么**:把 7 份分析 + JSON 的关键数据 + 21 个趋势图组装成一个单文件 HTML。
+**做什么**:读取内容观点生成层的观点包,分成两条展示/交付产品线:展示 HTML 产品线和日报 PPT 产品线。
+
+### 5A 展示 HTML 产品线
+
+目录:`products/display_html/`
+
+包含两个 HTML 方向:
+
+- **全量展示 HTML**:`products/display_html/full_dashboard/`
+- **观察台/选指标 HTML**:`products/display_html/indicator_explorer/`
+
+#### 5A-1 全量展示 HTML
+
+把观点包 + JSON 的关键数据 + 趋势图组装成一个单文件 HTML。
 
 **背后发生什么**(当前是 AI 手工编排):
 
@@ -119,7 +144,7 @@
    - 月度数据 12 点折线
    - 日度数据 60 点折线
    - 双轴图(量纲不同的两条线)
-2. **嵌入到分析 body 的对应位置**:每个图紧贴相关论点
+2. **嵌入到观点 body 的对应位置**:每个图紧贴相关论点
 3. **组装完整 HTML**:Hero + Pipeline 流程图 + 方法论 + 仪表盘 + 7 链路分析(A股/美股默认展开)+ 跨链路洞察 + 路线图
 4. **保存为单文件** `项目展示_YYYY-MM-DD.html`,可离线分发
 
@@ -128,6 +153,33 @@
 **用时**:当前由 AI 手工做,约 10-20 分钟。议题 2 完成后会抽象为 Python 脚本,直接模板化生成。
 
 **视觉风格**:暗色投研终端风(#0a0e14 底色 + #f0b90b 琥珀强调色),类彭博/Refinitiv。
+
+#### 5A-2 观察台/选指标 HTML
+
+观察台用于在日报前观察指标历史变化、做指标筛选,和全量展示同属 HTML 产品线。
+
+**当前位置**:`products/display_html/indicator_explorer/`
+
+**当前能力**:
+
+- 从 Excel/JSON 快照构建中国侧展示数据包
+- 展示指标卡片、历史小折线和分组视图
+- 辅助判断哪些指标适合进入日报 PPT
+
+**边界**:观察台不是日报最终交付物,也不是单独产品线;它服务于展示 HTML 产品线和日报选指标流程。
+
+### 5B 日报 PPT 产品线
+
+目录:`products/daily_ppt/`
+
+日报 HTML/PDF 试验子项目已于 2026-06-01 下线。后续日报 PPT 产品线直接构建 PPT,由 `products/display_html/indicator_explorer/` 辅助观察指标变化和选取进入日报的指标。
+
+日报 PPT 的下一步需要重新产品化:
+
+- 固定 PPT 版式和组件规范
+- 接入同口径 JSON/历史序列
+- 读取 `products/content_viewpoint/` 生成的客户经理可转述版和 PPT 总结句
+- 输出可直接分发的日报 PPT
 
 ---
 
@@ -151,8 +203,8 @@
 | ① Wind 刷新 | 投研员 | 投研员 |
 | ② Excel 打分 | Excel 公式 | AI(加指标时)/ 投研员(改阈值时) |
 | ③ Python 导出 | 脚本 | AI(行号变动时) |
-| ④ AI 分析 | AI + Prompt | AI(改 Prompt 时) |
-| ⑤ HTML 展示 | AI | AI |
+| ④ 内容观点生成 | AI + Prompt + Schema | AI(改 Prompt/观点包时) |
+| ⑤ 展示/日报交付 | AI + 观点包 | AI |
 | ⑥ 飞书推送 | 未开发 | 未开发 |
 
 ---
@@ -165,8 +217,8 @@
 - ③ Python 导出(v2.2)
 
 **迭代中**(频繁调整):
-- ④ AI 分析(Prompt 还在细调,如刚加的"数值比较硬规则")
-- ⑤ HTML 展示(还没完全模板化,每次有新需求要 AI 重新编排)
+- ④ 内容观点生成(Prompt 和 viewpoint_pack schema 还在细调)
+- ⑤ 展示/日报交付(全量 HTML 已有样例,日报 PPT 需要重新产品化)
 
 **未开发**:
 - ⑥ 飞书推送

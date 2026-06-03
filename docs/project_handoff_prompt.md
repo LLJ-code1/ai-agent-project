@@ -24,10 +24,12 @@
 
 - 要**修改 Excel** → `skills/excel_maintenance.md`
 - 要**写分析报告**或**改 Prompt** → `skills/analysis_writing.md`
+- 要**做内容观点生成层 / 观点包** → `products/content_viewpoint/README.md` + `products/content_viewpoint/workflow.md`
 - 要**加指标或调整指标体系** → `skills/indicator_management.md`
-- 要**做全量 HTML 展示/Excel 优化展示** → 先参考 `samples/html/项目展示_fixed.html`
-- 要**做日报 HTML/PDF** → `projects/macro_daily_html/README.md` + `projects/macro_daily_html/workflow.md`
-- 要**做日报观察台/选指标测试** → `projects/indicator_explorer/README.md` + `projects/indicator_explorer/workflow.md`
+- 要**做展示 HTML 产品线** → 先读 `products/display_html/README.md`
+- 要**做全量 HTML 展示/Excel 优化展示** → 先参考 `products/display_html/full_dashboard/项目展示_fixed.html`
+- 要**做观察台/选指标测试** → `products/display_html/indicator_explorer/README.md` + `products/display_html/indicator_explorer/workflow.md`
+- 要**做日报 PPT 构建/版式优化** → 先读 `skills/analysis_writing.md`,再参考历史 PPT 产物和用户确认的版式方向
 
 如果需要背景理解,读 `docs/` 里的专题文档。
 
@@ -41,14 +43,17 @@
 
 **主链路**:
 ```
-① Wind 刷新 → ② Excel 打分 → ③ 导出 JSON → ④ AI 分析 → ⑤ 产品化展示/交付 → ⑥ 飞书推送(未开发)
+① Wind 刷新 → ② Excel 打分 → ③ 导出 JSON → ④ 内容观点生成 → ⑤ 产品化展示/交付 → ⑥ 飞书推送(未开发)
 ```
 
-第 5 环节现在拆成两条产品线:
+第 ④ 环节现在独立为内容观点生成层:
 
-- **全量展示层**:`samples/html/项目展示_fixed.html` 是历史样例,目标是完整展示 Excel/JSON、7 条链路、指标趋势和跨链路洞察。
-- **日报层**:`projects/macro_daily_html/` 是日报 HTML/PDF 成品层,目标是每天精选指标和结论,形成客户经理可用的交付物。
-- **日报观察台**:`projects/indicator_explorer/` 服务于日报层,用于观察指标历史变化、辅助选择进入日报的指标,不是最终产品层。
+- **内容观点生成层**:`products/content_viewpoint/`,从 JSON 生成结构化观点包,供 HTML、PPT、飞书摘要复用。
+
+第 ⑤ 环节现在拆成两条展示/交付产品线:
+
+- **展示 HTML 产品线**:`products/display_html/`,包含全量展示 HTML 和观察台/选指标 HTML。目标是完整展示 Excel/JSON、7 条链路、指标趋势,并辅助挑选日报指标。
+- **日报 PPT 产品线**:`products/daily_ppt/`,后续直接构建 PPT。目标是每天精选指标和结论,形成客户经理可用的交付物。
 
 **四层金字塔**:
 ```
@@ -63,7 +68,7 @@ L3 指标:118 个
 
 ---
 
-## 第三步:了解当前状态(2026-05-08)
+## 第三步:了解当前状态(2026-06-02)
 
 ### 已完成
 
@@ -71,16 +76,18 @@ L3 指标:118 个
 - Python 脚本 v2.2 适配
 - 议题 1 权重重构(5 节点,"主项留权重、子项=0"原则)
 - 首轮 7 链路完整分析(2026-04-19)
-- 全量 HTML 展示页历史样例(单文件,21 个趋势图)
+- 展示 HTML 产品线已重整:全量展示样例 + 观察台/选指标 HTML
+- 内容观点生成层 `products/content_viewpoint/` 已建立框架:观点包 schema + Prompt 草案 + 样例
 - 知识库 GitHub 化
-- 日报 HTML/PDF 子项目 `projects/macro_daily_html/` 首版
-- 日报观察台/选指标测试工具 `projects/indicator_explorer/` 首版
+- 旧日报 HTML/PDF 子项目 `projects/macro_daily_html/` 已试验并于 2026-06-01 下线,后续日报回到直接构建 PPT
+- 观察台/选指标测试工具已归入 `products/display_html/indicator_explorer/`
 
 ### 未完成(按优先级,详见 roadmap/)
 
-1. **议题 2**:AI 替代公式打分,让 JSON 的 `auto_view` 字段从"数据陈述"变成"因果判断"
-2. **全量展示层产品化**:把历史 HTML 样例从 `samples/html/` 演进为可复用的完整展示层
-3. **日报层产品化**:稳定 `macro_daily_html` 的 PPT 复刻、动态数据绑定、客户经理可转述版和 PDF 导出
+1. **内容观点生成层产品化**:用真实 JSON 跑通 `viewpoint_pack`,确认字段能服务 HTML/PPT/飞书
+2. **议题 2**:AI 替代公式打分,让 JSON 的 `auto_view` 字段从"数据陈述"变成"因果判断"
+3. **展示 HTML 产品线产品化**:把全量展示 HTML + 观察台 HTML 演进为可复用展示产品
+4. **日报 PPT 产品线产品化**:重新梳理日报 PPT 构建、动态数据绑定和客户经理可转述版
 4. **飞书推送**(第 6 环节)
 5. 知识库文档的可读性优化
 
@@ -173,13 +180,15 @@ macro-dashboard/
 │   ├── indicator_management.md
 │   └── analysis_writing.md
 │
-├── projects/                     ← 产品层和实验模块
-│   ├── indicator_explorer/       日报观察台/选指标测试工具
-│   └── macro_daily_html/         日报 HTML/PDF 成品层
+├── products/                     ← 产品线
+│   ├── content_viewpoint/        内容观点生成层
+│   ├── display_html/             展示 HTML 产品线
+│   │   ├── full_dashboard/       全量展示 HTML
+│   │   └── indicator_explorer/   观察台/选指标 HTML
+│   └── daily_ppt/                日报 PPT 产品线
 │
 ├── samples/                      ← 历史样例
 │   ├── analyses/                 7 份样例分析
-│   ├── html/项目展示_fixed.html  全量 HTML 展示层历史样例
 │   └── snapshot_*.json           JSON 样例
 │
 ├── changelog/                    ← 历史变更(每轮独立文件)
@@ -195,9 +204,10 @@ macro-dashboard/
 - `macro_final_v11.2.xlsx`(Excel 核心样例文件,已入库;每日工作副本由用户本地管理)
 - `macro_snapshot_export.py`(Python 导出脚本)
 - `analysis_prompt_v2.2.md`(Prompt)
-- `samples/html/项目展示_fixed.html`(全量 HTML 展示层历史样例)
-- `projects/macro_daily_html/`(日报 HTML/PDF 成品层)
-- `projects/indicator_explorer/`(日报观察台/选指标测试工具)
+- `products/content_viewpoint/`(内容观点生成层)
+- `products/display_html/full_dashboard/项目展示_fixed.html`(全量 HTML 展示样例)
+- `products/display_html/indicator_explorer/`(观察台/选指标 HTML)
+- `products/daily_ppt/`(日报 PPT 产品线说明)
 
 不在仓库里但项目每日会产出的:
 

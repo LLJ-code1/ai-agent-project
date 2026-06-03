@@ -1,0 +1,190 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://macro-dashboard.local/schemas/viewpoint_pack.schema.json",
+  "title": "Content Viewpoint Pack",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "meta",
+    "daily_core",
+    "macro_sections",
+    "asset_views",
+    "client_manager_brief",
+    "ppt_digest",
+    "source_checks"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "content_viewpoint_pack.v1"
+    },
+    "meta": {
+      "type": "object",
+      "required": ["report_date", "source_snapshot", "data_date", "status"],
+      "properties": {
+        "report_date": { "type": "string" },
+        "source_snapshot": { "type": "string" },
+        "data_date": { "type": "string" },
+        "generated_at": { "type": "string" },
+        "status": {
+          "type": "string",
+          "enum": ["draft", "reviewed", "final"]
+        },
+        "scope": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      },
+      "additionalProperties": false
+    },
+    "daily_core": {
+      "type": "object",
+      "required": ["headline", "one_sentence", "key_changes", "risk_flags"],
+      "properties": {
+        "headline": { "type": "string" },
+        "one_sentence": { "type": "string" },
+        "key_changes": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/key_change" }
+        },
+        "risk_flags": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      },
+      "additionalProperties": false
+    },
+    "macro_sections": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/macro_section" }
+    },
+    "asset_views": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/asset_view" }
+    },
+    "client_manager_brief": {
+      "type": "object",
+      "required": ["what_happened", "why", "market_impact", "talk_track"],
+      "properties": {
+        "what_happened": { "type": "string" },
+        "why": { "type": "string" },
+        "market_impact": { "type": "string" },
+        "talk_track": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "ppt_digest": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/ppt_digest_item" }
+    },
+    "source_checks": {
+      "type": "object",
+      "required": [
+        "data_boundary_checked",
+        "number_comparison_checked",
+        "external_search_needed",
+        "notes"
+      ],
+      "properties": {
+        "data_boundary_checked": { "type": "boolean" },
+        "number_comparison_checked": { "type": "boolean" },
+        "external_search_needed": { "type": "boolean" },
+        "notes": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "$defs": {
+    "evidence": {
+      "type": "object",
+      "required": ["indicator", "value", "period"],
+      "properties": {
+        "indicator": { "type": "string" },
+        "value": { "type": "string" },
+        "change": { "type": "string" },
+        "period": { "type": "string" },
+        "source_path": { "type": "string" },
+        "note": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "key_change": {
+      "type": "object",
+      "required": ["topic", "summary", "evidence"],
+      "properties": {
+        "topic": { "type": "string" },
+        "summary": { "type": "string" },
+        "evidence": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/evidence" }
+        }
+      },
+      "additionalProperties": false
+    },
+    "macro_section": {
+      "type": "object",
+      "required": ["id", "title", "stance", "summary", "evidence", "cannot_conclude"],
+      "properties": {
+        "id": { "type": "string" },
+        "title": { "type": "string" },
+        "stance": { "type": "string" },
+        "summary": { "type": "string" },
+        "evidence": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/evidence" }
+        },
+        "cannot_conclude": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      },
+      "additionalProperties": false
+    },
+    "asset_view": {
+      "type": "object",
+      "required": [
+        "asset",
+        "view",
+        "allocation_hint",
+        "evidence",
+        "client_manager_version",
+        "ppt_sentence",
+        "confidence"
+      ],
+      "properties": {
+        "asset": { "type": "string" },
+        "view": { "type": "string" },
+        "allocation_hint": { "type": "string" },
+        "evidence": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/evidence" }
+        },
+        "client_manager_version": { "type": "string" },
+        "ppt_sentence": { "type": "string" },
+        "confidence": {
+          "type": "string",
+          "enum": ["low", "medium", "high"]
+        }
+      },
+      "additionalProperties": false
+    },
+    "ppt_digest_item": {
+      "type": "object",
+      "required": ["target", "section", "sentence", "evidence_refs"],
+      "properties": {
+        "target": { "type": "string" },
+        "section": { "type": "string" },
+        "sentence": { "type": "string" },
+        "evidence_refs": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

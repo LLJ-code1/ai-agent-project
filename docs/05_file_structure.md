@@ -14,14 +14,18 @@
 | `macro_final_v11.2.xlsx` | 当前核心 Excel 样例,含真实 Sheet、公式、节点权重和链路信号 | 人 + AI |
 | `.gitignore` | Git 忽略规则(Excel/HTML/每日 JSON 等) | Git |
 
-### projects/(产品层和实验模块)
+### products/(产品线)
 
 | 目录 | 定位 | 说明 |
 |------|------|------|
-| `projects/macro_daily_html/` | 日报 HTML/PDF 成品层 | 面向每天交付,复刻日报 PPT 版式,逐步接入动态数据和 PDF 导出 |
-| `projects/indicator_explorer/` | 日报观察台/选指标测试工具 | 服务于日报层,用于观察指标历史变化、辅助选择进入日报的指标 |
+| `products/content_viewpoint/` | 内容观点生成层 | 从 JSON 快照生成结构化观点包,供 HTML、PPT、飞书摘要复用 |
+| `products/display_html/` | 展示 HTML 产品线 | 包含全量展示 HTML 和观察台/选指标 HTML |
+| `products/display_html/full_dashboard/` | 全量展示 HTML | 当前保留首轮全量展示样例,后续产品化 |
+| `products/display_html/indicator_explorer/` | 观察台/选指标 HTML | 用于观察指标历史变化、辅助选择日报指标 |
+| `products/daily_ppt/` | 日报 PPT 产品线 | 后续直接构建日报 PPT,不再维护日报 HTML/PDF 子项目 |
 
-**注意**:`indicator_explorer` 不是最终产品层;当前项目的最终展示/交付产品分为"全量展示层"和"日报层"两条线。
+**注意**:`content_viewpoint` 是分析层,不是展示交付物;`indicator_explorer` 属于展示 HTML 产品线下的观察台工具,不是和日报 PPT 并列的最终产品线。
+旧 `projects/macro_daily_html/` 已于 2026-06-01 下线删除,后续日报层回到直接构建 PPT。
 
 ### docs/(知识库)
 
@@ -50,6 +54,9 @@
 | `YYYY-MM-DD_<主题>.md` | 每轮变更的独立文件 |
 
 **已有条目**(按时间倒序):
+- `2026-06-02_content_viewpoint_framework.md` — 新增内容观点生成层框架
+- `2026-06-01_product_structure_realign.md` — 将项目产品线重整为展示 HTML 和日报 PPT
+- `2026-06-01_daily_ppt_realign.md` — 下线日报 HTML 子项目,后续日报回到 PPT 构建
 - `2026-05-08_project_map_update.md` — 项目地图校正:全量展示层 / 日报层 / 日报观察台
 - `2026-05-08_agent_entry_update.md` — Agent 入口补充子项目和展示层规则
 - `2026-05-07_macro_daily_auto_sparklines.md` — 日报 HTML A 版自动小折线扩展
@@ -92,7 +99,6 @@
 | `snapshot_2026-04-17_lite.json` | JSON 精简版样例(AI 用) |
 | `snapshot_2026-04-17_full.json` | JSON 完整版样例(HTML 用) |
 | `analyses/分析_<资产>_2026-04-19.md` × 7 | 7 份分析产出样例 |
-| `html/项目展示_fixed.html` | 首轮全量 HTML 展示样例,用于理解 Excel/JSON 优化展示形态;不是日报层 |
 
 ---
 
@@ -103,7 +109,7 @@
 | 文件 | 格式 | 用途 |
 |------|------|------|
 | `macro_final_v11.2.xlsx` | Excel | 当前核心 Excel 样例,用于新接手者理解真实结构、公式、节点权重和 7 条链路信号流 |
-| `samples/html/项目展示_fixed.html` | HTML | 首轮全量展示层样例,用于参考完整仪表盘形态 |
+| `products/display_html/full_dashboard/项目展示_fixed.html` | HTML | 首轮全量展示样例,用于参考完整仪表盘形态 |
 
 **为什么这两个文件入库**:
 - 新接手者没有 Excel 原文件时,只能读文档,很难理解真实 Sheet 和公式如何连接
@@ -126,7 +132,8 @@
 |---------|---------|------|
 | JSON 快照(完整版) | `snapshot_YYYY-MM-DD.json` | 含 12 月历史,约 500KB |
 | JSON 快照(精简版) | `snapshot_YYYY-MM-DD_lite.json` | 约 23k tokens,供 AI |
-| 分析报告 | `分析_<资产>_YYYY-MM-DD.md` | 每个资产一份,约 2KB |
+| 内容观点包 | `viewpoint_pack_YYYY-MM-DD.json` / `.md` | 分析层中间产物,供 HTML/PPT/飞书摘要复用 |
+| 分析报告 | `分析_<资产>_YYYY-MM-DD.md` | 历史长文分析形态,需要时产出 |
 | HTML 展示 | `项目展示_YYYY-MM-DD.html` | 单文件,约 100KB |
 
 **为什么每日产出不入仓库**:
@@ -135,7 +142,7 @@
 - 大文件(如 full JSON 500KB)会拖累仓库 clone 速度
 - 产出物本身不是"知识",而是"某次运行的结果"
 
-这些文件通过仓库根目录的 `.gitignore` 显式排除,确保 `git add .` 时不会误入。当前 `.gitignore` 对 `macro_final_v11.2.xlsx` 和 `samples/html/*.html` 做了例外放行。
+这些文件通过仓库根目录的 `.gitignore` 显式排除,确保 `git add .` 时不会误入。当前 `.gitignore` 对 `macro_final_v11.2.xlsx`、`products/display_html/**/*.html` 和 `products/display_html/indicator_explorer/data/*.xlsx` 做了例外放行。
 
 **例外**:`samples/` 目录里保留了**一份产出样例**(2026-04-19 版),根目录保留一份核心 Excel 样例。这些样例不跟随每日产出自动更新。
 
@@ -146,8 +153,8 @@
 需要长期复用的内容应沉淀到:
 
 - `samples/`:少量正式样例
-- `projects/*/demo/`:对应产品或工具的 demo
-- `projects/*/README.md` / `workflow.md`:对应产品或工具的说明
+- `products/*/`:对应产品线和工具
+- `products/*/README.md` / `workflow.md`:对应产品或工具的说明
 
 ---
 
